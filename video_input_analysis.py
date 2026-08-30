@@ -1,5 +1,6 @@
 import cv2
 import time
+import numpy as np
 import mediapipe as mp
 from ultralytics import YOLO
 
@@ -28,6 +29,89 @@ TARGET_CLASSES = {
 
 NO_FACE_ALERT_SECONDS = 10
 
+# --- Head Pose Estimation Settings & Generic 3D Model ---
+YAW_LIMIT = 30.0    # degrees
+PITCH_LIMIT = 25.0  # degrees
+ROLL_LIMIT = 25.0   # degrees
+
+# MediaPipe landmark indices for 6 key face points:
+# Nose tip, Chin, Left eye outer corner, Right eye outer corner, Left mouth corner, Right mouth corner
+LANDMARK_IDS = [1, 152, 33, 263, 61, 287]
+
+GENERIC_FACE_3D = np.array([
+    [0.0, 0.0, 0.0],          # Nose tip
+    [0.0, -330.0, -65.0],     # Chin
+    [-225.0, 170.0, -135.0],  # Left eye outer corner
+    [225.0, 170.0, -135.0],   # Right eye outer corner
+    [-150.0, -150.0, -125.0], # Left mouth corner
+    [150.0, -150.0, -125.0]   # Right mouth corner
+], dtype=np.float64)
+
+# Global data structure holding head pose estimates for all faces in the current frame
+current_head_poses = []
+
+
+def get_current_head_poses():
+    """Exposes current frame head-pose measurements for external modules to retrieve."""
+    return current_head_poses
+
+
+def calculate_head_pose(face_landmarks, w_img, h_img):
+    """Calculates yaw, pitch, and roll using cv2.solvePnP() and Euler angle decomposition.
+    Returns a dict with pose angles and is_neutral status, or None if calculation fails.
+    """
+    try:
+        face_2d = []
+        for idx in LANDMARK_IDS:
+            lm = face_landmarks.landmark[idx]
+            face_2d.append([lm.x * w_img, lm.y * h_img])
+        face_2d = np.array(face_2d, dtype=np.float64)
+
+        # Approximate camera matrix based on frame dimensions
+        focal_length = float(w_img)
+        cam_matrix = np.array([
+            [focal_length, 0, w_img / 2.0],
+            [0, focal_length, h_img / 2.0],
+            [0, 0, 1.0]
+        ], dtype=np.float64)
+        dist_matrix = np.zeros((4, 1), dtype=np.float64)
+
+        # Solve PnP
+        success, rot_vec, trans_vec = cv2.solvePnP(
+            GENERIC_FACE_3D, face_2d, cam_matrix, dist_matrix, flags=cv2.SOLVEPNP_ITERATIVE
+        )
+        if not success:
+            return None
+
+        # Convert rotation vector to rotation matrix
+        rmat, _ = cv2.Rodrigues(rot_vec)
+
+        # Extract Euler angles via RQ decomposition
+        angles, _, _, _, _, _ = cv2.RQDecomp3x3(rmat)
+        raw_pitch, raw_yaw, raw_roll = angles[0], angles[1], angles[2]
+
+        # Normalize angles so facing straight ahead corresponds to ~0 degrees
+        pitch = (raw_pitch - 180) if raw_pitch > 90 else raw_pitch
+        yaw = raw_yaw
+        roll = (raw_roll + 180) if raw_roll < -90 else (raw_roll - 180 if raw_roll > 90 else raw_roll)
+
+        yaw_val = round(float(yaw), 1)
+        pitch_val = round(float(pitch), 1)
+        roll_val = round(float(roll), 1)
+
+        # Check generous breathing-room neutral limits
+        is_neutral = (abs(yaw_val) <= YAW_LIMIT) and (abs(pitch_val) <= PITCH_LIMIT) and (abs(roll_val) <= ROLL_LIMIT)
+
+        return {
+            "yaw": yaw_val,
+            "pitch": pitch_val,
+            "roll": roll_val,
+            "is_neutral": is_neutral
+        }
+    except Exception:
+        return None
+
+
 cap = cv2.VideoCapture(0)
 if not cap.isOpened():
     raise RuntimeError("Could not open webcam. Check camera index/permissions.")
@@ -42,6 +126,9 @@ while True:
 
     h_img, w_img = frame.shape[:2]
     now = time.time()
+
+    # Reset current frame head-pose data
+    current_head_poses = []
 
     # 1. Face detection (MediaPipe Face Mesh)
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -75,6 +162,21 @@ while True:
             cv2.putText(frame, "Face", (x1, y1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
+            # Calculate head pose for current face
+            head_pose = calculate_head_pose(face_landmarks, w_img, h_img)
+            current_head_poses.append(head_pose)
+
+            # Debug overlay for head pose angles & neutral state below face box
+            if head_pose is not None:
+                pose_str = f"Yaw: {head_pose['yaw']}  Pitch: {head_pose['pitch']}  Roll: {head_pose['roll']}"
+                neutral_str = "Head: Neutral" if head_pose["is_neutral"] else "Head: Outside neutral range"
+
+                cv2.putText(frame, pose_str, (x1, min(y2 + 20, h_img - 25)),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+                status_color = (0, 255, 0) if head_pose["is_neutral"] else (0, 165, 255)
+                cv2.putText(frame, neutral_str, (x1, min(y2 + 40, h_img - 5)),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, status_color, 1)
+
     # --- Alert state tracking ---
     alerts = []
 
@@ -90,7 +192,7 @@ while True:
         alerts.append("ALERT: Multiple faces detected!")
 
     # 2. Object detection (phone + book)
-    results = yolo_model(frame, imgsz=IMG_SIZE, device=0, verbose=False)[0]
+    results = yolo_model(frame, imgsz=IMG_SIZE, device="cpu", verbose=False)[0]
     detection_counts = {name: 0 for name in TARGET_CLASSES}
 
     for box in results.boxes:
@@ -141,4 +243,4 @@ while True:
 
 face_mesh.close()
 cap.release()
-cv2.destroyAllWindows()
+cv2.destroyAllWindows()
