@@ -1,0 +1,537 @@
+{
+  "experiment_name": "Phase 0 Phone Aspect-Ratio Filter Sweep",
+  "description": "Parametric sweep of phone aspect-ratio lower bound against raw YOLO predictions from tests/results/latest_automated_detection_results.json.",
+  "source_data_file": "tests\\results\\latest_automated_detection_results.json",
+  "total_phone_test_images": 17,
+  "baseline_configuration": {
+    "model": "yolo11m.pt",
+    "conf_threshold": 0.65,
+    "aspect_range": [
+      1.3,
+      2.9
+    ],
+    "min_size": 12,
+    "accepted_count": 3,
+    "total_count": 17
+  },
+  "negative_dataset_status": "Negative test images are NOT currently available in the dataset. Precision and False Positive Rate (FPR) CANNOT be computed from this positive-only test set. Threshold relaxation recommendations remain conditional on Phase 0 negative dataset validation.",
+  "sweep_results": [
+    {
+      "lower_bound": 1.0,
+      "upper_bound": 2.9,
+      "conf_threshold": 0.65,
+      "total_images": 17,
+      "accepted_count": 5,
+      "rejected_count": 12,
+      "acceptance_rate": 0.2941,
+      "accepted_images": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (2).jpeg",
+          "confidence": 0.6995,
+          "aspect_ratio": 1.551,
+          "bbox": [
+            186,
+            163,
+            333,
+            391
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+          "confidence": 0.8806,
+          "aspect_ratio": 1.193,
+          "bbox": [
+            260,
+            375,
+            519,
+            684
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+          "confidence": 0.8333,
+          "aspect_ratio": 1.228,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58.jpeg",
+          "confidence": 0.9363,
+          "aspect_ratio": 2.109,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.59 (3).jpeg",
+          "confidence": 0.7114,
+          "aspect_ratio": 1.653,
+          "bbox": [
+            299,
+            240,
+            547,
+            650
+          ]
+        }
+      ],
+      "rejected_images": [
+        "WhatsApp Image 2026-08-31 at 14.34.58 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (2).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (4).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (8).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59.jpeg"
+      ],
+      "newly_accepted_vs_baseline": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+          "confidence": 0.8806,
+          "aspect_ratio": 1.193,
+          "bbox": [
+            260,
+            375,
+            519,
+            684
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+          "confidence": 0.8333,
+          "aspect_ratio": 1.228,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ]
+        }
+      ]
+    },
+    {
+      "lower_bound": 1.1,
+      "upper_bound": 2.9,
+      "conf_threshold": 0.65,
+      "total_images": 17,
+      "accepted_count": 5,
+      "rejected_count": 12,
+      "acceptance_rate": 0.2941,
+      "accepted_images": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (2).jpeg",
+          "confidence": 0.6995,
+          "aspect_ratio": 1.551,
+          "bbox": [
+            186,
+            163,
+            333,
+            391
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+          "confidence": 0.8806,
+          "aspect_ratio": 1.193,
+          "bbox": [
+            260,
+            375,
+            519,
+            684
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+          "confidence": 0.8333,
+          "aspect_ratio": 1.228,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58.jpeg",
+          "confidence": 0.9363,
+          "aspect_ratio": 2.109,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.59 (3).jpeg",
+          "confidence": 0.7114,
+          "aspect_ratio": 1.653,
+          "bbox": [
+            299,
+            240,
+            547,
+            650
+          ]
+        }
+      ],
+      "rejected_images": [
+        "WhatsApp Image 2026-08-31 at 14.34.58 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (2).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (4).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (8).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59.jpeg"
+      ],
+      "newly_accepted_vs_baseline": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+          "confidence": 0.8806,
+          "aspect_ratio": 1.193,
+          "bbox": [
+            260,
+            375,
+            519,
+            684
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+          "confidence": 0.8333,
+          "aspect_ratio": 1.228,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ]
+        }
+      ]
+    },
+    {
+      "lower_bound": 1.15,
+      "upper_bound": 2.9,
+      "conf_threshold": 0.65,
+      "total_images": 17,
+      "accepted_count": 5,
+      "rejected_count": 12,
+      "acceptance_rate": 0.2941,
+      "accepted_images": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (2).jpeg",
+          "confidence": 0.6995,
+          "aspect_ratio": 1.551,
+          "bbox": [
+            186,
+            163,
+            333,
+            391
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+          "confidence": 0.8806,
+          "aspect_ratio": 1.193,
+          "bbox": [
+            260,
+            375,
+            519,
+            684
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+          "confidence": 0.8333,
+          "aspect_ratio": 1.228,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58.jpeg",
+          "confidence": 0.9363,
+          "aspect_ratio": 2.109,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.59 (3).jpeg",
+          "confidence": 0.7114,
+          "aspect_ratio": 1.653,
+          "bbox": [
+            299,
+            240,
+            547,
+            650
+          ]
+        }
+      ],
+      "rejected_images": [
+        "WhatsApp Image 2026-08-31 at 14.34.58 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (2).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (4).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (8).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59.jpeg"
+      ],
+      "newly_accepted_vs_baseline": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+          "confidence": 0.8806,
+          "aspect_ratio": 1.193,
+          "bbox": [
+            260,
+            375,
+            519,
+            684
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+          "confidence": 0.8333,
+          "aspect_ratio": 1.228,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ]
+        }
+      ]
+    },
+    {
+      "lower_bound": 1.2,
+      "upper_bound": 2.9,
+      "conf_threshold": 0.65,
+      "total_images": 17,
+      "accepted_count": 4,
+      "rejected_count": 13,
+      "acceptance_rate": 0.2353,
+      "accepted_images": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (2).jpeg",
+          "confidence": 0.6995,
+          "aspect_ratio": 1.551,
+          "bbox": [
+            186,
+            163,
+            333,
+            391
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+          "confidence": 0.8333,
+          "aspect_ratio": 1.228,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58.jpeg",
+          "confidence": 0.9363,
+          "aspect_ratio": 2.109,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.59 (3).jpeg",
+          "confidence": 0.7114,
+          "aspect_ratio": 1.653,
+          "bbox": [
+            299,
+            240,
+            547,
+            650
+          ]
+        }
+      ],
+      "rejected_images": [
+        "WhatsApp Image 2026-08-31 at 14.34.58 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (2).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (4).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (8).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59.jpeg"
+      ],
+      "newly_accepted_vs_baseline": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+          "confidence": 0.8333,
+          "aspect_ratio": 1.228,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ]
+        }
+      ]
+    },
+    {
+      "lower_bound": 1.25,
+      "upper_bound": 2.9,
+      "conf_threshold": 0.65,
+      "total_images": 17,
+      "accepted_count": 3,
+      "rejected_count": 14,
+      "acceptance_rate": 0.1765,
+      "accepted_images": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (2).jpeg",
+          "confidence": 0.6995,
+          "aspect_ratio": 1.551,
+          "bbox": [
+            186,
+            163,
+            333,
+            391
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58.jpeg",
+          "confidence": 0.9363,
+          "aspect_ratio": 2.109,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.59 (3).jpeg",
+          "confidence": 0.7114,
+          "aspect_ratio": 1.653,
+          "bbox": [
+            299,
+            240,
+            547,
+            650
+          ]
+        }
+      ],
+      "rejected_images": [
+        "WhatsApp Image 2026-08-31 at 14.34.58 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (2).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (4).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (8).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59.jpeg"
+      ],
+      "newly_accepted_vs_baseline": []
+    },
+    {
+      "lower_bound": 1.3,
+      "upper_bound": 2.9,
+      "conf_threshold": 0.65,
+      "total_images": 17,
+      "accepted_count": 3,
+      "rejected_count": 14,
+      "acceptance_rate": 0.1765,
+      "accepted_images": [
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58 (2).jpeg",
+          "confidence": 0.6995,
+          "aspect_ratio": 1.551,
+          "bbox": [
+            186,
+            163,
+            333,
+            391
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.58.jpeg",
+          "confidence": 0.9363,
+          "aspect_ratio": 2.109,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ]
+        },
+        {
+          "source": "WhatsApp Image 2026-08-31 at 14.34.59 (3).jpeg",
+          "confidence": 0.7114,
+          "aspect_ratio": 1.653,
+          "bbox": [
+            299,
+            240,
+            547,
+            650
+          ]
+        }
+      ],
+      "rejected_images": [
+        "WhatsApp Image 2026-08-31 at 14.34.58 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.58 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (1).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (2).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (4).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (5).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (6).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (7).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59 (8).jpeg",
+        "WhatsApp Image 2026-08-31 at 14.34.59.jpeg"
+      ],
+      "newly_accepted_vs_baseline": []
+    }
+  ]
+}

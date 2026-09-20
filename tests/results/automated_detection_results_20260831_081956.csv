@@ -1,0 +1,12 @@
+timestamp,object_tested,source,expected_class,yolo_predicted_class,confidence,bounding_box,aspect_ratio,accepted_by_filters,status,reason,manual_mark
+2026-08-31T08:19:56.981905,phone,tests/test_data/phone/,cell phone,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'phone' in tests/test_data/phone/,N/A
+2026-08-31T08:19:56.983429,book,tests/test_data/book/,book,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'book' in tests/test_data/book/,N/A
+2026-08-31T08:19:56.986147,smartwatch,tests/test_data/smartwatch/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'smartwatch' in tests/test_data/smartwatch/,N/A
+2026-08-31T08:19:56.987675,laptop,tests/test_data/laptop/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'laptop' in tests/test_data/laptop/,N/A
+2026-08-31T08:19:56.988205,tablet,tests/test_data/tablet/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'tablet' in tests/test_data/tablet/,N/A
+2026-08-31T08:19:56.990227,calculator,tests/test_data/calculator/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'calculator' in tests/test_data/calculator/,N/A
+2026-08-31T08:19:56.991210,notebook,tests/test_data/notebook/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'notebook' in tests/test_data/notebook/,N/A
+2026-08-31T08:19:56.992210,pen,tests/test_data/pen/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'pen' in tests/test_data/pen/,N/A
+2026-08-31T08:19:56.995210,water_bottle,tests/test_data/water_bottle/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'water_bottle' in tests/test_data/water_bottle/,N/A
+2026-08-31T08:19:56.996211,headphones,tests/test_data/headphones/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'headphones' in tests/test_data/headphones/,N/A
+2026-08-31T08:19:56.997212,other,tests/test_data/other/,none,N/A,N/A,N/A,N/A,False,SKIPPED,No test images found for category 'other' in tests/test_data/other/,N/A
