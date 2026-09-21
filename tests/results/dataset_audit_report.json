@@ -1,0 +1,144 @@
+{
+  "dataset_root": "C:\\Users\\tanis\\dataset",
+  "raw": {
+    "phone": {
+      "directory": "C:\\Users\\tanis\\dataset\\raw\\phone",
+      "total_images": 21,
+      "total_labels": 21,
+      "missing_labels_count": 0,
+      "orphan_labels_count": 0,
+      "corrupted_images": [],
+      "total_boxes": 21,
+      "class_id_distribution": {
+        "0": 21
+      },
+      "label_issues": [],
+      "anomalies": []
+    },
+    "book_notebook": {
+      "directory": "C:\\Users\\tanis\\dataset\\raw\\book_notebook",
+      "total_images": 21,
+      "total_labels": 21,
+      "missing_labels_count": 0,
+      "orphan_labels_count": 0,
+      "corrupted_images": [],
+      "total_boxes": 21,
+      "class_id_distribution": {
+        "1": 21
+      },
+      "label_issues": [],
+      "anomalies": []
+    },
+    "water_bottle": {
+      "directory": "C:\\Users\\tanis\\dataset\\raw\\water_bottle",
+      "total_images": 14,
+      "total_labels": 0,
+      "missing_labels_count": 14,
+      "orphan_labels_count": 0,
+      "corrupted_images": [],
+      "total_boxes": 0,
+      "class_id_distribution": {},
+      "label_issues": [],
+      "anomalies": []
+    },
+    "hand_no_prohibited_object": {
+      "directory": "C:\\Users\\tanis\\dataset\\raw\\hand_no_prohibited_object",
+      "total_images": 14,
+      "total_labels": 0,
+      "missing_labels_count": 14,
+      "orphan_labels_count": 0,
+      "corrupted_images": [],
+      "total_boxes": 0,
+      "class_id_distribution": {},
+      "label_issues": [],
+      "anomalies": []
+    }
+  },
+  "augmented": {
+    "phone": {
+      "directory": "C:\\Users\\tanis\\dataset\\augmented\\phone",
+      "total_images": 327,
+      "total_labels": 327,
+      "missing_labels_count": 0,
+      "orphan_labels_count": 0,
+      "corrupted_images": [],
+      "total_boxes": 327,
+      "class_id_distribution": {
+        "0": 327
+      },
+      "label_issues": [],
+      "anomalies": []
+    },
+    "book_notebook": {
+      "directory": "C:\\Users\\tanis\\dataset\\augmented\\book_notebook",
+      "total_images": 327,
+      "total_labels": 327,
+      "missing_labels_count": 0,
+      "orphan_labels_count": 0,
+      "corrupted_images": [],
+      "total_boxes": 327,
+      "class_id_distribution": {
+        "1": 327
+      },
+      "label_issues": [],
+      "anomalies": []
+    },
+    "water_bottle": {
+      "directory": "C:\\Users\\tanis\\dataset\\augmented\\water_bottle",
+      "total_images": 224,
+      "total_labels": 0,
+      "missing_labels_count": 224,
+      "orphan_labels_count": 0,
+      "corrupted_images": [],
+      "total_boxes": 0,
+      "class_id_distribution": {},
+      "label_issues": [],
+      "anomalies": []
+    },
+    "hand_no_prohibited_object": {
+      "directory": "C:\\Users\\tanis\\dataset\\augmented\\hand_no_prohibited_object",
+      "total_images": 224,
+      "total_labels": 0,
+      "missing_labels_count": 224,
+      "orphan_labels_count": 0,
+      "corrupted_images": [],
+      "total_boxes": 0,
+      "class_id_distribution": {},
+      "label_issues": [],
+      "anomalies": []
+    }
+  },
+  "yolo_dataset": {
+    "train": {
+      "split": "train",
+      "total_images": 938,
+      "total_labels": 938,
+      "empty_labels (background)": 374,
+      "annotated_labels": 564,
+      "total_boxes": 564,
+      "class_id_distribution": {
+        "0": 280,
+        "1": 284
+      },
+      "missing_labels": 0,
+      "orphan_labels": 0,
+      "label_issues_count": 0
+    },
+    "val": {
+      "split": "val",
+      "total_images": 14,
+      "total_labels": 14,
+      "empty_labels (background)": 6,
+      "annotated_labels": 8,
+      "total_boxes": 8,
+      "class_id_distribution": {
+        "0": 4,
+        "1": 4
+      },
+      "missing_labels": 0,
+      "orphan_labels": 0,
+      "label_issues_count": 0
+    }
+  },
+  "critical_findings": []
+}

@@ -42,19 +42,61 @@ CATEGORY_EXPECTED_TARGET = {
 
 
 class ObjectDetectionEvaluator:
-    def __init__(self, model_path: str = MODEL_PATH):
+    def __init__(
+        self,
+        model_path: str = MODEL_PATH,
+        conf_threshold: float = CONF_THRESHOLD,
+        phone_aspect_lower: float = 1.3,
+        phone_aspect_upper: float = 2.9,
+    ):
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"YOLO model file not found: {model_path}")
+        self.model_path = model_path
         self.model = YOLO(model_path)
+        self.conf_threshold = conf_threshold
+        self.phone_aspect_lower = phone_aspect_lower
+        self.phone_aspect_upper = phone_aspect_upper
+
+        # Detect vocabulary based on model class names
+        class_names = list(self.model.names.values())
+        if "phone" in class_names and "book_notebook" in class_names:
+            # Phase 1 model vocabulary
+            self.model_version = "phase1"
+            self.target_classes = {
+                "phone": {"aspect_range": (self.phone_aspect_lower, self.phone_aspect_upper), "color": (0, 0, 255)},
+                "book_notebook": {"aspect_range": None, "color": (0, 165, 255)},
+            }
+            self.category_expected_target = {
+                "phone": "phone",
+                "book": "book_notebook",
+                "notebook": "book_notebook",
+                "smartwatch": "none",
+                "laptop": "none",
+                "tablet": "none",
+                "calculator": "none",
+                "pen": "none",
+                "water_bottle": "none",
+                "headphones": "none",
+                "hand_no_prohibited_object": "none",
+                "other": "none",
+            }
+        else:
+            # Phase 0 / COCO model vocabulary
+            self.model_version = "phase0"
+            self.target_classes = {
+                "cell phone": {"aspect_range": (self.phone_aspect_lower, self.phone_aspect_upper), "color": (0, 0, 255)},
+                "book": {"aspect_range": None, "color": (0, 165, 255)},
+            }
+            self.category_expected_target = dict(CATEGORY_EXPECTED_TARGET)
 
     def evaluate_frame(self, frame: np.ndarray, category: str, source_name: str = "image") -> Dict[str, Any]:
         """
-        Runs YOLO inference on a single image frame using the EXACT filtering rules
-        from video_input_analysis.py.
+        Runs YOLO inference on a single image frame using the filtering rules
+        for the configured model version.
         """
-        expected_class = CATEGORY_EXPECTED_TARGET.get(category.lower(), "none")
+        expected_class = self.category_expected_target.get(category.lower(), "none")
         
-        # Run YOLO inference matching video_input_analysis.py settings
+        # Run YOLO inference matching settings
         results = self.model(frame, imgsz=IMG_SIZE, device="cpu", verbose=False)[0]
 
         raw_detections = []
@@ -71,10 +113,10 @@ class ObjectDetectionEvaluator:
             short_side = max(min(box_w, box_h), 1)
             aspect_ratio = round(long_side / short_side, 3)
 
-            is_target_class = cls_name in TARGET_CLASSES
-            passes_conf = conf >= CONF_THRESHOLD
+            is_target_class = cls_name in self.target_classes
+            passes_conf = conf >= self.conf_threshold
 
-            aspect_range = TARGET_CLASSES[cls_name]["aspect_range"] if is_target_class else None
+            aspect_range = self.target_classes[cls_name]["aspect_range"] if is_target_class else None
             passes_aspect = True
             if aspect_range is not None:
                 passes_aspect = aspect_range[0] <= aspect_ratio <= aspect_range[1]

@@ -46,7 +46,13 @@ _evaluator_instance = None
 def get_evaluator():
     global _evaluator_instance
     if _evaluator_instance is None:
-        _evaluator_instance = ObjectDetectionEvaluator("yolo11m.pt")
+        phase = os.environ.get("INTELLIPROCTOR_PHASE", "phase0").lower()
+        phase1_weights = "runs/detect/intelliproctor_phase1/weights/best.pt"
+        if phase == "phase1" and os.path.exists(phase1_weights):
+            model_path = phase1_weights
+        else:
+            model_path = "yolo11m.pt"
+        _evaluator_instance = ObjectDetectionEvaluator(model_path)
     return _evaluator_instance
 
 
@@ -68,11 +74,12 @@ def find_category_images(category: str):
     cat_dir = os.path.join(TEST_DATA_DIR, category)
     if not os.path.isdir(cat_dir):
         return []
-    images = []
+    # Deduplicate paths (Windows filesystem is case-insensitive, so *.jpeg and *.JPEG match identical files)
+    found_paths = set()
     for ext in IMAGE_EXTENSIONS:
-        images.extend(glob.glob(os.path.join(cat_dir, ext)))
-        images.extend(glob.glob(os.path.join(cat_dir, ext.upper())))
-    return sorted(images)
+        for p in glob.glob(os.path.join(cat_dir, ext)):
+            found_paths.add(os.path.normpath(p))
+    return sorted(list(found_paths))
 
 
 @pytest.mark.parametrize("category", CATEGORIES)
