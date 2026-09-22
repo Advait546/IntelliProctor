@@ -1,0 +1,46 @@
+{
+  "benchmark_name": "Phase 0F: Baseline Latency Measurement (CPU)",
+  "hardware": "CPU",
+  "num_frames_benchmarked": 500,
+  "resolution": "1280x720",
+  "yolo_imgsz": 1280,
+  "yolo_model": "yolo11m.pt",
+  "metrics": {
+    "mediapipe_face_mesh": {
+      "mean_ms": 20.27,
+      "median_ms": 20.09,
+      "p90_ms": 21.55,
+      "p95_ms": 22.16,
+      "min_ms": 15.52,
+      "max_ms": 48.54
+    },
+    "yolo_inference": {
+      "mean_ms": 907.01,
+      "median_ms": 890.41,
+      "p90_ms": 978.22,
+      "p95_ms": 1010.49,
+      "min_ms": 734.11,
+      "max_ms": 1166.92
+    },
+    "post_processing_filtering": {
+      "mean_ms": 0.4,
+      "median_ms": 0.38,
+      "p90_ms": 0.47,
+      "p95_ms": 0.53,
+      "min_ms": 0.28,
+      "max_ms": 0.84
+    },
+    "total_frame": {
+      "mean_ms": 927.68,
+      "median_ms": 911.25,
+      "p90_ms": 1000.69,
+      "p95_ms": 1033.06,
+      "min_ms": 751.09,
+      "max_ms": 1187.37
+    },
+    "throughput_fps": {
+      "median_fps": 1.1,
+      "p95_fps": 0.97
+    }
+  }
+}

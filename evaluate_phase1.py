@@ -31,12 +31,33 @@ import numpy as np
 from ultralytics import YOLO
 
 # Model configurations
-PHASE0_MODEL_PATH = "yolo11m.pt"
-PHASE1_MODEL_PATH = "runs/detect/intelliproctor_phase1/weights/best.pt"
+PROJECT_ROOT = Path(__file__).resolve().parent
+PHASE0_PRETRAINED_PATH = PROJECT_ROOT / "models" / "pretrained" / "yolo11m.pt"
+PHASE0_MODEL_PATH = str(PHASE0_PRETRAINED_PATH if PHASE0_PRETRAINED_PATH.exists() else (PROJECT_ROOT / "yolo11m.pt"))
+
+MODELS_TRAINED_GPU_PATH = PROJECT_ROOT / "models" / "trained" / "intelliproctor_phase1_iter1" / "best.pt"
+PHASE1_ITER1_GPU_PATH = str(PROJECT_ROOT / "runs" / "detect" / "intelliproctor_phase1_iter1_gpu" / "weights" / "best.pt")
+PHASE1_ITER1_PATH = str(PROJECT_ROOT / "runs" / "detect" / "intelliproctor_phase1_iter1" / "weights" / "best.pt")
+PHASE1_LEGACY_PATH = str(PROJECT_ROOT / "runs" / "detect" / "intelliproctor_phase1" / "weights" / "best.pt")
+
+if MODELS_TRAINED_GPU_PATH.exists():
+    PHASE1_MODEL_PATH = str(MODELS_TRAINED_GPU_PATH)
+elif os.path.exists(PHASE1_ITER1_GPU_PATH):
+    PHASE1_MODEL_PATH = PHASE1_ITER1_GPU_PATH
+elif os.path.exists(PHASE1_ITER1_PATH):
+    PHASE1_MODEL_PATH = PHASE1_ITER1_PATH
+else:
+    PHASE1_MODEL_PATH = PHASE1_LEGACY_PATH
 
 DEFAULT_CONF_THRESHOLD = 0.65
 IMG_SIZE = 1280
 MIN_SIZE = 12
+
+ALL_CATEGORIES = [
+    "phone", "book", "smartwatch", "laptop", "tablet",
+    "calculator", "notebook", "pen", "water_bottle", "headphones",
+    "hand_no_prohibited_object", "other"
+]
 
 # Class definitions per phase
 MODEL_CONFIGS = {
@@ -44,10 +65,8 @@ MODEL_CONFIGS = {
         "name": "Phase 0 (YOLO11m COCO Pretrained)",
         "weights": PHASE0_MODEL_PATH,
         "target_mapping": {
-            "phone": "cell phone",
-            "book": "book",
-            "water_bottle": "none",
-            "hand_no_prohibited_object": "none",
+            cat: ("cell phone" if cat == "phone" else ("book" if cat == "book" else "none"))
+            for cat in ALL_CATEGORIES
         },
         "target_classes": {
             "cell phone": {"aspect_range": (1.3, 2.9), "display": "phone"},
@@ -58,10 +77,8 @@ MODEL_CONFIGS = {
         "name": "Phase 1 (YOLO11m Prohibited-Object Fine-Tuned)",
         "weights": PHASE1_MODEL_PATH,
         "target_mapping": {
-            "phone": "phone",
-            "book": "book_notebook",
-            "water_bottle": "none",
-            "hand_no_prohibited_object": "none",
+            cat: ("phone" if cat == "phone" else ("book_notebook" if cat == "book" else "none"))
+            for cat in ALL_CATEGORIES
         },
         "target_classes": {
             "phone": {"aspect_range": (1.3, 2.9), "display": "phone"},
@@ -226,7 +243,8 @@ def collect_test_suites() -> Dict[str, List[Tuple[str, str]]]:
     suites = {
         "phase0_held_out": [],
         "val_set": [],
-        "negatives": [],
+        "benchmark_negatives_140": [],
+        "negatives_raw": [],
     }
 
     # 1. Phase 0 held-out images in tests/test_data/
@@ -240,10 +258,25 @@ def collect_test_suites() -> Dict[str, List[Tuple[str, str]]]:
     for p in book_p0:
         suites["phase0_held_out"].append((p, "book"))
 
-    # 2. Validation images from yolo_dataset/images/val
-    val_dir = Path(r"C:\Users\tanis\dataset\yolo_dataset\images\val")
+    # 2. Benchmark 140 negative images across 9 categories in tests/test_data/
+    benchmark_neg_cats = [
+        "laptop", "tablet", "smartwatch", "calculator", "notebook",
+        "headphones", "water_bottle", "pen", "other"
+    ]
+    for cat in benchmark_neg_cats:
+        cat_dir = os.path.join("tests", "test_data", cat)
+        if os.path.isdir(cat_dir):
+            found_paths = set()
+            for ext in ("*.jpg", "*.jpeg", "*.png", "*.webp", "*.bmp"):
+                for p in glob.glob(os.path.join(cat_dir, ext)):
+                    found_paths.add(os.path.normpath(p))
+            for p in sorted(list(found_paths)):
+                suites["benchmark_negatives_140"].append((p, cat))
+
+    # 3. Validation images from yolo_dataset/images/val
+    val_dir = PROJECT_ROOT / "dataset" / "yolo_dataset" / "images" / "val"
     if val_dir.exists():
-        raw_base = Path(r"C:\Users\tanis\dataset\raw")
+        raw_base = PROJECT_ROOT / "dataset" / "raw"
         raw_classes = {
             "phone": {p.name for p in (raw_base / "phone").glob("*.*")},
             "book_notebook": {p.name for p in (raw_base / "book_notebook").glob("*.*")},
@@ -260,18 +293,18 @@ def collect_test_suites() -> Dict[str, List[Tuple[str, str]]]:
             elif img_path.name in raw_classes["hand_no_prohibited_object"]:
                 suites["val_set"].append((str(img_path), "hand_no_prohibited_object"))
 
-    # 3. All Raw Negative images
-    wb_dir = Path(r"C:\Users\tanis\dataset\raw\water_bottle")
+    # 4. All Raw Negative images (28 local raw negatives)
+    wb_dir = PROJECT_ROOT / "dataset" / "raw" / "water_bottle"
     if wb_dir.exists():
         for p in sorted(wb_dir.glob("*.*")):
             if not p.name.endswith(".txt"):
-                suites["negatives"].append((str(p), "water_bottle"))
+                suites["negatives_raw"].append((str(p), "water_bottle"))
 
-    hand_dir = Path(r"C:\Users\tanis\dataset\raw\hand_no_prohibited_object")
+    hand_dir = PROJECT_ROOT / "dataset" / "raw" / "hand_no_prohibited_object"
     if hand_dir.exists():
         for p in sorted(hand_dir.glob("*.*")):
             if not p.name.endswith(".txt"):
-                suites["negatives"].append((str(p), "hand_no_prohibited_object"))
+                suites["negatives_raw"].append((str(p), "hand_no_prohibited_object"))
 
     return suites
 
@@ -302,10 +335,14 @@ def calculate_group_metrics(records: List[Dict[str, Any]]) -> Dict[str, Any]:
         }
     else:
         # For negative classes, filtered detections are false positives
+        phone_fps = sum(1 for r in records if r["filter_passed"] and ("phone" in r["predicted_class"].lower() or "cell phone" in r["predicted_class"].lower()))
+        book_fps = sum(1 for r in records if r["filter_passed"] and ("book" in r["predicted_class"].lower()))
         return {
             "total_images": total,
             "false_positives": filtered_dets,
             "false_positive_rate": rate,
+            "phone_fps": phone_fps,
+            "book_fps": book_fps,
             "correct_rejections": total - filtered_dets,
             "rejection_rate": round((total - filtered_dets) / total, 4),
         }
@@ -345,7 +382,7 @@ def run_full_comparative_evaluation(
         print(f"\n--- Running evaluation for {MODEL_CONFIGS[phase_key]['name']} ---")
         phase_records = []
 
-        # Evaluate Phase 0 held-out suite
+        # 1. Evaluate Phase 0 held-out suite (17 phone, 15 book)
         p0_items = suites["phase0_held_out"]
         p0_phone_records = []
         p0_book_records = []
@@ -365,11 +402,29 @@ def run_full_comparative_evaluation(
             else:
                 p0_book_records.append(rec)
 
-        # Evaluate Negatives suite
-        neg_items = suites["negatives"]
+        # 2. Evaluate 140 benchmark negatives across 9 categories
+        bench_items = suites["benchmark_negatives_140"]
+        bench_140_records = []
+        bench_by_cat = {}
+        for img_path, gt in bench_items:
+            rec = evaluate_single_image(
+                model=model_obj,
+                image_path=img_path,
+                ground_truth=gt,
+                phase_key=phase_key,
+                conf_threshold=conf_threshold,
+                phone_aspect_lower=phone_aspect_lower,
+            )
+            rec["suite"] = "benchmark_negatives_140"
+            phase_records.append(rec)
+            bench_140_records.append(rec)
+            bench_by_cat.setdefault(gt, []).append(rec)
+
+        # 3. Evaluate local raw negatives suite (water bottle, hand)
+        neg_raw_items = suites["negatives_raw"]
         wb_records = []
         hand_records = []
-        for img_path, gt in neg_items:
+        for img_path, gt in neg_raw_items:
             rec = evaluate_single_image(
                 model=model_obj,
                 image_path=img_path,
@@ -388,13 +443,19 @@ def run_full_comparative_evaluation(
         eval_records.extend(phase_records)
 
         # Compute summary metrics for this model
+        cat_metrics = {}
+        for cat, recs in bench_by_cat.items():
+            cat_metrics[cat] = calculate_group_metrics(recs)
+
         comparisons[phase_key] = {
             "model_name": MODEL_CONFIGS[phase_key]["name"],
             "weights": MODEL_CONFIGS[phase_key]["weights"],
             "phone_held_out": calculate_group_metrics(p0_phone_records),
             "book_held_out": calculate_group_metrics(p0_book_records),
-            "water_bottle_negatives": calculate_group_metrics(wb_records),
-            "hand_negatives": calculate_group_metrics(hand_records),
+            "benchmark_140_negatives": calculate_group_metrics(bench_140_records),
+            "benchmark_by_category": cat_metrics,
+            "water_bottle_raw_negatives": calculate_group_metrics(wb_records),
+            "hand_raw_negatives": calculate_group_metrics(hand_records),
         }
 
     os.makedirs(output_dir, exist_ok=True)
@@ -446,15 +507,22 @@ def run_full_comparative_evaluation(
         print(f"    Final accepted    : {b_m.get('filtered_detections')}/{b_m.get('total_images')} ({b_m.get('filtered_detection_rate')*100:.1f}%)")
         print(f"    Missed            : {b_m.get('missed_detections')}/{b_m.get('total_images')}")
 
-        print("  WATER BOTTLE (Negative 14 images):")
-        wb_m = data["water_bottle_negatives"]
-        print(f"    False positives   : {wb_m.get('false_positives')}/{wb_m.get('total_images')} (FPR: {wb_m.get('false_positive_rate')*100:.1f}%)")
-        print(f"    Correct rejections: {wb_m.get('correct_rejections')}/{wb_m.get('total_images')}")
+        print("  BENCHMARK 140 NEGATIVES (Full 9 categories):")
+        b140_m = data["benchmark_140_negatives"]
+        print(f"    False positives   : {b140_m.get('false_positives')}/{b140_m.get('total_images')} (FPR: {b140_m.get('false_positive_rate')*100:.1f}%)")
+        print(f"    Phone FP count    : {b140_m.get('phone_fps')}")
+        print(f"    Book FP count     : {b140_m.get('book_fps')}")
+        print(f"    Correct rejections: {b140_m.get('correct_rejections')}/{b140_m.get('total_images')}")
+        for cname, cm in data.get("benchmark_by_category", {}).items():
+            print(f"      - {cname:<14}: {cm.get('false_positives', 0)}/{cm.get('total_images', 0)} FP (FPR: {cm.get('false_positive_rate', 0)*100:.1f}%)")
 
-        print("  HAND ONLY (Negative 14 images):")
-        h_m = data["hand_negatives"]
+        print("  WATER BOTTLE RAW NEGATIVES (14 images):")
+        wb_m = data["water_bottle_raw_negatives"]
+        print(f"    False positives   : {wb_m.get('false_positives')}/{wb_m.get('total_images')} (FPR: {wb_m.get('false_positive_rate')*100:.1f}%)")
+
+        print("  HAND RAW NEGATIVES (14 images):")
+        h_m = data["hand_raw_negatives"]
         print(f"    False positives   : {h_m.get('false_positives')}/{h_m.get('total_images')} (FPR: {h_m.get('false_positive_rate')*100:.1f}%)")
-        print(f"    Correct rejections: {h_m.get('correct_rejections')}/{h_m.get('total_images')}")
 
     print("\n" + "=" * 80)
     print(f"Saved CSV Report  : {csv_file}")

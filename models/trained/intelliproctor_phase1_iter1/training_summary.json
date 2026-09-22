@@ -1,0 +1,42 @@
+{
+  "pretrained_model": "C:\\Advait\\projects\\CEP\\IntelliProctor\\yolo11m.pt",
+  "dataset_yaml": "C:\\Advait\\projects\\CEP\\IntelliProctor\\dataset\\yolo_dataset\\data.yaml",
+  "img_size": 1280,
+  "batch_size": 4,
+  "target_epochs": 30,
+  "patience": 10,
+  "optimizer": "AdamW",
+  "learning_rate_lr0": 0.001,
+  "warmup_epochs": 1.0,
+  "freeze_layers": 10,
+  "device": "0",
+  "gpu_name": "NVIDIA GeForce RTX 4050 Laptop GPU",
+  "training_time_seconds": 5930.35,
+  "best_weights_path": "C:\\Advait\\projects\\CEP\\IntelliProctor\\runs\\detect\\intelliproctor_phase1_iter1_gpu\\weights\\best.pt",
+  "actual_epochs": 29,
+  "best_epoch": 16,
+  "best_map50": 0.7825,
+  "best_map50_95": 0.33012,
+  "best_precision": 0.63538,
+  "best_recall": 0.85886,
+  "train_box_loss": 0.77671,
+  "train_cls_loss": 0.56732,
+  "train_dfl_loss": 1.05394,
+  "val_box_loss": 1.13254,
+  "val_cls_loss": 0.73163,
+  "val_dfl_loss": 1.20555,
+  "per_class_metrics": {
+    "phone": {
+      "precision": 1.0,
+      "recall": 0.989,
+      "mAP50": 0.995,
+      "mAP50_95": 0.3725
+    },
+    "book_notebook": {
+      "precision": 0.6382,
+      "recall": 0.5,
+      "mAP50": 0.5054,
+      "mAP50_95": 0.2973
+    }
+  }
+}

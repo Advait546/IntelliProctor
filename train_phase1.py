@@ -24,16 +24,26 @@ torch.set_num_threads(6)
 from ultralytics import YOLO
 
 # Configuration
-DATA_YAML = r"C:\Users\tanis\dataset\yolo_dataset\data.yaml"
-PRETRAINED_MODEL = "yolo11m.pt"
-PROJECT_DIR = str(Path("runs/detect").resolve())
-RUN_NAME = "intelliproctor_phase1"
+PROJECT_ROOT = Path(__file__).resolve().parent
+DATA_YAML = str(PROJECT_ROOT / "dataset" / "yolo_dataset" / "data.yaml")
+PRETRAINED_MODEL = str(
+    (PROJECT_ROOT / "models" / "pretrained" / "yolo11m.pt")
+    if (PROJECT_ROOT / "models" / "pretrained" / "yolo11m.pt").exists()
+    else (PROJECT_ROOT / "yolo11m.pt")
+)
+PROJECT_DIR = str(PROJECT_ROOT / "runs" / "detect")
+RUN_NAME = "intelliproctor_phase1_iter1_gpu"
 IMG_SIZE = 1280
-BATCH_SIZE = 8
-EPOCHS = 4
-PATIENCE = 2
+BATCH_SIZE = 4
+EPOCHS = 30
+PATIENCE = 10
 FREEZE_LAYERS = 10
-DEVICE = "cpu"
+DEVICE = 0
+OPTIMIZER = "AdamW"
+LR0 = 0.001
+WARMUP_EPOCHS = 1.0
+SEED = 42
+MOSAIC = 0.0
 
 
 import argparse
@@ -45,25 +55,38 @@ def parse_args():
     parser.add_argument("--batch", type=int, default=BATCH_SIZE, help=f"Batch size (default: {BATCH_SIZE})")
     parser.add_argument("--imgsz", type=int, default=IMG_SIZE, help=f"Image size (default: {IMG_SIZE})")
     parser.add_argument("--freeze", type=int, default=FREEZE_LAYERS, help=f"Number of layers to freeze (default: {FREEZE_LAYERS})")
-    parser.add_argument("--device", type=str, default=DEVICE, help=f"Compute device (default: {DEVICE})")
+    parser.add_argument("--optimizer", type=str, default=OPTIMIZER, help=f"Optimizer (default: {OPTIMIZER})")
+    parser.add_argument("--lr0", type=float, default=LR0, help=f"Initial learning rate (default: {LR0})")
+    parser.add_argument("--warmup-epochs", type=float, default=WARMUP_EPOCHS, help=f"Warmup epochs (default: {WARMUP_EPOCHS})")
+    parser.add_argument("--device", default=DEVICE, help=f"Compute device (default: {DEVICE})")
+    parser.add_argument("--run-name", type=str, default=RUN_NAME, help=f"Run directory name (default: {RUN_NAME})")
     parser.add_argument("--resume", action="store_true", default=False, help="Resume training from last checkpoint if available")
     return parser.parse_args()
 
 
-def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_SIZE, freeze_layers=FREEZE_LAYERS, device=DEVICE, resume=False):
+def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_SIZE, freeze_layers=FREEZE_LAYERS, optimizer=OPTIMIZER, lr0=LR0, warmup_epochs=WARMUP_EPOCHS, device=DEVICE, run_name=RUN_NAME, resume=False):
+    cuda_avail = torch.cuda.is_available()
+    gpu_name = torch.cuda.get_device_name(0) if cuda_avail else "N/A"
+    dev_str = f"CUDA:{device}" if str(device) in ("0", "cuda:0", "0") and cuda_avail else str(device)
+
     print("=" * 80)
-    print(" INTELLIPROCTOR PHASE 1 YOLO11m FINE-TUNING")
+    print(" INTELLIPROCTOR PHASE 1 YOLO11m GPU FINE-TUNING (ITERATION 1)")
     print("=" * 80)
+    print(f"Device           : {dev_str}")
+    print(f"GPU              : {gpu_name}")
+    print(f"CUDA Available   : {cuda_avail}")
+    print(f"Optimizer        : {optimizer}")
+    print(f"Learning Rate lr0: {lr0}")
+    print(f"Epochs           : {epochs}")
+    print(f"Patience         : {patience}")
+    print(f"Warmup           : {warmup_epochs}")
+    print(f"Batch Size       : {batch}")
+    print(f"Image Size       : {imgsz}")
+    print(f"Frozen Layers    : {freeze_layers} (Backbone layers 0-9)")
     print(f"Pretrained Model : {PRETRAINED_MODEL}")
     print(f"Dataset YAML     : {DATA_YAML}")
-    print(f"Image Size       : {imgsz}")
-    print(f"Batch Size       : {batch}")
-    print(f"Max Epochs       : {epochs}")
-    print(f"Patience         : {patience}")
-    print(f"Frozen Layers    : {freeze_layers} (Backbone layers 0-9)")
-    print(f"Device           : {device}")
     print(f"Resume           : {resume}")
-    print(f"Output Target    : {os.path.join(PROJECT_DIR, RUN_NAME)}")
+    print(f"Output Target    : {os.path.join(PROJECT_DIR, run_name)}")
     print("=" * 80)
 
     if not os.path.exists(PRETRAINED_MODEL):
@@ -71,7 +94,7 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
     if not os.path.exists(DATA_YAML):
         raise FileNotFoundError(f"Dataset YAML configuration not found: {DATA_YAML}")
 
-    output_dir = Path(PROJECT_DIR) / RUN_NAME
+    output_dir = Path(PROJECT_DIR) / run_name
     last_weights_path = output_dir / "weights" / "last.pt"
 
     start_time = time.time()
@@ -82,10 +105,10 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
         train_results = model.train(resume=True)
     else:
         if resume:
-            print(f"\nResume requested. Checkpoint {last_weights_path} not found (interrupted during Epoch 1).")
+            print(f"\nResume requested. Checkpoint {last_weights_path} not found.")
             print(f"Continuing training in existing target directory: {output_dir}")
         else:
-            print("\nStarting fine-tuning...")
+            print("\nStarting fine-tuning on GPU...")
         model = YOLO(PRETRAINED_MODEL)
         train_results = model.train(
             data=DATA_YAML,
@@ -95,32 +118,40 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
             imgsz=imgsz,
             freeze=freeze_layers,
             device=device,
+            optimizer=optimizer,
+            lr0=lr0,
+            warmup_epochs=warmup_epochs,
             workers=0,
             mosaic=0.0,
             save_period=1,
             project=PROJECT_DIR,
-            name=RUN_NAME,
+            name=run_name,
             exist_ok=True,
             verbose=True,
-            seed=42,
+            seed=SEED,
         )
 
     elapsed_time = time.time() - start_time
     print(f"\nTraining completed in {elapsed_time / 60:.2f} minutes ({elapsed_time:.1f} s).")
 
     # Inspect results directory
-    output_dir = Path(PROJECT_DIR) / RUN_NAME
+    output_dir = Path(PROJECT_DIR) / run_name
     results_csv_path = output_dir / "results.csv"
     best_weights_path = output_dir / "weights" / "best.pt"
 
     summary_metrics = {
         "pretrained_model": PRETRAINED_MODEL,
         "dataset_yaml": DATA_YAML,
-        "img_size": IMG_SIZE,
-        "batch_size": BATCH_SIZE,
-        "target_epochs": EPOCHS,
-        "patience": PATIENCE,
-        "freeze_layers": FREEZE_LAYERS,
+        "img_size": imgsz,
+        "batch_size": batch,
+        "target_epochs": epochs,
+        "patience": patience,
+        "optimizer": optimizer,
+        "learning_rate_lr0": lr0,
+        "warmup_epochs": warmup_epochs,
+        "freeze_layers": freeze_layers,
+        "device": str(device),
+        "gpu_name": gpu_name,
         "training_time_seconds": round(elapsed_time, 2),
         "best_weights_path": str(best_weights_path),
     }
@@ -166,7 +197,7 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
     if best_weights_path.exists():
         print("\nValidating best model on validation set...")
         best_model = YOLO(str(best_weights_path))
-        val_res = best_model.val(data=DATA_YAML, imgsz=IMG_SIZE, device=DEVICE)
+        val_res = best_model.val(data=DATA_YAML, imgsz=imgsz, device=device)
         
         per_class_summary = {}
         for i, name in enumerate(val_res.names.values()):
@@ -195,6 +226,10 @@ if __name__ == "__main__":
         batch=args.batch,
         imgsz=args.imgsz,
         freeze_layers=args.freeze,
+        optimizer=args.optimizer,
+        lr0=args.lr0,
+        warmup_epochs=args.warmup_epochs,
         device=args.device,
+        run_name=args.run_name,
         resume=args.resume,
     )

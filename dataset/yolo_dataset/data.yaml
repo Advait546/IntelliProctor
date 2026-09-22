@@ -1,0 +1,6 @@
+path: dataset/yolo_dataset
+train: images/train
+val: images/val
+names:
+  0: phone
+  1: book_notebook

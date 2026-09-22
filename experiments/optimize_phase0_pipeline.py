@@ -45,8 +45,8 @@ from temporal_filter import (
     simulate_temporal_rejection,
 )
 
-CACHE_FILE = Path(r"C:\Users\tanis\.gemini\antigravity\brain\663e4053-9580-485a-a4a9-382f791ccd0d\scratch\raw_phase0_cache.json")
-RESULTS_DIR = Path("tests/results")
+CACHE_FILE = PROJECT_ROOT / "scratch" / "raw_phase0_cache.json"
+RESULTS_DIR = PROJECT_ROOT / "tests" / "results"
 OUTPUT_JSON = RESULTS_DIR / "phase0_optimization_results.json"
 OUTPUT_CSV = RESULTS_DIR / "phase0_parameter_sweep.csv"
 
@@ -97,10 +97,10 @@ def load_or_compute_raw_cache(model_path: str = "yolo11m.pt") -> Dict[str, Any]:
         return results
 
     cache_data = {
-        "phone": process_folder("tests/test_data/phone"),
-        "book": process_folder("tests/test_data/book"),
-        "water_bottle": process_folder(r"C:\Users\tanis\dataset\raw\water_bottle"),
-        "hand": process_folder(r"C:\Users\tanis\dataset\raw\hand_no_prohibited_object"),
+        "phone": process_folder(str(PROJECT_ROOT / "tests" / "test_data" / "phone")),
+        "book": process_folder(str(PROJECT_ROOT / "tests" / "test_data" / "book")),
+        "water_bottle": process_folder(str(PROJECT_ROOT / "dataset" / "raw" / "water_bottle")),
+        "hand": process_folder(str(PROJECT_ROOT / "dataset" / "raw" / "hand_no_prohibited_object")),
     }
     CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(CACHE_FILE, "w", encoding="utf-8") as f:

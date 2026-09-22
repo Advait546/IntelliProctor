@@ -17,13 +17,13 @@ import numpy as np
 from ultralytics import YOLO
 
 # --- Exact constants from video_input_analysis.py ---
-MODEL_PATH = "yolo11m.pt"
+MODEL_PATH = "models/pretrained/yolo11m.pt" if os.path.exists("models/pretrained/yolo11m.pt") else "yolo11m.pt"
 CONF_THRESHOLD = 0.65
 IMG_SIZE = 1280
 
 TARGET_CLASSES = {
-    "cell phone": {"aspect_range": (1.3, 2.9), "color": (0, 0, 255)},
-    "book":       {"aspect_range": None,        "color": (0, 165, 255)},
+    "cell phone": {"aspect_range": (1.15, 2.9), "color": (0, 0, 255)},
+    "book":       {"aspect_range": (0.80, 2.50), "color": (0, 165, 255)},
 }
 
 CATEGORY_EXPECTED_TARGET = {
@@ -46,8 +46,11 @@ class ObjectDetectionEvaluator:
         self,
         model_path: str = MODEL_PATH,
         conf_threshold: float = CONF_THRESHOLD,
-        phone_aspect_lower: float = 1.3,
+        phone_aspect_lower: float = 1.15,
         phone_aspect_upper: float = 2.9,
+        book_aspect_lower: Optional[float] = 0.80,
+        book_aspect_upper: Optional[float] = 2.50,
+        target_classes: Optional[Dict[str, Any]] = None,
     ):
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"YOLO model file not found: {model_path}")
@@ -56,15 +59,27 @@ class ObjectDetectionEvaluator:
         self.conf_threshold = conf_threshold
         self.phone_aspect_lower = phone_aspect_lower
         self.phone_aspect_upper = phone_aspect_upper
+        self.book_aspect_lower = book_aspect_lower
+        self.book_aspect_upper = book_aspect_upper
+
+        book_aspect_range = (
+            (self.book_aspect_lower, self.book_aspect_upper)
+            if self.book_aspect_lower is not None and self.book_aspect_upper is not None
+            else None
+        )
 
         # Detect vocabulary based on model class names
         class_names = list(self.model.names.values())
-        if "phone" in class_names and "book_notebook" in class_names:
-            # Phase 1 model vocabulary
-            self.model_version = "phase1"
+        if target_classes is not None:
+            self.target_classes = target_classes
+            self.model_version = "custom"
+            self.category_expected_target = dict(CATEGORY_EXPECTED_TARGET)
+        elif "phone" in class_names and "book_notebook" in class_names:
+            # Phase 1 / Phase 2 model vocabulary
+            self.model_version = "phase2"
             self.target_classes = {
-                "phone": {"aspect_range": (self.phone_aspect_lower, self.phone_aspect_upper), "color": (0, 0, 255)},
-                "book_notebook": {"aspect_range": None, "color": (0, 165, 255)},
+                "phone": {"conf_threshold": self.conf_threshold, "aspect_range": (self.phone_aspect_lower, self.phone_aspect_upper), "color": (0, 0, 255)},
+                "book_notebook": {"conf_threshold": 0.50, "aspect_range": book_aspect_range, "color": (0, 165, 255)},
             }
             self.category_expected_target = {
                 "phone": "phone",
@@ -84,8 +99,8 @@ class ObjectDetectionEvaluator:
             # Phase 0 / COCO model vocabulary
             self.model_version = "phase0"
             self.target_classes = {
-                "cell phone": {"aspect_range": (self.phone_aspect_lower, self.phone_aspect_upper), "color": (0, 0, 255)},
-                "book": {"aspect_range": None, "color": (0, 165, 255)},
+                "cell phone": {"conf_threshold": self.conf_threshold, "aspect_range": (self.phone_aspect_lower, self.phone_aspect_upper), "color": (0, 0, 255)},
+                "book": {"conf_threshold": self.conf_threshold, "aspect_range": book_aspect_range, "color": (0, 165, 255)},
             }
             self.category_expected_target = dict(CATEGORY_EXPECTED_TARGET)
 
@@ -114,7 +129,12 @@ class ObjectDetectionEvaluator:
             aspect_ratio = round(long_side / short_side, 3)
 
             is_target_class = cls_name in self.target_classes
-            passes_conf = conf >= self.conf_threshold
+            cls_conf_thresh = (
+                self.target_classes[cls_name].get("conf_threshold", self.conf_threshold)
+                if is_target_class
+                else self.conf_threshold
+            )
+            passes_conf = conf >= cls_conf_thresh
 
             aspect_range = self.target_classes[cls_name]["aspect_range"] if is_target_class else None
             passes_aspect = True

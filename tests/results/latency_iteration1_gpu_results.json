@@ -1,0 +1,42 @@
+{
+  "hardware": "CPU",
+  "device": "cpu",
+  "num_frames": 100,
+  "resolution": "1280x720",
+  "yolo_imgsz": 1280,
+  "total_frame": {
+    "mean_ms": 891.28,
+    "median_ms": 864.01,
+    "p90_ms": 917.27,
+    "p95_ms": 987.37,
+    "min_ms": 764.59,
+    "max_ms": 2342.9
+  },
+  "yolo_inference": {
+    "mean_ms": 869.6,
+    "median_ms": 843.82,
+    "p90_ms": 895.51,
+    "p95_ms": 952.97,
+    "min_ms": 747.2,
+    "max_ms": 2320.82
+  },
+  "mediapipe": {
+    "mean_ms": 21.54,
+    "median_ms": 19.56,
+    "p90_ms": 22.36,
+    "p95_ms": 22.59,
+    "min_ms": 17.07,
+    "max_ms": 186.21
+  },
+  "post_processing": {
+    "mean_ms": 0.13,
+    "median_ms": 0.13,
+    "p90_ms": 0.15,
+    "p95_ms": 0.17,
+    "min_ms": 0.1,
+    "max_ms": 0.21
+  },
+  "fps_median": 1.16,
+  "fps_mean": 1.12,
+  "fps_p95": 1.01
+}

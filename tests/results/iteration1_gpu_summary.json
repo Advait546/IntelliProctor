@@ -1,0 +1,364 @@
+{
+  "model_checkpoint": "C:\\Advait\\projects\\CEP\\IntelliProctor\\runs\\detect\\intelliproctor_phase1_iter1_gpu\\weights\\best.pt",
+  "baseline_weights": "C:\\Advait\\projects\\CEP\\IntelliProctor\\yolo11m.pt",
+  "evaluation_timestamp": "2026-09-22T20:37:14",
+  "comparison_table": {
+    "phone_raw_recall": {
+      "baseline": "64.7% (11/17)",
+      "iter1": "100.0% (17/17)"
+    },
+    "phone_conf_recall": {
+      "baseline": "29.4%",
+      "iter1": "11.8%"
+    },
+    "phone_final_recall": {
+      "baseline": "17.6% (3/17)",
+      "iter1": "11.8% (2/17)"
+    },
+    "book_raw_recall": {
+      "baseline": "13.3% (2/15)",
+      "iter1": "66.7% (10/15)"
+    },
+    "book_conf_recall": {
+      "baseline": "0.0%",
+      "iter1": "0.0%"
+    },
+    "book_final_recall": {
+      "baseline": "0.0% (0/15)",
+      "iter1": "0.0% (0/15)"
+    },
+    "negative_140_fps": {
+      "baseline": "19/140",
+      "iter1": "67/140"
+    },
+    "negative_140_fpr": {
+      "baseline": "13.6%",
+      "iter1": "47.9%"
+    },
+    "phone_fps_on_negatives": {
+      "baseline": 12,
+      "iter1": 37
+    },
+    "book_fps_on_negatives": {
+      "baseline": 7,
+      "iter1": 44
+    },
+    "median_cpu_latency_ms": {
+      "baseline": 911.25,
+      "iter1": 864.01
+    },
+    "mean_cpu_latency_ms": {
+      "baseline": 927.68,
+      "iter1": 891.28
+    },
+    "yolo_cpu_latency_median_ms": {
+      "baseline": 890.41,
+      "iter1": 843.82
+    },
+    "fps": {
+      "baseline": 1.1,
+      "iter1": 1.16
+    }
+  },
+  "iteration1_results": {
+    "phone_metrics": {
+      "total": 17,
+      "raw_detections": 17,
+      "raw_recall": 1.0,
+      "conf_filtered_recall": 0.1176,
+      "aspect_filtered_recall": 0.1176,
+      "final_recall": 0.1176,
+      "true_positives": 2,
+      "false_negatives": 15,
+      "false_positives": 2
+    },
+    "book_metrics": {
+      "total": 15,
+      "raw_detections": 10,
+      "raw_recall": 0.6667,
+      "conf_filtered_recall": 0.0,
+      "aspect_filtered_recall": 0.0,
+      "final_recall": 0.0,
+      "true_positives": 0,
+      "false_negatives": 15,
+      "false_positives": 0
+    },
+    "negative_140_metrics": {
+      "total": 140,
+      "total_false_positives": 67,
+      "phone_false_positives": 37,
+      "book_false_positives": 44,
+      "fpr": 0.4786,
+      "correct_rejections": 73,
+      "per_category": {
+        "laptop": {
+          "total_images": 20,
+          "false_positives": 13,
+          "fpr": 0.65,
+          "phone_fps": 5,
+          "book_fps": 12,
+          "correct_rejections": 7
+        },
+        "tablet": {
+          "total_images": 20,
+          "false_positives": 13,
+          "fpr": 0.65,
+          "phone_fps": 11,
+          "book_fps": 6,
+          "correct_rejections": 7
+        },
+        "smartwatch": {
+          "total_images": 15,
+          "false_positives": 5,
+          "fpr": 0.3333,
+          "phone_fps": 3,
+          "book_fps": 2,
+          "correct_rejections": 10
+        },
+        "calculator": {
+          "total_images": 15,
+          "false_positives": 7,
+          "fpr": 0.4667,
+          "phone_fps": 4,
+          "book_fps": 5,
+          "correct_rejections": 8
+        },
+        "notebook": {
+          "total_images": 15,
+          "false_positives": 7,
+          "fpr": 0.4667,
+          "phone_fps": 3,
+          "book_fps": 5,
+          "correct_rejections": 8
+        },
+        "headphones": {
+          "total_images": 15,
+          "false_positives": 5,
+          "fpr": 0.3333,
+          "phone_fps": 4,
+          "book_fps": 4,
+          "correct_rejections": 10
+        },
+        "water_bottle": {
+          "total_images": 10,
+          "false_positives": 5,
+          "fpr": 0.5,
+          "phone_fps": 2,
+          "book_fps": 3,
+          "correct_rejections": 5
+        },
+        "pen": {
+          "total_images": 10,
+          "false_positives": 4,
+          "fpr": 0.4,
+          "phone_fps": 1,
+          "book_fps": 3,
+          "correct_rejections": 6
+        },
+        "other": {
+          "total_images": 20,
+          "false_positives": 8,
+          "fpr": 0.4,
+          "phone_fps": 4,
+          "book_fps": 4,
+          "correct_rejections": 12
+        }
+      }
+    },
+    "raw_negatives_metrics": {
+      "water_bottle": {
+        "total": 14,
+        "fps": 0,
+        "fpr": 0.0
+      },
+      "hand_no_prohibited_object": {
+        "total": 14,
+        "fps": 0,
+        "fpr": 0.0
+      }
+    },
+    "baseline_passing_check": {
+      "WhatsApp Image 2026-08-31 at 14.34.58 (2).jpeg": {
+        "status": "FN",
+        "phone_final_pass": false,
+        "confidence": 0.0151,
+        "aspect_ratio": 1.339,
+        "reason": "Rejected by confidence filter: max conf 0.0151 < 0.65"
+      },
+      "WhatsApp Image 2026-08-31 at 14.34.58.jpeg": {
+        "status": "FN",
+        "phone_final_pass": false,
+        "confidence": 0.5022,
+        "aspect_ratio": 2.015,
+        "reason": "Rejected by confidence filter: max conf 0.5022 < 0.65"
+      },
+      "WhatsApp Image 2026-08-31 at 14.34.59 (3).jpeg": {
+        "status": "TP",
+        "phone_final_pass": true,
+        "confidence": 0.82,
+        "aspect_ratio": 2.287,
+        "reason": "Correctly detected phone (conf=0.82, aspect=2.287)"
+      }
+    }
+  },
+  "baseline_results": {
+    "phone_metrics": {
+      "total": 17,
+      "raw_detections": 11,
+      "raw_recall": 0.6471,
+      "conf_filtered_recall": 0.2941,
+      "aspect_filtered_recall": 0.1765,
+      "final_recall": 0.1765,
+      "true_positives": 3,
+      "false_negatives": 14,
+      "false_positives": 0
+    },
+    "book_metrics": {
+      "total": 15,
+      "raw_detections": 2,
+      "raw_recall": 0.1333,
+      "conf_filtered_recall": 0.0,
+      "aspect_filtered_recall": 0.0,
+      "final_recall": 0.0,
+      "true_positives": 0,
+      "false_negatives": 15,
+      "false_positives": 0
+    },
+    "negative_140_metrics": {
+      "total": 140,
+      "total_false_positives": 19,
+      "phone_false_positives": 12,
+      "book_false_positives": 7,
+      "fpr": 0.1357,
+      "correct_rejections": 121,
+      "per_category": {
+        "laptop": {
+          "total_images": 20,
+          "false_positives": 5,
+          "fpr": 0.25,
+          "phone_fps": 3,
+          "book_fps": 2,
+          "correct_rejections": 15
+        },
+        "tablet": {
+          "total_images": 20,
+          "false_positives": 3,
+          "fpr": 0.15,
+          "phone_fps": 3,
+          "book_fps": 0,
+          "correct_rejections": 17
+        },
+        "smartwatch": {
+          "total_images": 15,
+          "false_positives": 3,
+          "fpr": 0.2,
+          "phone_fps": 3,
+          "book_fps": 0,
+          "correct_rejections": 12
+        },
+        "calculator": {
+          "total_images": 15,
+          "false_positives": 2,
+          "fpr": 0.1333,
+          "phone_fps": 2,
+          "book_fps": 0,
+          "correct_rejections": 13
+        },
+        "notebook": {
+          "total_images": 15,
+          "false_positives": 2,
+          "fpr": 0.1333,
+          "phone_fps": 0,
+          "book_fps": 2,
+          "correct_rejections": 13
+        },
+        "headphones": {
+          "total_images": 15,
+          "false_positives": 1,
+          "fpr": 0.0667,
+          "phone_fps": 0,
+          "book_fps": 1,
+          "correct_rejections": 14
+        },
+        "water_bottle": {
+          "total_images": 10,
+          "false_positives": 2,
+          "fpr": 0.2,
+          "phone_fps": 0,
+          "book_fps": 2,
+          "correct_rejections": 8
+        },
+        "pen": {
+          "total_images": 10,
+          "false_positives": 1,
+          "fpr": 0.1,
+          "phone_fps": 1,
+          "book_fps": 0,
+          "correct_rejections": 9
+        },
+        "other": {
+          "total_images": 20,
+          "false_positives": 0,
+          "fpr": 0.0,
+          "phone_fps": 0,
+          "book_fps": 0,
+          "correct_rejections": 20
+        }
+      }
+    },
+    "raw_negatives_metrics": {
+      "water_bottle": {
+        "total": 14,
+        "fps": 0,
+        "fpr": 0.0
+      },
+      "hand_no_prohibited_object": {
+        "total": 14,
+        "fps": 0,
+        "fpr": 0.0
+      }
+    }
+  },
+  "latency_metrics": {
+    "hardware": "CPU",
+    "device": "cpu",
+    "num_frames": 100,
+    "resolution": "1280x720",
+    "yolo_imgsz": 1280,
+    "total_frame": {
+      "mean_ms": 891.28,
+      "median_ms": 864.01,
+      "p90_ms": 917.27,
+      "p95_ms": 987.37,
+      "min_ms": 764.59,
+      "max_ms": 2342.9
+    },
+    "yolo_inference": {
+      "mean_ms": 869.6,
+      "median_ms": 843.82,
+      "p90_ms": 895.51,
+      "p95_ms": 952.97,
+      "min_ms": 747.2,
+      "max_ms": 2320.82
+    },
+    "mediapipe": {
+      "mean_ms": 21.54,
+      "median_ms": 19.56,
+      "p90_ms": 22.36,
+      "p95_ms": 22.59,
+      "min_ms": 17.07,
+      "max_ms": 186.21
+    },
+    "post_processing": {
+      "mean_ms": 0.13,
+      "median_ms": 0.13,
+      "p90_ms": 0.15,
+      "p95_ms": 0.17,
+      "min_ms": 0.1,
+      "max_ms": 0.21
+    },
+    "fps_median": 1.16,
+    "fps_mean": 1.12,
+    "fps_p95": 1.01
+  }
+}

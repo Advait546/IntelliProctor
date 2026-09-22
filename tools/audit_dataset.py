@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Tuple
 import cv2
 
-DEFAULT_DATASET_DIR = Path(r"C:\Users\tanis\dataset")
+DEFAULT_DATASET_DIR = Path(__file__).resolve().parent.parent / "dataset"
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 REPORT_OUTPUT_PATH = Path("tests/results/dataset_audit_report.json")
 

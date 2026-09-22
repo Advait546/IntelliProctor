@@ -47,11 +47,19 @@ def get_evaluator():
     global _evaluator_instance
     if _evaluator_instance is None:
         phase = os.environ.get("INTELLIPROCTOR_PHASE", "phase0").lower()
-        phase1_weights = "runs/detect/intelliproctor_phase1/weights/best.pt"
-        if phase == "phase1" and os.path.exists(phase1_weights):
-            model_path = phase1_weights
+        trained_gpu = "models/trained/intelliproctor_phase1_iter1/best.pt"
+        phase1_iter1_gpu = "runs/detect/intelliproctor_phase1_iter1_gpu/weights/best.pt"
+        pretrained_path = "models/pretrained/yolo11m.pt" if os.path.exists("models/pretrained/yolo11m.pt") else "yolo11m.pt"
+
+        if phase in ("phase1", "phase2", "phase2_gpu"):
+            if os.path.exists(trained_gpu):
+                model_path = trained_gpu
+            elif os.path.exists(phase1_iter1_gpu):
+                model_path = phase1_iter1_gpu
+            else:
+                model_path = pretrained_path
         else:
-            model_path = "yolo11m.pt"
+            model_path = pretrained_path
         _evaluator_instance = ObjectDetectionEvaluator(model_path)
     return _evaluator_instance
 

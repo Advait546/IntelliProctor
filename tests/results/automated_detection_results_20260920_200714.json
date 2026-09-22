@@ -1,0 +1,3019 @@
+{
+  "summary": {
+    "total_tested": 20,
+    "passed": 15,
+    "failed": 5,
+    "skipped": 0
+  },
+  "results": [
+    {
+      "timestamp": "2026-09-20T20:06:42.038786",
+      "object_tested": "laptop",
+      "source": "laptop_001.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "laptop",
+      "confidence": "0.90, 0.53",
+      "bounding_box": "[730, 410, 1278, 952]; [0, 329, 117, 958]",
+      "aspect_ratio": "1.011, 5.376",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [laptop (0.90), laptop (0.53)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "laptop",
+          "confidence": 0.9042,
+          "bbox": [
+            730,
+            410,
+            1278,
+            952
+          ],
+          "box_width": 548,
+          "box_height": 542,
+          "aspect_ratio": 1.011,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.5294,
+          "bbox": [
+            0,
+            329,
+            117,
+            958
+          ],
+          "box_width": 117,
+          "box_height": 629,
+          "aspect_ratio": 5.376,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:06:43.667744",
+      "object_tested": "laptop",
+      "source": "laptop_002.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "mouse, book, cup, laptop",
+      "confidence": "0.93, 0.88, 0.58, 0.54, 0.47, 0.42, 0.42, 0.33, 0.28",
+      "bounding_box": "[887, 606, 1072, 716]; [252, 147, 881, 749]; [969, 273, 1124, 456]; [0, 421, 209, 608]; [0, 411, 289, 666]; [139, 318, 399, 397]; [839, 561, 1262, 850]; [129, 316, 400, 427]; [161, 370, 397, 428]",
+      "aspect_ratio": "1.682, 1.045, 1.181, 1.118, 1.133, 3.291, 1.464, 2.441, 4.069",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [mouse (0.93), laptop (0.88), cup (0.58), book (0.54), book (0.47), book (0.42), laptop (0.42), book (0.33), book (0.28)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "mouse",
+          "confidence": 0.9261,
+          "bbox": [
+            887,
+            606,
+            1072,
+            716
+          ],
+          "box_width": 185,
+          "box_height": 110,
+          "aspect_ratio": 1.682,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.8758,
+          "bbox": [
+            252,
+            147,
+            881,
+            749
+          ],
+          "box_width": 629,
+          "box_height": 602,
+          "aspect_ratio": 1.045,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cup",
+          "confidence": 0.5819,
+          "bbox": [
+            969,
+            273,
+            1124,
+            456
+          ],
+          "box_width": 155,
+          "box_height": 183,
+          "aspect_ratio": 1.181,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.5382,
+          "bbox": [
+            0,
+            421,
+            209,
+            608
+          ],
+          "box_width": 209,
+          "box_height": 187,
+          "aspect_ratio": 1.118,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.4728,
+          "bbox": [
+            0,
+            411,
+            289,
+            666
+          ],
+          "box_width": 289,
+          "box_height": 255,
+          "aspect_ratio": 1.133,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.4194,
+          "bbox": [
+            139,
+            318,
+            399,
+            397
+          ],
+          "box_width": 260,
+          "box_height": 79,
+          "aspect_ratio": 3.291,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.4152,
+          "bbox": [
+            839,
+            561,
+            1262,
+            850
+          ],
+          "box_width": 423,
+          "box_height": 289,
+          "aspect_ratio": 1.464,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.3266,
+          "bbox": [
+            129,
+            316,
+            400,
+            427
+          ],
+          "box_width": 271,
+          "box_height": 111,
+          "aspect_ratio": 2.441,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.2772,
+          "bbox": [
+            161,
+            370,
+            397,
+            428
+          ],
+          "box_width": 236,
+          "box_height": 58,
+          "aspect_ratio": 4.069,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:06:45.123492",
+      "object_tested": "laptop",
+      "source": "laptop_003.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "keyboard, cell phone, laptop, person",
+      "confidence": "0.96, 0.77, 0.59, 0.53, 0.35, 0.33",
+      "bounding_box": "[806, 293, 915, 439]; [763, 413, 1068, 649]; [369, 0, 857, 278]; [410, 28, 772, 442]; [625, 1, 856, 268]; [441, 212, 741, 332]",
+      "aspect_ratio": "1.339, 1.292, 1.755, 1.144, 1.156, 2.5",
+      "accepted_by_filters": true,
+      "status": "FAIL",
+      "reason": "False positive alert: target class(es) [cell phone (0.96)] accepted by filters for non-target object 'laptop'.",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.9555,
+          "bbox": [
+            806,
+            293,
+            915,
+            439
+          ],
+          "box_width": 109,
+          "box_height": 146,
+          "aspect_ratio": 1.339,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.7704,
+          "bbox": [
+            763,
+            413,
+            1068,
+            649
+          ],
+          "box_width": 305,
+          "box_height": 236,
+          "aspect_ratio": 1.292,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.5919,
+          "bbox": [
+            369,
+            0,
+            857,
+            278
+          ],
+          "box_width": 488,
+          "box_height": 278,
+          "aspect_ratio": 1.755,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.525,
+          "bbox": [
+            410,
+            28,
+            772,
+            442
+          ],
+          "box_width": 362,
+          "box_height": 414,
+          "aspect_ratio": 1.144,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.3498,
+          "bbox": [
+            625,
+            1,
+            856,
+            268
+          ],
+          "box_width": 231,
+          "box_height": 267,
+          "aspect_ratio": 1.156,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.3289,
+          "bbox": [
+            441,
+            212,
+            741,
+            332
+          ],
+          "box_width": 300,
+          "box_height": 120,
+          "aspect_ratio": 2.5,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.9555,
+          "bbox": [
+            806,
+            293,
+            915,
+            439
+          ],
+          "box_width": 109,
+          "box_height": 146,
+          "aspect_ratio": 1.339,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-20T20:06:46.922172",
+      "object_tested": "laptop",
+      "source": "laptop_004.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "chair, tv",
+      "confidence": "0.91, 0.75",
+      "bounding_box": "[602, 1057, 1067, 1688]; [356, 262, 984, 944]",
+      "aspect_ratio": "1.357, 1.086",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [chair (0.91), tv (0.75)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "chair",
+          "confidence": 0.9069,
+          "bbox": [
+            602,
+            1057,
+            1067,
+            1688
+          ],
+          "box_width": 465,
+          "box_height": 631,
+          "aspect_ratio": 1.357,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "tv",
+          "confidence": 0.7483,
+          "bbox": [
+            356,
+            262,
+            984,
+            944
+          ],
+          "box_width": 628,
+          "box_height": 682,
+          "aspect_ratio": 1.086,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:06:48.630903",
+      "object_tested": "laptop",
+      "source": "laptop_005.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "chair",
+      "confidence": "0.90",
+      "bounding_box": "[584, 1006, 1032, 1650]",
+      "aspect_ratio": "1.438",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [chair (0.90)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "chair",
+          "confidence": 0.9002,
+          "bbox": [
+            584,
+            1006,
+            1032,
+            1650
+          ],
+          "box_width": 448,
+          "box_height": 644,
+          "aspect_ratio": 1.438,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:06:50.342144",
+      "object_tested": "laptop",
+      "source": "laptop_006.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "chair, laptop, person",
+      "confidence": "0.88, 0.85, 0.81, 0.74, 0.72, 0.72, 0.64, 0.52, 0.50, 0.37, 0.36, 0.35, 0.34, 0.31",
+      "bounding_box": "[563, 0, 901, 414]; [841, 171, 1175, 517]; [943, 450, 1201, 693]; [247, 0, 426, 230]; [797, 0, 976, 236]; [1146, 219, 1279, 676]; [1014, 0, 1279, 273]; [123, 0, 768, 695]; [149, 201, 828, 951]; [949, 0, 1078, 117]; [500, 0, 652, 107]; [366, 423, 868, 957]; [711, 565, 997, 735]; [141, 0, 230, 117]",
+      "aspect_ratio": "1.225, 1.036, 1.062, 1.285, 1.318, 3.436, 1.03, 1.078, 1.105, 1.103, 1.421, 1.064, 1.682, 1.315",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [person (0.88), person (0.85), laptop (0.81), person (0.74), person (0.72), person (0.72), person (0.64), person (0.52), person (0.50), person (0.37), person (0.36), person (0.35), laptop (0.34), chair (0.31)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "person",
+          "confidence": 0.8829,
+          "bbox": [
+            563,
+            0,
+            901,
+            414
+          ],
+          "box_width": 338,
+          "box_height": 414,
+          "aspect_ratio": 1.225,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.8451,
+          "bbox": [
+            841,
+            171,
+            1175,
+            517
+          ],
+          "box_width": 334,
+          "box_height": 346,
+          "aspect_ratio": 1.036,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.8144,
+          "bbox": [
+            943,
+            450,
+            1201,
+            693
+          ],
+          "box_width": 258,
+          "box_height": 243,
+          "aspect_ratio": 1.062,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.7414,
+          "bbox": [
+            247,
+            0,
+            426,
+            230
+          ],
+          "box_width": 179,
+          "box_height": 230,
+          "aspect_ratio": 1.285,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.7187,
+          "bbox": [
+            797,
+            0,
+            976,
+            236
+          ],
+          "box_width": 179,
+          "box_height": 236,
+          "aspect_ratio": 1.318,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.7154,
+          "bbox": [
+            1146,
+            219,
+            1279,
+            676
+          ],
+          "box_width": 133,
+          "box_height": 457,
+          "aspect_ratio": 3.436,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.6411,
+          "bbox": [
+            1014,
+            0,
+            1279,
+            273
+          ],
+          "box_width": 265,
+          "box_height": 273,
+          "aspect_ratio": 1.03,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.5249,
+          "bbox": [
+            123,
+            0,
+            768,
+            695
+          ],
+          "box_width": 645,
+          "box_height": 695,
+          "aspect_ratio": 1.078,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.4988,
+          "bbox": [
+            149,
+            201,
+            828,
+            951
+          ],
+          "box_width": 679,
+          "box_height": 750,
+          "aspect_ratio": 1.105,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.3714,
+          "bbox": [
+            949,
+            0,
+            1078,
+            117
+          ],
+          "box_width": 129,
+          "box_height": 117,
+          "aspect_ratio": 1.103,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.3632,
+          "bbox": [
+            500,
+            0,
+            652,
+            107
+          ],
+          "box_width": 152,
+          "box_height": 107,
+          "aspect_ratio": 1.421,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.3499,
+          "bbox": [
+            366,
+            423,
+            868,
+            957
+          ],
+          "box_width": 502,
+          "box_height": 534,
+          "aspect_ratio": 1.064,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.345,
+          "bbox": [
+            711,
+            565,
+            997,
+            735
+          ],
+          "box_width": 286,
+          "box_height": 170,
+          "aspect_ratio": 1.682,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "chair",
+          "confidence": 0.3067,
+          "bbox": [
+            141,
+            0,
+            230,
+            117
+          ],
+          "box_width": 89,
+          "box_height": 117,
+          "aspect_ratio": 1.315,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:06:51.828067",
+      "object_tested": "laptop",
+      "source": "laptop_007.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "mouse, cell phone, laptop, keyboard",
+      "confidence": "0.98, 0.96, 0.91, 0.85, 0.43, 0.37",
+      "bounding_box": "[567, 442, 894, 704]; [250, 272, 471, 447]; [356, 1, 998, 361]; [203, 56, 856, 361]; [960, 183, 1165, 255]; [343, 56, 899, 242]",
+      "aspect_ratio": "1.248, 1.263, 1.783, 2.141, 2.847, 2.989",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [mouse (0.98), cell phone (0.96), laptop (0.91), laptop (0.85), cell phone (0.43), keyboard (0.37)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "mouse",
+          "confidence": 0.976,
+          "bbox": [
+            567,
+            442,
+            894,
+            704
+          ],
+          "box_width": 327,
+          "box_height": 262,
+          "aspect_ratio": 1.248,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.9569,
+          "bbox": [
+            250,
+            272,
+            471,
+            447
+          ],
+          "box_width": 221,
+          "box_height": 175,
+          "aspect_ratio": 1.263,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": false,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.9072,
+          "bbox": [
+            356,
+            1,
+            998,
+            361
+          ],
+          "box_width": 642,
+          "box_height": 360,
+          "aspect_ratio": 1.783,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.8494,
+          "bbox": [
+            203,
+            56,
+            856,
+            361
+          ],
+          "box_width": 653,
+          "box_height": 305,
+          "aspect_ratio": 2.141,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.4262,
+          "bbox": [
+            960,
+            183,
+            1165,
+            255
+          ],
+          "box_width": 205,
+          "box_height": 72,
+          "aspect_ratio": 2.847,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.3714,
+          "bbox": [
+            343,
+            56,
+            899,
+            242
+          ],
+          "box_width": 556,
+          "box_height": 186,
+          "aspect_ratio": 2.989,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:06:53.620613",
+      "object_tested": "laptop",
+      "source": "laptop_008.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "tv, laptop, mouse, keyboard, cell phone, remote",
+      "confidence": "0.95, 0.94, 0.84, 0.79, 0.71, 0.64, 0.36, 0.29, 0.29",
+      "bounding_box": "[506, 472, 590, 544]; [134, 311, 522, 463]; [698, 286, 1045, 552]; [1053, 332, 1151, 442]; [85, 13, 599, 289]; [1053, 332, 1151, 442]; [445, 658, 992, 759]; [597, 23, 1125, 551]; [4, 277, 602, 643]",
+      "aspect_ratio": "1.167, 2.553, 1.305, 1.122, 1.862, 1.122, 5.416, 1.0, 1.634",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [mouse (0.95), keyboard (0.94), laptop (0.84), cell phone (0.79), tv (0.71), remote (0.64), keyboard (0.36), laptop (0.29), laptop (0.29)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "mouse",
+          "confidence": 0.9506,
+          "bbox": [
+            506,
+            472,
+            590,
+            544
+          ],
+          "box_width": 84,
+          "box_height": 72,
+          "aspect_ratio": 1.167,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.9416,
+          "bbox": [
+            134,
+            311,
+            522,
+            463
+          ],
+          "box_width": 388,
+          "box_height": 152,
+          "aspect_ratio": 2.553,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.8386,
+          "bbox": [
+            698,
+            286,
+            1045,
+            552
+          ],
+          "box_width": 347,
+          "box_height": 266,
+          "aspect_ratio": 1.305,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.7882,
+          "bbox": [
+            1053,
+            332,
+            1151,
+            442
+          ],
+          "box_width": 98,
+          "box_height": 110,
+          "aspect_ratio": 1.122,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": false,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "tv",
+          "confidence": 0.7094,
+          "bbox": [
+            85,
+            13,
+            599,
+            289
+          ],
+          "box_width": 514,
+          "box_height": 276,
+          "aspect_ratio": 1.862,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "remote",
+          "confidence": 0.6393,
+          "bbox": [
+            1053,
+            332,
+            1151,
+            442
+          ],
+          "box_width": 98,
+          "box_height": 110,
+          "aspect_ratio": 1.122,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.3578,
+          "bbox": [
+            445,
+            658,
+            992,
+            759
+          ],
+          "box_width": 547,
+          "box_height": 101,
+          "aspect_ratio": 5.416,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.2868,
+          "bbox": [
+            597,
+            23,
+            1125,
+            551
+          ],
+          "box_width": 528,
+          "box_height": 528,
+          "aspect_ratio": 1.0,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.2863,
+          "bbox": [
+            4,
+            277,
+            602,
+            643
+          ],
+          "box_width": 598,
+          "box_height": 366,
+          "aspect_ratio": 1.634,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:06:55.359744",
+      "object_tested": "laptop",
+      "source": "laptop_009.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "laptop",
+      "confidence": "0.92",
+      "bounding_box": "[246, 187, 378, 307]",
+      "aspect_ratio": "1.1",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [laptop (0.92)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "laptop",
+          "confidence": 0.9165,
+          "bbox": [
+            246,
+            187,
+            378,
+            307
+          ],
+          "box_width": 132,
+          "box_height": 120,
+          "aspect_ratio": 1.1,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:06:57.054720",
+      "object_tested": "laptop",
+      "source": "laptop_010.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "chair, laptop, keyboard, mouse, cell phone",
+      "confidence": "0.95, 0.90, 0.87, 0.86, 0.44, 0.38, 0.35, 0.34",
+      "bounding_box": "[394, 370, 982, 903]; [668, 0, 1279, 303]; [1085, 363, 1279, 489]; [742, 251, 1056, 424]; [115, 89, 315, 202]; [782, 1270, 1279, 1917]; [914, 502, 1276, 840]; [371, 924, 1115, 1634]",
+      "aspect_ratio": "1.103, 2.017, 1.54, 1.815, 1.77, 1.302, 1.071, 1.048",
+      "accepted_by_filters": true,
+      "status": "FAIL",
+      "reason": "False positive alert: target class(es) [cell phone (0.86)] accepted by filters for non-target object 'laptop'.",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "keyboard",
+          "confidence": 0.9463,
+          "bbox": [
+            394,
+            370,
+            982,
+            903
+          ],
+          "box_width": 588,
+          "box_height": 533,
+          "aspect_ratio": 1.103,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.9047,
+          "bbox": [
+            668,
+            0,
+            1279,
+            303
+          ],
+          "box_width": 611,
+          "box_height": 303,
+          "aspect_ratio": 2.017,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "mouse",
+          "confidence": 0.8712,
+          "bbox": [
+            1085,
+            363,
+            1279,
+            489
+          ],
+          "box_width": 194,
+          "box_height": 126,
+          "aspect_ratio": 1.54,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.8589,
+          "bbox": [
+            742,
+            251,
+            1056,
+            424
+          ],
+          "box_width": 314,
+          "box_height": 173,
+          "aspect_ratio": 1.815,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "mouse",
+          "confidence": 0.4408,
+          "bbox": [
+            115,
+            89,
+            315,
+            202
+          ],
+          "box_width": 200,
+          "box_height": 113,
+          "aspect_ratio": 1.77,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "chair",
+          "confidence": 0.3752,
+          "bbox": [
+            782,
+            1270,
+            1279,
+            1917
+          ],
+          "box_width": 497,
+          "box_height": 647,
+          "aspect_ratio": 1.302,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "mouse",
+          "confidence": 0.3536,
+          "bbox": [
+            914,
+            502,
+            1276,
+            840
+          ],
+          "box_width": 362,
+          "box_height": 338,
+          "aspect_ratio": 1.071,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.3394,
+          "bbox": [
+            371,
+            924,
+            1115,
+            1634
+          ],
+          "box_width": 744,
+          "box_height": 710,
+          "aspect_ratio": 1.048,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": false,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.8589,
+          "bbox": [
+            742,
+            251,
+            1056,
+            424
+          ],
+          "box_width": 314,
+          "box_height": 173,
+          "aspect_ratio": 1.815,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-20T20:06:58.740127",
+      "object_tested": "laptop",
+      "source": "laptop_011.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "keyboard, cup, laptop",
+      "confidence": "0.97, 0.86, 0.72, 0.53, 0.28",
+      "bounding_box": "[629, 1, 1019, 284]; [853, 330, 1279, 725]; [3, 4, 656, 633]; [0, 192, 369, 430]; [353, 568, 1055, 843]",
+      "aspect_ratio": "1.378, 1.078, 1.038, 1.55, 2.553",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [cup (0.97), laptop (0.86), laptop (0.72), keyboard (0.53), keyboard (0.28)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "cup",
+          "confidence": 0.9679,
+          "bbox": [
+            629,
+            1,
+            1019,
+            284
+          ],
+          "box_width": 390,
+          "box_height": 283,
+          "aspect_ratio": 1.378,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.8556,
+          "bbox": [
+            853,
+            330,
+            1279,
+            725
+          ],
+          "box_width": 426,
+          "box_height": 395,
+          "aspect_ratio": 1.078,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.7204,
+          "bbox": [
+            3,
+            4,
+            656,
+            633
+          ],
+          "box_width": 653,
+          "box_height": 629,
+          "aspect_ratio": 1.038,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.5326,
+          "bbox": [
+            0,
+            192,
+            369,
+            430
+          ],
+          "box_width": 369,
+          "box_height": 238,
+          "aspect_ratio": 1.55,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.2844,
+          "bbox": [
+            353,
+            568,
+            1055,
+            843
+          ],
+          "box_width": 702,
+          "box_height": 275,
+          "aspect_ratio": 2.553,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:07:00.508572",
+      "object_tested": "laptop",
+      "source": "laptop_012.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "potted plant, laptop, bowl",
+      "confidence": "0.79, 0.67, 0.34",
+      "bounding_box": "[429, 632, 854, 803]; [989, 711, 1238, 823]; [827, 587, 990, 800]",
+      "aspect_ratio": "2.485, 2.223, 1.307",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [laptop (0.79), bowl (0.67), potted plant (0.34)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "laptop",
+          "confidence": 0.7879,
+          "bbox": [
+            429,
+            632,
+            854,
+            803
+          ],
+          "box_width": 425,
+          "box_height": 171,
+          "aspect_ratio": 2.485,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "bowl",
+          "confidence": 0.669,
+          "bbox": [
+            989,
+            711,
+            1238,
+            823
+          ],
+          "box_width": 249,
+          "box_height": 112,
+          "aspect_ratio": 2.223,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.3359,
+          "bbox": [
+            827,
+            587,
+            990,
+            800
+          ],
+          "box_width": 163,
+          "box_height": 213,
+          "aspect_ratio": 1.307,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:07:02.210810",
+      "object_tested": "laptop",
+      "source": "laptop_013.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "keyboard, cell phone, laptop, book",
+      "confidence": "0.88, 0.84, 0.82, 0.43, 0.41, 0.35",
+      "bounding_box": "[0, 498, 129, 772]; [374, 132, 858, 691]; [1072, 453, 1182, 655]; [0, 34, 195, 313]; [1, 118, 269, 385]; [393, 390, 842, 553]",
+      "aspect_ratio": "2.124, 1.155, 1.836, 1.431, 1.004, 2.755",
+      "accepted_by_filters": true,
+      "status": "FAIL",
+      "reason": "False positive alert: target class(es) [cell phone (0.82)] accepted by filters for non-target object 'laptop'.",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "laptop",
+          "confidence": 0.8768,
+          "bbox": [
+            0,
+            498,
+            129,
+            772
+          ],
+          "box_width": 129,
+          "box_height": 274,
+          "aspect_ratio": 2.124,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.8375,
+          "bbox": [
+            374,
+            132,
+            858,
+            691
+          ],
+          "box_width": 484,
+          "box_height": 559,
+          "aspect_ratio": 1.155,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.8157,
+          "bbox": [
+            1072,
+            453,
+            1182,
+            655
+          ],
+          "box_width": 110,
+          "box_height": 202,
+          "aspect_ratio": 1.836,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.4346,
+          "bbox": [
+            0,
+            34,
+            195,
+            313
+          ],
+          "box_width": 195,
+          "box_height": 279,
+          "aspect_ratio": 1.431,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.4092,
+          "bbox": [
+            1,
+            118,
+            269,
+            385
+          ],
+          "box_width": 268,
+          "box_height": 267,
+          "aspect_ratio": 1.004,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.3462,
+          "bbox": [
+            393,
+            390,
+            842,
+            553
+          ],
+          "box_width": 449,
+          "box_height": 163,
+          "aspect_ratio": 2.755,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.8157,
+          "bbox": [
+            1072,
+            453,
+            1182,
+            655
+          ],
+          "box_width": 110,
+          "box_height": 202,
+          "aspect_ratio": 1.836,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-20T20:07:03.857770",
+      "object_tested": "laptop",
+      "source": "laptop_014.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "vase, wine glass, tv, laptop, potted plant, bottle",
+      "confidence": "0.91, 0.90, 0.88, 0.80, 0.78, 0.77, 0.75, 0.74, 0.72, 0.66, 0.63, 0.61, 0.37, 0.32, 0.27",
+      "bounding_box": "[940, 448, 1077, 631]; [741, 470, 885, 634]; [928, 5, 1073, 210]; [628, 573, 756, 701]; [1087, 0, 1135, 118]; [902, 230, 1075, 432]; [172, 115, 427, 378]; [92, 372, 616, 711]; [0, 331, 92, 570]; [765, 48, 901, 219]; [743, 247, 884, 438]; [546, 404, 596, 560]; [92, 373, 617, 711]; [744, 335, 884, 438]; [1197, 492, 1279, 691]",
+      "aspect_ratio": "1.336, 1.139, 1.414, 1.0, 2.458, 1.168, 1.031, 1.546, 2.598, 1.257, 1.355, 3.12, 1.553, 1.359, 2.427",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [potted plant (0.91), potted plant (0.90), potted plant (0.88), wine glass (0.80), bottle (0.78), potted plant (0.77), potted plant (0.75), laptop (0.74), potted plant (0.72), potted plant (0.66), potted plant (0.63), potted plant (0.61), tv (0.37), vase (0.32), potted plant (0.27)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "potted plant",
+          "confidence": 0.909,
+          "bbox": [
+            940,
+            448,
+            1077,
+            631
+          ],
+          "box_width": 137,
+          "box_height": 183,
+          "aspect_ratio": 1.336,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.8982,
+          "bbox": [
+            741,
+            470,
+            885,
+            634
+          ],
+          "box_width": 144,
+          "box_height": 164,
+          "aspect_ratio": 1.139,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.8781,
+          "bbox": [
+            928,
+            5,
+            1073,
+            210
+          ],
+          "box_width": 145,
+          "box_height": 205,
+          "aspect_ratio": 1.414,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "wine glass",
+          "confidence": 0.796,
+          "bbox": [
+            628,
+            573,
+            756,
+            701
+          ],
+          "box_width": 128,
+          "box_height": 128,
+          "aspect_ratio": 1.0,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "bottle",
+          "confidence": 0.7848,
+          "bbox": [
+            1087,
+            0,
+            1135,
+            118
+          ],
+          "box_width": 48,
+          "box_height": 118,
+          "aspect_ratio": 2.458,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.7732,
+          "bbox": [
+            902,
+            230,
+            1075,
+            432
+          ],
+          "box_width": 173,
+          "box_height": 202,
+          "aspect_ratio": 1.168,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.7547,
+          "bbox": [
+            172,
+            115,
+            427,
+            378
+          ],
+          "box_width": 255,
+          "box_height": 263,
+          "aspect_ratio": 1.031,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.7398,
+          "bbox": [
+            92,
+            372,
+            616,
+            711
+          ],
+          "box_width": 524,
+          "box_height": 339,
+          "aspect_ratio": 1.546,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.7242,
+          "bbox": [
+            0,
+            331,
+            92,
+            570
+          ],
+          "box_width": 92,
+          "box_height": 239,
+          "aspect_ratio": 2.598,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.6603,
+          "bbox": [
+            765,
+            48,
+            901,
+            219
+          ],
+          "box_width": 136,
+          "box_height": 171,
+          "aspect_ratio": 1.257,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.6318,
+          "bbox": [
+            743,
+            247,
+            884,
+            438
+          ],
+          "box_width": 141,
+          "box_height": 191,
+          "aspect_ratio": 1.355,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.6138,
+          "bbox": [
+            546,
+            404,
+            596,
+            560
+          ],
+          "box_width": 50,
+          "box_height": 156,
+          "aspect_ratio": 3.12,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "tv",
+          "confidence": 0.3675,
+          "bbox": [
+            92,
+            373,
+            617,
+            711
+          ],
+          "box_width": 525,
+          "box_height": 338,
+          "aspect_ratio": 1.553,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "vase",
+          "confidence": 0.3203,
+          "bbox": [
+            744,
+            335,
+            884,
+            438
+          ],
+          "box_width": 140,
+          "box_height": 103,
+          "aspect_ratio": 1.359,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.2686,
+          "bbox": [
+            1197,
+            492,
+            1279,
+            691
+          ],
+          "box_width": 82,
+          "box_height": 199,
+          "aspect_ratio": 2.427,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:07:05.532651",
+      "object_tested": "laptop",
+      "source": "laptop_015.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "tv, keyboard, potted plant, laptop",
+      "confidence": "0.95, 0.92, 0.56, 0.26",
+      "bounding_box": "[406, 259, 934, 603]; [421, 246, 542, 455]; [891, 0, 1278, 467]; [251, 550, 759, 846]",
+      "aspect_ratio": "1.535, 1.727, 1.207, 1.716",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [laptop (0.95), potted plant (0.92), tv (0.56), keyboard (0.26)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "laptop",
+          "confidence": 0.9532,
+          "bbox": [
+            406,
+            259,
+            934,
+            603
+          ],
+          "box_width": 528,
+          "box_height": 344,
+          "aspect_ratio": 1.535,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "potted plant",
+          "confidence": 0.923,
+          "bbox": [
+            421,
+            246,
+            542,
+            455
+          ],
+          "box_width": 121,
+          "box_height": 209,
+          "aspect_ratio": 1.727,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "tv",
+          "confidence": 0.5591,
+          "bbox": [
+            891,
+            0,
+            1278,
+            467
+          ],
+          "box_width": 387,
+          "box_height": 467,
+          "aspect_ratio": 1.207,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.2575,
+          "bbox": [
+            251,
+            550,
+            759,
+            846
+          ],
+          "box_width": 508,
+          "box_height": 296,
+          "aspect_ratio": 1.716,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:07:07.145725",
+      "object_tested": "laptop",
+      "source": "laptop_016.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "book, laptop",
+      "confidence": "0.94, 0.68, 0.61, 0.59, 0.53, 0.52, 0.47, 0.45, 0.44, 0.36, 0.29",
+      "bounding_box": "[345, 607, 642, 809]; [737, 615, 895, 648]; [886, 662, 1109, 715]; [950, 741, 1141, 777]; [718, 755, 922, 797]; [720, 734, 924, 778]; [725, 655, 891, 682]; [716, 637, 894, 659]; [938, 769, 1256, 818]; [740, 713, 922, 756]; [733, 680, 884, 712]",
+      "aspect_ratio": "1.47, 4.788, 4.208, 5.306, 4.857, 4.636, 6.148, 8.091, 6.49, 4.233, 4.719",
+      "accepted_by_filters": true,
+      "status": "FAIL",
+      "reason": "False positive alert: target class(es) [book (0.68)] accepted by filters for non-target object 'laptop'.",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "laptop",
+          "confidence": 0.9376,
+          "bbox": [
+            345,
+            607,
+            642,
+            809
+          ],
+          "box_width": 297,
+          "box_height": 202,
+          "aspect_ratio": 1.47,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.6795,
+          "bbox": [
+            737,
+            615,
+            895,
+            648
+          ],
+          "box_width": 158,
+          "box_height": 33,
+          "aspect_ratio": 4.788,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.6127,
+          "bbox": [
+            886,
+            662,
+            1109,
+            715
+          ],
+          "box_width": 223,
+          "box_height": 53,
+          "aspect_ratio": 4.208,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.5908,
+          "bbox": [
+            950,
+            741,
+            1141,
+            777
+          ],
+          "box_width": 191,
+          "box_height": 36,
+          "aspect_ratio": 5.306,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.5329,
+          "bbox": [
+            718,
+            755,
+            922,
+            797
+          ],
+          "box_width": 204,
+          "box_height": 42,
+          "aspect_ratio": 4.857,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.5216,
+          "bbox": [
+            720,
+            734,
+            924,
+            778
+          ],
+          "box_width": 204,
+          "box_height": 44,
+          "aspect_ratio": 4.636,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.4699,
+          "bbox": [
+            725,
+            655,
+            891,
+            682
+          ],
+          "box_width": 166,
+          "box_height": 27,
+          "aspect_ratio": 6.148,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.4502,
+          "bbox": [
+            716,
+            637,
+            894,
+            659
+          ],
+          "box_width": 178,
+          "box_height": 22,
+          "aspect_ratio": 8.091,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.4369,
+          "bbox": [
+            938,
+            769,
+            1256,
+            818
+          ],
+          "box_width": 318,
+          "box_height": 49,
+          "aspect_ratio": 6.49,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.3572,
+          "bbox": [
+            740,
+            713,
+            922,
+            756
+          ],
+          "box_width": 182,
+          "box_height": 43,
+          "aspect_ratio": 4.233,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.294,
+          "bbox": [
+            733,
+            680,
+            884,
+            712
+          ],
+          "box_width": 151,
+          "box_height": 32,
+          "aspect_ratio": 4.719,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": [
+        {
+          "class_name": "book",
+          "confidence": 0.6795,
+          "bbox": [
+            737,
+            615,
+            895,
+            648
+          ],
+          "box_width": 158,
+          "box_height": 33,
+          "aspect_ratio": 4.788,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        }
+      ]
+    },
+    {
+      "timestamp": "2026-09-20T20:07:09.169701",
+      "object_tested": "laptop",
+      "source": "laptop_017.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "laptop",
+      "confidence": "0.81, 0.51, 0.40",
+      "bounding_box": "[284, 3, 776, 493]; [35, 4, 652, 491]; [154, 254, 716, 708]",
+      "aspect_ratio": "1.004, 1.267, 1.238",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [laptop (0.81), laptop (0.51), laptop (0.40)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "laptop",
+          "confidence": 0.8058,
+          "bbox": [
+            284,
+            3,
+            776,
+            493
+          ],
+          "box_width": 492,
+          "box_height": 490,
+          "aspect_ratio": 1.004,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.5118,
+          "bbox": [
+            35,
+            4,
+            652,
+            491
+          ],
+          "box_width": 617,
+          "box_height": 487,
+          "aspect_ratio": 1.267,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.402,
+          "bbox": [
+            154,
+            254,
+            716,
+            708
+          ],
+          "box_width": 562,
+          "box_height": 454,
+          "aspect_ratio": 1.238,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:07:10.849234",
+      "object_tested": "laptop",
+      "source": "laptop_018.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "book, person, tv, laptop, cell phone, cup, remote",
+      "confidence": "0.92, 0.80, 0.79, 0.65, 0.53, 0.51, 0.39, 0.37, 0.35, 0.31, 0.27",
+      "bounding_box": "[715, 366, 1205, 824]; [789, 221, 988, 489]; [545, 249, 790, 472]; [8, 174, 708, 825]; [450, 710, 614, 794]; [392, 487, 419, 527]; [401, 516, 639, 588]; [343, 438, 370, 488]; [187, 209, 805, 825]; [951, 460, 1015, 518]; [203, 2, 300, 63]",
+      "aspect_ratio": "1.07, 1.347, 1.099, 1.075, 1.952, 1.481, 3.306, 1.852, 1.003, 1.103, 1.59",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [laptop (0.92), tv (0.80), tv (0.79), person (0.65), remote (0.53), cell phone (0.51), book (0.39), cell phone (0.37), person (0.35), person (0.31), cup (0.27)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "laptop",
+          "confidence": 0.9238,
+          "bbox": [
+            715,
+            366,
+            1205,
+            824
+          ],
+          "box_width": 490,
+          "box_height": 458,
+          "aspect_ratio": 1.07,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "tv",
+          "confidence": 0.7985,
+          "bbox": [
+            789,
+            221,
+            988,
+            489
+          ],
+          "box_width": 199,
+          "box_height": 268,
+          "aspect_ratio": 1.347,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "tv",
+          "confidence": 0.7936,
+          "bbox": [
+            545,
+            249,
+            790,
+            472
+          ],
+          "box_width": 245,
+          "box_height": 223,
+          "aspect_ratio": 1.099,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.6515,
+          "bbox": [
+            8,
+            174,
+            708,
+            825
+          ],
+          "box_width": 700,
+          "box_height": 651,
+          "aspect_ratio": 1.075,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "remote",
+          "confidence": 0.5279,
+          "bbox": [
+            450,
+            710,
+            614,
+            794
+          ],
+          "box_width": 164,
+          "box_height": 84,
+          "aspect_ratio": 1.952,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.5147,
+          "bbox": [
+            392,
+            487,
+            419,
+            527
+          ],
+          "box_width": 27,
+          "box_height": 40,
+          "aspect_ratio": 1.481,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.3888,
+          "bbox": [
+            401,
+            516,
+            639,
+            588
+          ],
+          "box_width": 238,
+          "box_height": 72,
+          "aspect_ratio": 3.306,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.3676,
+          "bbox": [
+            343,
+            438,
+            370,
+            488
+          ],
+          "box_width": 27,
+          "box_height": 50,
+          "aspect_ratio": 1.852,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.3527,
+          "bbox": [
+            187,
+            209,
+            805,
+            825
+          ],
+          "box_width": 618,
+          "box_height": 616,
+          "aspect_ratio": 1.003,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.3097,
+          "bbox": [
+            951,
+            460,
+            1015,
+            518
+          ],
+          "box_width": 64,
+          "box_height": 58,
+          "aspect_ratio": 1.103,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cup",
+          "confidence": 0.2699,
+          "bbox": [
+            203,
+            2,
+            300,
+            63
+          ],
+          "box_width": 97,
+          "box_height": 61,
+          "aspect_ratio": 1.59,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:07:12.474053",
+      "object_tested": "laptop",
+      "source": "laptop_019.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "person, laptop, mouse, keyboard, cell phone, cup",
+      "confidence": "0.94, 0.79, 0.76, 0.59, 0.56, 0.38, 0.34, 0.27, 0.26, 0.25",
+      "bounding_box": "[377, 279, 603, 556]; [271, 11, 938, 687]; [385, 354, 979, 846]; [62, 549, 260, 784]; [592, 502, 1265, 846]; [228, 7, 815, 621]; [61, 549, 261, 784]; [385, 328, 603, 840]; [577, 384, 870, 547]; [914, 5, 1277, 583]",
+      "aspect_ratio": "1.226, 1.013, 1.207, 1.187, 1.956, 1.046, 1.175, 2.349, 1.798, 1.592",
+      "accepted_by_filters": false,
+      "status": "PASS",
+      "reason": "No target class false positives accepted by filters. Raw predictions: [cell phone (0.94), laptop (0.79), person (0.76), mouse (0.59), person (0.56), laptop (0.38), cell phone (0.34), person (0.27), keyboard (0.26), cup (0.25)]",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.9367,
+          "bbox": [
+            377,
+            279,
+            603,
+            556
+          ],
+          "box_width": 226,
+          "box_height": 277,
+          "aspect_ratio": 1.226,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": false,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.7938,
+          "bbox": [
+            271,
+            11,
+            938,
+            687
+          ],
+          "box_width": 667,
+          "box_height": 676,
+          "aspect_ratio": 1.013,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.757,
+          "bbox": [
+            385,
+            354,
+            979,
+            846
+          ],
+          "box_width": 594,
+          "box_height": 492,
+          "aspect_ratio": 1.207,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "mouse",
+          "confidence": 0.5904,
+          "bbox": [
+            62,
+            549,
+            260,
+            784
+          ],
+          "box_width": 198,
+          "box_height": 235,
+          "aspect_ratio": 1.187,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.5648,
+          "bbox": [
+            592,
+            502,
+            1265,
+            846
+          ],
+          "box_width": 673,
+          "box_height": 344,
+          "aspect_ratio": 1.956,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.3822,
+          "bbox": [
+            228,
+            7,
+            815,
+            621
+          ],
+          "box_width": 587,
+          "box_height": 614,
+          "aspect_ratio": 1.046,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cell phone",
+          "confidence": 0.3413,
+          "bbox": [
+            61,
+            549,
+            261,
+            784
+          ],
+          "box_width": 200,
+          "box_height": 235,
+          "aspect_ratio": 1.175,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": false,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "person",
+          "confidence": 0.2734,
+          "bbox": [
+            385,
+            328,
+            603,
+            840
+          ],
+          "box_width": 218,
+          "box_height": 512,
+          "aspect_ratio": 2.349,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "keyboard",
+          "confidence": 0.2562,
+          "bbox": [
+            577,
+            384,
+            870,
+            547
+          ],
+          "box_width": 293,
+          "box_height": 163,
+          "aspect_ratio": 1.798,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "cup",
+          "confidence": 0.252,
+          "bbox": [
+            914,
+            5,
+            1277,
+            583
+          ],
+          "box_width": 363,
+          "box_height": 578,
+          "aspect_ratio": 1.592,
+          "is_target_class": false,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": []
+    },
+    {
+      "timestamp": "2026-09-20T20:07:14.311501",
+      "object_tested": "laptop",
+      "source": "laptop_020.jpg",
+      "expected_class": "none",
+      "yolo_predicted_class": "mouse, book, laptop",
+      "confidence": "0.92, 0.87, 0.85, 0.75, 0.71, 0.70, 0.69, 0.57, 0.54, 0.32, 0.31, 0.29, 0.28",
+      "bounding_box": "[169, 700, 383, 840]; [510, 517, 1077, 703]; [90, 176, 669, 638]; [516, 463, 1057, 599]; [466, 567, 1079, 701]; [521, 597, 1157, 777]; [388, 628, 1012, 762]; [489, 754, 1146, 874]; [354, 776, 1003, 917]; [483, 795, 1144, 941]; [853, 754, 1146, 814]; [373, 746, 975, 845]; [410, 725, 1137, 867]",
+      "aspect_ratio": "1.529, 3.048, 1.253, 3.978, 4.575, 3.533, 4.657, 5.475, 4.603, 4.527, 4.883, 6.081, 5.12",
+      "accepted_by_filters": true,
+      "status": "FAIL",
+      "reason": "False positive alert: target class(es) [book (0.87), book (0.75), book (0.71), book (0.70), book (0.69)] accepted by filters for non-target object 'laptop'.",
+      "manual_mark": "N/A",
+      "raw_detections": [
+        {
+          "class_name": "mouse",
+          "confidence": 0.9161,
+          "bbox": [
+            169,
+            700,
+            383,
+            840
+          ],
+          "box_width": 214,
+          "box_height": 140,
+          "aspect_ratio": 1.529,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.867,
+          "bbox": [
+            510,
+            517,
+            1077,
+            703
+          ],
+          "box_width": 567,
+          "box_height": 186,
+          "aspect_ratio": 3.048,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "laptop",
+          "confidence": 0.8489,
+          "bbox": [
+            90,
+            176,
+            669,
+            638
+          ],
+          "box_width": 579,
+          "box_height": 462,
+          "aspect_ratio": 1.253,
+          "is_target_class": false,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.7518,
+          "bbox": [
+            516,
+            463,
+            1057,
+            599
+          ],
+          "box_width": 541,
+          "box_height": 136,
+          "aspect_ratio": 3.978,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.7137,
+          "bbox": [
+            466,
+            567,
+            1079,
+            701
+          ],
+          "box_width": 613,
+          "box_height": 134,
+          "aspect_ratio": 4.575,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.7,
+          "bbox": [
+            521,
+            597,
+            1157,
+            777
+          ],
+          "box_width": 636,
+          "box_height": 180,
+          "aspect_ratio": 3.533,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.6889,
+          "bbox": [
+            388,
+            628,
+            1012,
+            762
+          ],
+          "box_width": 624,
+          "box_height": 134,
+          "aspect_ratio": 4.657,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.5699,
+          "bbox": [
+            489,
+            754,
+            1146,
+            874
+          ],
+          "box_width": 657,
+          "box_height": 120,
+          "aspect_ratio": 5.475,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.5388,
+          "bbox": [
+            354,
+            776,
+            1003,
+            917
+          ],
+          "box_width": 649,
+          "box_height": 141,
+          "aspect_ratio": 4.603,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.3168,
+          "bbox": [
+            483,
+            795,
+            1144,
+            941
+          ],
+          "box_width": 661,
+          "box_height": 146,
+          "aspect_ratio": 4.527,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.3124,
+          "bbox": [
+            853,
+            754,
+            1146,
+            814
+          ],
+          "box_width": 293,
+          "box_height": 60,
+          "aspect_ratio": 4.883,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.2912,
+          "bbox": [
+            373,
+            746,
+            975,
+            845
+          ],
+          "box_width": 602,
+          "box_height": 99,
+          "aspect_ratio": 6.081,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.2792,
+          "bbox": [
+            410,
+            725,
+            1137,
+            867
+          ],
+          "box_width": 727,
+          "box_height": 142,
+          "aspect_ratio": 5.12,
+          "is_target_class": true,
+          "passes_conf": false,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": false
+        }
+      ],
+      "filtered_target_detections": [
+        {
+          "class_name": "book",
+          "confidence": 0.867,
+          "bbox": [
+            510,
+            517,
+            1077,
+            703
+          ],
+          "box_width": 567,
+          "box_height": 186,
+          "aspect_ratio": 3.048,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.7518,
+          "bbox": [
+            516,
+            463,
+            1057,
+            599
+          ],
+          "box_width": 541,
+          "box_height": 136,
+          "aspect_ratio": 3.978,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.7137,
+          "bbox": [
+            466,
+            567,
+            1079,
+            701
+          ],
+          "box_width": 613,
+          "box_height": 134,
+          "aspect_ratio": 4.575,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.7,
+          "bbox": [
+            521,
+            597,
+            1157,
+            777
+          ],
+          "box_width": 636,
+          "box_height": 180,
+          "aspect_ratio": 3.533,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        },
+        {
+          "class_name": "book",
+          "confidence": 0.6889,
+          "bbox": [
+            388,
+            628,
+            1012,
+            762
+          ],
+          "box_width": 624,
+          "box_height": 134,
+          "aspect_ratio": 4.657,
+          "is_target_class": true,
+          "passes_conf": true,
+          "passes_aspect": true,
+          "passes_size": true,
+          "accepted_by_filters": true
+        }
+      ]
+    }
+  ]
+}

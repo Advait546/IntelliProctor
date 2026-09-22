@@ -1,0 +1,700 @@
+{
+  "experiment_name": "Phase 0E: MediaPipe Face Mesh Overlay Impact",
+  "total_images_evaluated": 32,
+  "images_with_face_detected": 19,
+  "images_with_target_discrepancy": 0,
+  "discrepancy_rate": 0.0,
+  "detailed_comparisons": [
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.58 (1).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 3,
+      "overlay_detections_count": 3,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.58 (2).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 5,
+      "overlay_detections_count": 4,
+      "clean_target_accepted": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.6995,
+          "bbox": [
+            186,
+            163,
+            333,
+            391
+          ],
+          "aspect_ratio": 1.551,
+          "accepted_by_filters": true
+        }
+      ],
+      "overlay_target_accepted": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.7437,
+          "bbox": [
+            186,
+            164,
+            333,
+            393
+          ],
+          "aspect_ratio": 1.558,
+          "accepted_by_filters": true
+        }
+      ],
+      "clean_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.6995,
+          "bbox": [
+            186,
+            163,
+            333,
+            391
+          ],
+          "aspect_ratio": 1.551,
+          "accepted_by_filters": true
+        }
+      ],
+      "overlay_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.7437,
+          "bbox": [
+            186,
+            164,
+            333,
+            393
+          ],
+          "aspect_ratio": 1.558,
+          "accepted_by_filters": true
+        }
+      ],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.58 (3).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 14,
+      "overlay_detections_count": 14,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.8806,
+          "bbox": [
+            260,
+            375,
+            519,
+            684
+          ],
+          "aspect_ratio": 1.193,
+          "accepted_by_filters": false
+        }
+      ],
+      "overlay_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.8363,
+          "bbox": [
+            260,
+            375,
+            518,
+            685
+          ],
+          "aspect_ratio": 1.202,
+          "accepted_by_filters": false
+        }
+      ],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.58 (4).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 12,
+      "overlay_detections_count": 12,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.8333,
+          "bbox": [
+            151,
+            318,
+            264,
+            410
+          ],
+          "aspect_ratio": 1.228,
+          "accepted_by_filters": false
+        }
+      ],
+      "overlay_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.8279,
+          "bbox": [
+            151,
+            317,
+            264,
+            410
+          ],
+          "aspect_ratio": 1.215,
+          "accepted_by_filters": false
+        }
+      ],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.58 (5).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 8,
+      "overlay_detections_count": 4,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.58 (6).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 4,
+      "overlay_detections_count": 3,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.58 (7).jpeg",
+      "face_detected": true,
+      "face_count": 2,
+      "clean_detections_count": 3,
+      "overlay_detections_count": 5,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.58.jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 5,
+      "overlay_detections_count": 4,
+      "clean_target_accepted": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.9363,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ],
+          "aspect_ratio": 2.109,
+          "accepted_by_filters": true
+        }
+      ],
+      "overlay_target_accepted": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.9246,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ],
+          "aspect_ratio": 2.109,
+          "accepted_by_filters": true
+        }
+      ],
+      "clean_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.9363,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ],
+          "aspect_ratio": 2.109,
+          "accepted_by_filters": true
+        }
+      ],
+      "overlay_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.9246,
+          "bbox": [
+            331,
+            210,
+            552,
+            676
+          ],
+          "aspect_ratio": 2.109,
+          "accepted_by_filters": true
+        }
+      ],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59 (1).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 4,
+      "overlay_detections_count": 4,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59 (2).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 5,
+      "overlay_detections_count": 5,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [
+        {
+          "class_name": "book",
+          "confidence": 0.2658,
+          "bbox": [
+            539,
+            480,
+            944,
+            711
+          ],
+          "aspect_ratio": 1.753,
+          "accepted_by_filters": false
+        }
+      ],
+      "overlay_target_raw": [
+        {
+          "class_name": "book",
+          "confidence": 0.2658,
+          "bbox": [
+            539,
+            480,
+            944,
+            711
+          ],
+          "aspect_ratio": 1.753,
+          "accepted_by_filters": false
+        }
+      ],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59 (3).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 5,
+      "overlay_detections_count": 4,
+      "clean_target_accepted": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.7114,
+          "bbox": [
+            299,
+            240,
+            547,
+            650
+          ],
+          "aspect_ratio": 1.653,
+          "accepted_by_filters": true
+        }
+      ],
+      "overlay_target_accepted": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.7156,
+          "bbox": [
+            298,
+            240,
+            547,
+            650
+          ],
+          "aspect_ratio": 1.647,
+          "accepted_by_filters": true
+        }
+      ],
+      "clean_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.7114,
+          "bbox": [
+            299,
+            240,
+            547,
+            650
+          ],
+          "aspect_ratio": 1.653,
+          "accepted_by_filters": true
+        }
+      ],
+      "overlay_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.7156,
+          "bbox": [
+            298,
+            240,
+            547,
+            650
+          ],
+          "aspect_ratio": 1.647,
+          "accepted_by_filters": true
+        }
+      ],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59 (4).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 5,
+      "overlay_detections_count": 3,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59 (5).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 5,
+      "overlay_detections_count": 5,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.6092,
+          "bbox": [
+            176,
+            178,
+            327,
+            377
+          ],
+          "aspect_ratio": 1.318,
+          "accepted_by_filters": false
+        }
+      ],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59 (6).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 2,
+      "overlay_detections_count": 2,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.2607,
+          "bbox": [
+            405,
+            287,
+            833,
+            706
+          ],
+          "aspect_ratio": 1.021,
+          "accepted_by_filters": false
+        }
+      ],
+      "overlay_target_raw": [
+        {
+          "class_name": "cell phone",
+          "confidence": 0.2607,
+          "bbox": [
+            405,
+            287,
+            833,
+            706
+          ],
+          "aspect_ratio": 1.021,
+          "accepted_by_filters": false
+        }
+      ],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59 (7).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 2,
+      "overlay_detections_count": 2,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59 (8).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 2,
+      "overlay_detections_count": 2,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "phone",
+      "filename": "WhatsApp Image 2026-08-31 at 14.34.59.jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 9,
+      "overlay_detections_count": 8,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.47 (1).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 10,
+      "overlay_detections_count": 11,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.47 (2).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 6,
+      "overlay_detections_count": 8,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.47 (3).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 4,
+      "overlay_detections_count": 4,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.47 (4).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 5,
+      "overlay_detections_count": 6,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.47 (5).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 6,
+      "overlay_detections_count": 6,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.47.jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 1,
+      "overlay_detections_count": 1,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48 (1).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 0,
+      "overlay_detections_count": 0,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48 (2).jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 7,
+      "overlay_detections_count": 7,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48 (3).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 2,
+      "overlay_detections_count": 2,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48 (4).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 1,
+      "overlay_detections_count": 1,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48 (5).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 1,
+      "overlay_detections_count": 1,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48 (6).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 2,
+      "overlay_detections_count": 2,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48 (7).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 9,
+      "overlay_detections_count": 9,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48 (8).jpeg",
+      "face_detected": false,
+      "face_count": 0,
+      "clean_detections_count": 11,
+      "overlay_detections_count": 11,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    },
+    {
+      "category": "book",
+      "filename": "WhatsApp Image 2026-08-31 at 14.33.48.jpeg",
+      "face_detected": true,
+      "face_count": 1,
+      "clean_detections_count": 3,
+      "overlay_detections_count": 2,
+      "clean_target_accepted": [],
+      "overlay_target_accepted": [],
+      "clean_target_raw": [],
+      "overlay_target_raw": [],
+      "target_outcome_changed": false
+    }
+  ],
+  "conclusion": "No change in target class filter outcomes",
+  "recommendation": "Accept current pipeline ordering (overlay effect is negligible on existing data)"
+}

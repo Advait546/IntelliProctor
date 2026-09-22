@@ -1,4 +1,51 @@
-.venv/
+# ==============================================================================
+# IntelliProctor — Git Ignore Configuration
+# ==============================================================================
+
+# Python bytecode & compilation artifacts
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
 .env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Machine-Generated YOLO Caches
+*.cache
+dataset/yolo_dataset/labels/*.cache
+
+# Intermediate Training Outputs & Diagnostic Runs
+runs/
+scratch/
+
+# Large Model Binaries Assessment (GitHub 50MB warning / 100MB limit):
+# Pretrained & trained checkpoints are organized locally in:
+#   - models/pretrained/yolo11m.pt (40.7 MB)
+#   - models/trained/intelliproctor_phase1_iter1/best.pt (40.6 MB)
+#   - models/trained/intelliproctor_phase1_iter1/last.pt (40.6 MB)
+# For remote pushing, use Git LFS:
+#   git lfs install
+#   git lfs track "*.pt"
