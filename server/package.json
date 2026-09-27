@@ -1,0 +1,21 @@
+{
+  "name": "intelliproctor-server",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Express REST API for IntelliProctor -- auth, exams/questions, live proctoring sessions, settings, and reports. Talks to Supabase (Postgres) and to the proctoring-service Python microservice.",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "seed:admin": "node scripts/seedAdmin.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.0"
+  }
+}
