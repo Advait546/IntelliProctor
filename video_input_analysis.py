@@ -6,6 +6,7 @@ import os
 import sys
 import argparse
 from pathlib import Path
+import torch
 from ultralytics import YOLO
 from temporal_filter import TemporalProctoringManager
 
@@ -110,7 +111,58 @@ def resolve_phase_config(requested_phase: str = None) -> tuple:
     return resolved_key, cfg
 
 
-# Global pipeline state (initialized to default phase0)
+def resolve_device(requested_device=None):
+    """
+    Resolves the execution device.
+    Precedence:
+    1. Explicit function argument / CLI arg (--device)
+    2. INTELLIPROCTOR_DEVICE environment variable
+    3. Auto-detection: GPU (0) if torch.cuda.is_available() else 'cpu'
+    """
+    target = requested_device
+    if target is None:
+        target = os.environ.get("INTELLIPROCTOR_DEVICE", None)
+
+    if target is not None:
+        target_str = str(target).strip().lower()
+        if target_str in ("cuda", "gpu", "0"):
+            if torch.cuda.is_available():
+                return 0
+            else:
+                print("[WARN] CUDA requested but not available. Falling back to CPU.")
+                return "cpu"
+        elif target_str == "cpu":
+            return "cpu"
+        elif target_str.isdigit():
+            idx = int(target_str)
+            if torch.cuda.is_available() and idx < torch.cuda.device_count():
+                return idx
+            else:
+                print(f"[WARN] CUDA device {idx} not available. Falling back to CPU.")
+                return "cpu"
+        return target
+
+    # Auto-detect
+    if torch.cuda.is_available():
+        return 0
+    return "cpu"
+
+
+def get_device_description(dev) -> str:
+    """Returns a user-friendly string describing the device."""
+    if dev != "cpu" and torch.cuda.is_available():
+        dev_idx = dev if isinstance(dev, int) else 0
+        try:
+            return f"GPU ({torch.cuda.get_device_name(dev_idx)})"
+        except Exception:
+            return f"GPU ({dev})"
+    return "CPU"
+
+
+# Global pipeline state (initialized to default phase0 with auto-detected GPU/CPU)
+ACTIVE_DEVICE = resolve_device()
+DEVICE_DESC = get_device_description(ACTIVE_DEVICE)
+
 CURRENT_PHASE, active_cfg = resolve_phase_config()
 MODEL_PATH = active_cfg["model_path"]
 yolo_model = YOLO(MODEL_PATH)
@@ -153,10 +205,21 @@ def get_current_head_poses():
     return current_head_poses
 
 
-def set_active_phase(phase_name: str):
+def set_active_device(device_name=None):
+    """Dynamically sets the active execution device (e.g. 0, 'cuda', 'cpu')."""
+    global ACTIVE_DEVICE, DEVICE_DESC
+    ACTIVE_DEVICE = resolve_device(device_name)
+    DEVICE_DESC = get_device_description(ACTIVE_DEVICE)
+    print(f"[INFO] IntelliProctor Active Device set to: {DEVICE_DESC} ({ACTIVE_DEVICE})")
+
+
+def set_active_phase(phase_name: str, device=None):
     """Dynamically switch the active proctoring phase and reload model weights."""
     global CURRENT_PHASE, active_cfg, MODEL_PATH, yolo_model
     global CONF_THRESHOLD, MIN_SIZE, TARGET_CLASSES, USE_TEMPORAL_FILTER
+
+    if device is not None:
+        set_active_device(device)
 
     CURRENT_PHASE, active_cfg = resolve_phase_config(phase_name)
     MODEL_PATH = active_cfg["model_path"]
@@ -165,7 +228,7 @@ def set_active_phase(phase_name: str):
     MIN_SIZE = active_cfg.get("min_size", 12)
     TARGET_CLASSES = active_cfg["target_classes"]
     USE_TEMPORAL_FILTER = active_cfg.get("use_temporal_filter", True)
-    print(f"[INFO] IntelliProctor Active Phase set to: {active_cfg['name']} ({MODEL_PATH})")
+    print(f"[INFO] IntelliProctor Active Phase set to: {active_cfg['name']} ({MODEL_PATH}) on {DEVICE_DESC}")
 
 
 def calculate_head_pose(face_landmarks, w_img, h_img):
@@ -234,12 +297,17 @@ def calculate_head_pose(face_landmarks, w_img, h_img):
         return None
 
 
-def process_single_frame(frame: np.ndarray, no_face_start: float = None, now: float = None) -> tuple:
+def process_single_frame(
+    frame: np.ndarray,
+    no_face_start: float = None,
+    now: float = None,
+    fps: float = None,
+) -> tuple:
     """Processes a single video frame end-to-end:
     1. Runs MediaPipe Face Mesh on RGB frame.
     2. Runs YOLO on an unmodified CLEAN frame copy (MediaPipe overlay confound fix).
-    3. Applies per-class confidence, aspect ratio, and size filters.
-    4. Renders face landmarks, detection boxes, and status overlays onto display frame.
+    3. Applies per-class confidence, aspect ratio, and size filters on active GPU/CPU device.
+    4. Renders face landmarks, detection boxes, FPS, and status overlays onto display frame.
     Returns: (annotated_frame, alerts, prohibited_counts, face_count, new_no_face_start)
     """
     global current_head_poses
@@ -308,8 +376,8 @@ def process_single_frame(frame: np.ndarray, no_face_start: float = None, now: fl
     if face_count > 1:
         alerts.append("ALERT: Multiple faces detected!")
 
-    # 2. Object detection on CLEAN frame (isolated from drawings)
-    results = yolo_model(clean_frame, imgsz=IMG_SIZE, device="cpu", verbose=False)[0]
+    # 2. Object detection on CLEAN frame (isolated from drawings) using GPU/CPU
+    results = yolo_model(clean_frame, imgsz=IMG_SIZE, device=ACTIVE_DEVICE, verbose=False)[0]
     prohibited_counts = {"phone": 0, "book": 0}
 
     for box in results.boxes:
@@ -357,12 +425,13 @@ def process_single_frame(frame: np.ndarray, no_face_start: float = None, now: fl
         if prohibited_counts["book"] > 0:
             alerts.append("ALERT: Book/notes detected!")
 
-    # Status overlay
+    # Status overlay (with device and real-time FPS)
     temporal_indicator = " | Filter: Temporal" if USE_TEMPORAL_FILTER else " | Filter: Frame"
-    status = (f"[{CURRENT_PHASE.upper()}{temporal_indicator}] Faces: {face_count} | Phones: {prohibited_counts['phone']} "
-              f"| Books: {prohibited_counts['book']}")
+    fps_indicator = f" | {fps:.1f} FPS" if fps is not None else ""
+    status = (f"[{CURRENT_PHASE.upper()} | {DEVICE_DESC}{fps_indicator}{temporal_indicator}] "
+              f"Faces: {face_count} | Phones: {prohibited_counts['phone']} | Books: {prohibited_counts['book']}")
     cv2.putText(frame, status, (10, 30),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
+                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 0), 2)
 
     # Draw stacked alert overlays
     for i, alert_text in enumerate(alerts):
@@ -378,14 +447,23 @@ def run_proctoring_loop(
     max_frames: int = None,
     display: bool = True,
     synthetic: bool = False,
+    device: str = None,
+    imgsz: int = None,
 ):
     """Main execution loop for webcam or synthetic proctoring feed."""
+    global IMG_SIZE
+    if device is not None:
+        set_active_device(device)
+    if imgsz is not None:
+        IMG_SIZE = imgsz
     if phase:
         set_active_phase(phase)
 
     print(f"[START] Starting IntelliProctor proctoring loop.")
     print(f"        Active Configuration: {active_cfg['name']}")
     print(f"        Model Checkpoint:     {MODEL_PATH}")
+    print(f"        Execution Device:     {DEVICE_DESC} ({ACTIVE_DEVICE})")
+    print(f"        Inference Image Size: {IMG_SIZE}")
     print(f"        Temporal Filtering:   {USE_TEMPORAL_FILTER}")
 
     cap = None
@@ -397,6 +475,8 @@ def run_proctoring_loop(
 
     no_face_start = None
     frame_count = 0
+    fps_smooth = 0.0
+    last_frame_time = time.time()
 
     try:
         while True:
@@ -411,9 +491,16 @@ def run_proctoring_loop(
                     print("Failed to grab webcam frame.")
                     break
 
+            now = time.time()
+            dt = now - last_frame_time
+            last_frame_time = now
+            if dt > 0:
+                current_fps = 1.0 / dt
+                fps_smooth = current_fps if fps_smooth == 0.0 else (0.9 * fps_smooth + 0.1 * current_fps)
+
             frame_count += 1
             frame, alerts, counts, face_cnt, no_face_start = process_single_frame(
-                frame, no_face_start=no_face_start, now=time.time()
+                frame, no_face_start=no_face_start, now=now, fps=fps_smooth
             )
 
             if display:
@@ -431,13 +518,17 @@ def run_proctoring_loop(
             cap.release()
         if display:
             cv2.destroyAllWindows()
-        print(f"[STOP] Proctoring loop terminated cleanly after {frame_count} frames.")
+        print(f"[STOP] Proctoring loop terminated cleanly after {frame_count} frames (avg FPS: {fps_smooth:.1f}).")
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="IntelliProctor Production Video Input Analysis")
     parser.add_argument("--phase", type=str, default=None,
                         help="Select active phase: 'phase0' (default), 'phase2_gpu', 'phase0_baseline'")
+    parser.add_argument("--device", type=str, default=None,
+                        help="Inference device: '0', 'cuda', 'cpu' (default: auto-detect GPU)")
+    parser.add_argument("--imgsz", type=int, default=1280,
+                        help="YOLO inference image size (default: 1280)")
     parser.add_argument("--camera", type=int, default=0,
                         help="Webcam device index (default: 0)")
     parser.add_argument("--test-frames", type=int, default=None,
@@ -457,4 +548,6 @@ if __name__ == "__main__":
         max_frames=args.test_frames,
         display=not args.no_display,
         synthetic=args.synthetic,
+        device=args.device,
+        imgsz=args.imgsz,
     )

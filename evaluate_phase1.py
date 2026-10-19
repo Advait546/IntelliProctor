@@ -28,6 +28,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Tuple
 import cv2
 import numpy as np
+import torch
 from ultralytics import YOLO
 
 # Model configurations
@@ -102,9 +103,12 @@ def run_model_inference_on_frame(
     phone_aspect_lower: float = 1.3,
     phone_aspect_upper: float = 2.9,
     min_size: int = MIN_SIZE,
+    device: Any = None,
 ) -> List[Dict[str, Any]]:
     """Runs inference and applies filtering logic."""
-    results = model(frame, imgsz=IMG_SIZE, device="cpu", verbose=False)[0]
+    if device is None:
+        device = 0 if torch.cuda.is_available() else "cpu"
+    results = model(frame, imgsz=IMG_SIZE, device=device, verbose=False)[0]
     detections = []
 
     target_classes = phase_cfg["target_classes"]

@@ -1,0 +1,70 @@
+================================================================================
+INTELLIPROCTOR DATASET AUDIT REPORT (UPDATED WITH PHONE P1 INTEGRATION)
+================================================================================
+Date: 2026-10-17
+Source Directory: C:\Users\tanis\data
+Grand Dataset Output: C:\Users\tanis\data\grand_dataset
+
+1. FILE INVENTORY & FORMATS
+--------------------------------------------------------------------------------
+- Total Images in Dataset: 377 (337 baseline + 40 new phone_p1 captures)
+  - Format: JPEG (.jpg)
+  - Color space: RGB
+  - Resolution: 1280x720 (standard HD webcam capture)
+- Total Annotation Files: 377
+  - Positive phone annotations: 114
+  - Positive book_notebook annotations: 111
+  - Negative background annotations (0-byte .txt): 152
+- Excluded Files:
+  - Orphan annotation: phone/phone_4.txt (1 file; image phone_4.jpg not present)
+  - Redundant config files: classes*.txt across subfolders
+
+2. CLASS DISCOVERY & ANNOTATION REMEDIATION
+--------------------------------------------------------------------------------
+- Positive Classes:
+  * phone (Class ID 0): 114 images, 117 bounding boxes across 114 annotations.
+    - Baseline: 74 images (77 boxes)
+    - New phone_p1: 40 images (40 boxes, 100% normalized YOLO coords, class ID 0)
+  * book_notebook (Class ID 1): 111 images, 115 bounding boxes across 111 annotations.
+- Negative / Background Classes (zero bounding boxes):
+  * bottle: 58 images
+  * other (hand / no prohibited object): 44 images
+  * calculator: 15 images
+  * pen: 15 images
+  * smartwatch: 20 images
+  * Total Negative Background Images: 152 images (empty .txt labels)
+
+3. RECORDING SESSIONS & GROUPS (16 GROUPS)
+--------------------------------------------------------------------------------
+1. session_phone_20260920: 21 images (Train)
+2. session_phone_20260928: 14 images (Val)
+3. group_phone_numbered: 39 images (Test) - isolated to prevent held-out leakage
+4. group_phone_p1: 40 images (Train: 32, Val: 4, Test: 4) - stratified 80/10/10
+5. group_book_numbered: 32 images (Train)
+6. group_book_p1: 40 images (Train)
+7. session_book_20260920: 21 images (Val)
+8. session_book_20260928: 18 images (Test)
+9. group_bottle_numbered: 24 images (Train)
+10. group_bottle_p1: 20 images (Train)
+11. session_bottle_20260920: 14 images (Val)
+12. group_other_numbered: 30 images (Train)
+13. session_other_20260920: 14 images (Test)
+14. session_calculator_20260928: 15 images (Train)
+15. session_pen_20260928: 15 images (Train)
+16. session_smartwatch_20260928: 20 images (Train)
+
+4. DATASET SPLIT TOTALS
+--------------------------------------------------------------------------------
+- Train: 249 images (66.0%)
+  * Phone images: 53 (53 boxes)
+  * Book images: 72 (72 boxes)
+  * Negative images: 124 (0 boxes)
+- Val: 53 images (14.1%)
+  * Phone images: 18 (21 boxes)
+  * Book images: 21 (21 boxes)
+  * Negative images: 14 (0 boxes)
+- Test: 75 images (19.9%)
+  * Phone images: 43 (43 boxes)
+  * Book images: 18 (22 boxes)
+  * Negative images: 14 (0 boxes)
+- Total: 377 images (232 bounding boxes across 225 annotated images, 152 background images)

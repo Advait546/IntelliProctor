@@ -25,14 +25,19 @@ from ultralytics import YOLO
 
 # Configuration
 PROJECT_ROOT = Path(__file__).resolve().parent
-DATA_YAML = str(PROJECT_ROOT / "dataset" / "yolo_dataset" / "data.yaml")
+DEFAULT_DATA_YAML = str(
+    (PROJECT_ROOT / "Dataset_it2" / "data.yaml")
+    if (PROJECT_ROOT / "Dataset_it2" / "data.yaml").exists()
+    else (PROJECT_ROOT / "dataset" / "yolo_dataset" / "data.yaml")
+)
+DATA_YAML = DEFAULT_DATA_YAML
 PRETRAINED_MODEL = str(
     (PROJECT_ROOT / "models" / "pretrained" / "yolo11m.pt")
     if (PROJECT_ROOT / "models" / "pretrained" / "yolo11m.pt").exists()
     else (PROJECT_ROOT / "yolo11m.pt")
 )
 PROJECT_DIR = str(PROJECT_ROOT / "runs" / "detect")
-RUN_NAME = "intelliproctor_phase1_iter1_gpu"
+RUN_NAME = "intelliproctor_phase1_iter2_gpu"
 IMG_SIZE = 1280
 BATCH_SIZE = 4
 EPOCHS = 30
@@ -50,6 +55,7 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train Phase 1 YOLO11m Model for IntelliProctor.")
+    parser.add_argument("--data", type=str, default=DEFAULT_DATA_YAML, help=f"Dataset YAML config path (default: {DEFAULT_DATA_YAML})")
     parser.add_argument("--epochs", type=int, default=EPOCHS, help=f"Max training epochs (default: {EPOCHS})")
     parser.add_argument("--patience", type=int, default=PATIENCE, help=f"Early stopping patience (default: {PATIENCE})")
     parser.add_argument("--batch", type=int, default=BATCH_SIZE, help=f"Batch size (default: {BATCH_SIZE})")
@@ -64,13 +70,13 @@ def parse_args():
     return parser.parse_args()
 
 
-def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_SIZE, freeze_layers=FREEZE_LAYERS, optimizer=OPTIMIZER, lr0=LR0, warmup_epochs=WARMUP_EPOCHS, device=DEVICE, run_name=RUN_NAME, resume=False):
+def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_SIZE, freeze_layers=FREEZE_LAYERS, optimizer=OPTIMIZER, lr0=LR0, warmup_epochs=WARMUP_EPOCHS, device=DEVICE, run_name=RUN_NAME, resume=False, data=DEFAULT_DATA_YAML):
     cuda_avail = torch.cuda.is_available()
     gpu_name = torch.cuda.get_device_name(0) if cuda_avail else "N/A"
     dev_str = f"CUDA:{device}" if str(device) in ("0", "cuda:0", "0") and cuda_avail else str(device)
 
     print("=" * 80)
-    print(" INTELLIPROCTOR PHASE 1 YOLO11m GPU FINE-TUNING (ITERATION 1)")
+    print(" INTELLIPROCTOR PHASE 1 YOLO11m FINE-TUNING")
     print("=" * 80)
     print(f"Device           : {dev_str}")
     print(f"GPU              : {gpu_name}")
@@ -84,15 +90,15 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
     print(f"Image Size       : {imgsz}")
     print(f"Frozen Layers    : {freeze_layers} (Backbone layers 0-9)")
     print(f"Pretrained Model : {PRETRAINED_MODEL}")
-    print(f"Dataset YAML     : {DATA_YAML}")
+    print(f"Dataset YAML     : {data}")
     print(f"Resume           : {resume}")
     print(f"Output Target    : {os.path.join(PROJECT_DIR, run_name)}")
     print("=" * 80)
 
     if not os.path.exists(PRETRAINED_MODEL):
         raise FileNotFoundError(f"Starting model weights not found: {PRETRAINED_MODEL}")
-    if not os.path.exists(DATA_YAML):
-        raise FileNotFoundError(f"Dataset YAML configuration not found: {DATA_YAML}")
+    if not os.path.exists(data):
+        raise FileNotFoundError(f"Dataset YAML configuration not found: {data}")
 
     output_dir = Path(PROJECT_DIR) / run_name
     last_weights_path = output_dir / "weights" / "last.pt"
@@ -108,10 +114,10 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
             print(f"\nResume requested. Checkpoint {last_weights_path} not found.")
             print(f"Continuing training in existing target directory: {output_dir}")
         else:
-            print("\nStarting fine-tuning on GPU...")
+            print("\nStarting fine-tuning...")
         model = YOLO(PRETRAINED_MODEL)
         train_results = model.train(
-            data=DATA_YAML,
+            data=data,
             epochs=epochs,
             patience=patience,
             batch=batch,
@@ -141,7 +147,7 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
 
     summary_metrics = {
         "pretrained_model": PRETRAINED_MODEL,
-        "dataset_yaml": DATA_YAML,
+        "dataset_yaml": data,
         "img_size": imgsz,
         "batch_size": batch,
         "target_epochs": epochs,
@@ -160,9 +166,15 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
         rows = []
         with open(results_csv_path, "r", encoding="utf-8") as f:
             reader = csv.DictReader(f)
-            # Normalize column keys
             for r in reader:
-                cleaned_row = {k.strip(): float(v.strip()) if v.strip().replace(".", "", 1).replace("-", "", 1).isdigit() else v.strip() for k, v in r.items() if k is not None}
+                cleaned_row = {}
+                for k, v in r.items():
+                    if k is not None:
+                        val_str = v.strip() if v else ""
+                        try:
+                            cleaned_row[k.strip()] = float(val_str)
+                        except (ValueError, TypeError):
+                            cleaned_row[k.strip()] = val_str
                 rows.append(cleaned_row)
 
         if rows:
@@ -197,7 +209,7 @@ def train_phase1(epochs=EPOCHS, patience=PATIENCE, batch=BATCH_SIZE, imgsz=IMG_S
     if best_weights_path.exists():
         print("\nValidating best model on validation set...")
         best_model = YOLO(str(best_weights_path))
-        val_res = best_model.val(data=DATA_YAML, imgsz=imgsz, device=device)
+        val_res = best_model.val(data=data, imgsz=imgsz, device=device)
         
         per_class_summary = {}
         for i, name in enumerate(val_res.names.values()):
@@ -232,4 +244,5 @@ if __name__ == "__main__":
         device=args.device,
         run_name=args.run_name,
         resume=args.resume,
+        data=args.data,
     )

@@ -11,9 +11,10 @@ import csv
 import json
 import time
 import datetime
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Union
 import cv2
 import numpy as np
+import torch
 from ultralytics import YOLO
 
 # --- Exact constants from video_input_analysis.py ---
@@ -51,11 +52,16 @@ class ObjectDetectionEvaluator:
         book_aspect_lower: Optional[float] = 0.80,
         book_aspect_upper: Optional[float] = 2.50,
         target_classes: Optional[Dict[str, Any]] = None,
+        device: Optional[Union[str, int]] = None,
     ):
         if not os.path.exists(model_path):
             raise FileNotFoundError(f"YOLO model file not found: {model_path}")
         self.model_path = model_path
         self.model = YOLO(model_path)
+        if device is None:
+            self.device = 0 if torch.cuda.is_available() else "cpu"
+        else:
+            self.device = 0 if str(device).lower() in ("cuda", "gpu") and torch.cuda.is_available() else device
         self.conf_threshold = conf_threshold
         self.phone_aspect_lower = phone_aspect_lower
         self.phone_aspect_upper = phone_aspect_upper
@@ -112,7 +118,7 @@ class ObjectDetectionEvaluator:
         expected_class = self.category_expected_target.get(category.lower(), "none")
         
         # Run YOLO inference matching settings
-        results = self.model(frame, imgsz=IMG_SIZE, device="cpu", verbose=False)[0]
+        results = self.model(frame, imgsz=IMG_SIZE, device=self.device, verbose=False)[0]
 
         raw_detections = []
         filtered_target_detections = []
