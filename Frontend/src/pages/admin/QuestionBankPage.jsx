@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Search, Filter, Upload, Download, Trash2, Edit3, Eye, CheckSquare, Plus, FileSpreadsheet } from 'lucide-react';
 import { useExam } from '../../contexts/ExamContext';
 import { questionApi } from '../../api/questionApi';
+import { errorMessage } from '../../api/client';
 
 export const QuestionBankPage = () => {
-  const { questionBank, setQuestionBank } = useExam();
+  const { questionBank, refreshQuestionBank, addQuestionToDraft, currentDraft } = useExam();
+  const [notice, setNotice] = useState(null); // {type, text}
   
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
@@ -15,7 +17,8 @@ export const QuestionBankPage = () => {
   const topics = ['All', ...new Set(questionBank.map((q) => q.topic).filter(Boolean))];
 
   const filteredQuestions = questionBank.filter((q) => {
-    const matchesSearch = q.text.toLowerCase().includes(searchTerm.toLowerCase()) || q.topic.toLowerCase().includes(searchTerm.toLowerCase());
+    const term = searchTerm.toLowerCase();
+    const matchesSearch = (q.text || '').toLowerCase().includes(term) || (q.topic || '').toLowerCase().includes(term);
     const matchesDiff = selectedDifficulty === 'All' || q.difficulty === selectedDifficulty;
     const matchesTopic = selectedTopic === 'All' || q.topic === selectedTopic;
     return matchesSearch && matchesDiff && matchesTopic;
@@ -33,16 +36,35 @@ export const QuestionBankPage = () => {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
   };
 
-  const handleDeleteSelected = () => {
-    setQuestionBank((prev) => prev.filter((q) => !selectedIds.includes(q.id)));
+  const handleDeleteSelected = async () => {
+    if (!window.confirm(`Delete ${selectedIds.length} question(s) from your bank?`)) return;
+    try {
+      await Promise.all(selectedIds.map((id) => questionApi.deleteFromBank(id)));
+      setNotice({ type: 'ok', text: `Deleted ${selectedIds.length} question(s).` });
+    } catch (err) {
+      setNotice({ type: 'err', text: errorMessage(err) });
+    }
+    setSelectedIds([]);
+    refreshQuestionBank();
+  };
+
+  const handleAddToDraft = () => {
+    questionBank.filter((q) => selectedIds.includes(q.id)).forEach(({ id, options, ...q }) => addQuestionToDraft(q));
+    setNotice({ type: 'ok', text: `Added ${selectedIds.length} question(s) to the exam draft "${currentDraft.title}".` });
     setSelectedIds([]);
   };
 
   const handleImportCSV = async (e) => {
     const file = e.target.files[0];
-    if (file) {
+    e.target.value = '';
+    if (!file) return;
+    try {
       const res = await questionApi.importCSV(file);
-      alert(`CSV Imported Successfully! (${res.importedCount || 5} questions added)`);
+      const errs = res.errors?.length ? ` ${res.errors.length} row(s) skipped: ${res.errors.slice(0, 3).map((x) => `row ${x.row}: ${x.message}`).join('; ')}` : '';
+      setNotice({ type: res.errors?.length ? 'warn' : 'ok', text: `Imported ${res.importedCount} question(s).${errs}` });
+      refreshQuestionBank();
+    } catch (err) {
+      setNotice({ type: 'err', text: errorMessage(err, 'Import failed') });
     }
   };
 
@@ -82,6 +104,21 @@ export const QuestionBankPage = () => {
           </button>
         </div>
       </div>
+
+      {notice && (
+        <div
+          className={`p-3 rounded-xl border text-xs font-semibold flex justify-between ${
+            notice.type === 'err' ? 'bg-red-50 border-red-200 text-red-700' : notice.type === 'warn' ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+          }`}
+        >
+          <span>{notice.text}</span>
+          <button onClick={() => setNotice(null)} className="ml-3">✕</button>
+        </div>
+      )}
+
+      <p className="text-[11px] text-slate-500 px-1">
+        CSV columns: <code>type,text,optionA,optionB,optionC,optionD,correctAnswer,marks,difficulty,topic</code> (type: MCQ, MSQ, TrueFalse, FillBlank, Subjective).
+      </p>
 
       {/* Search & Filter Toolbar */}
       <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row gap-3 items-center justify-between">
@@ -131,6 +168,14 @@ export const QuestionBankPage = () => {
       {selectedIds.length > 0 && (
         <div className="bg-indigo-50 border border-indigo-200 p-3 rounded-2xl flex items-center justify-between text-xs font-bold text-indigo-900">
           <span>{selectedIds.length} Questions Selected</span>
+          <div className="flex items-center gap-2">
+          <button
+            onClick={handleAddToDraft}
+            className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1.5 transition-colors"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            Add to Exam Draft
+          </button>
           <button
             onClick={handleDeleteSelected}
             className="px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white flex items-center gap-1.5 transition-colors"
@@ -138,6 +183,7 @@ export const QuestionBankPage = () => {
             <Trash2 className="w-3.5 h-3.5" />
             Delete Selected
           </button>
+          </div>
         </div>
       )}
 

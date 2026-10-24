@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Play, ArrowRight, KeyRound, ShieldCheck } from 'lucide-react';
 import { authApi } from '../../api/authApi';
-import { useExam } from '../../contexts/ExamContext';
+import { errorMessage } from '../../api/client';
 
 export const GiveTestCodePage = () => {
   const [searchParams] = useSearchParams();
@@ -14,7 +14,6 @@ export const GiveTestCodePage = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const { getExamByCode } = useExam();
 
   const handleContinue = async (e) => {
     e.preventDefault();
@@ -26,14 +25,19 @@ export const GiveTestCodePage = () => {
     setLoading(true);
     setError('');
 
-    const res = await authApi.verifyExamCode(examCode);
-    if (res.valid) {
-      const targetExam = getExamByCode(examCode);
-      navigate(`/student/login?code=${examCode.toUpperCase()}`);
-    } else {
-      setError('Exam Code not found or not currently active.');
+    try {
+      const res = await authApi.lookupExamCode(examCode);
+      if (res.valid) {
+        sessionStorage.setItem('ip_exam_lookup', JSON.stringify(res));
+        navigate(`/student/login?code=${examCode.trim().toUpperCase()}`);
+      } else {
+        setError(res.error || 'Exam Code not found or not currently active.');
+      }
+    } catch (err) {
+      setError(errorMessage(err, 'Could not verify the exam code'));
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

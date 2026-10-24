@@ -6,6 +6,15 @@
 > **Audit Date**: October 2026  
 > **Status**: **VERIFIED REPOSITORY AUDIT** (Factual inventory of current code, mock fallbacks, missing integrations, and implementation gaps).
 
+> [!IMPORTANT]
+> **Update — 24 October 2026 (supersedes the audit below).** The audit that follows was written against a different local copy of the frontend (it references files such as `PasskeyEntryPage.jsx`, `proctorApi.js` and `api/mockData.js` that do not exist in this repository). Current, verified state of `Frontend/`:
+> - All pages talk to the FastAPI backend through `src/api/*.js`; **all mock data (`constants/mockData.js`) and silent mock fallbacks were removed**, errors are shown to the user.
+> - **`useProctoringSim.js` was removed** — the frontend never calculates suspicion scores; it displays the backend's ledger score (S, 0–1000) to examiners only.
+> - `src/hooks/useTabVisibility.js` implements the §17.2 spec and reports `TAB_BLUR`/`TAB_FOCUS`.
+> - `CameraWidget` uploads ~1.4 keyframes/s to `POST /proctor/sessions/{id}/frames`; examiner views use `RemoteCameraFeed` (candidate's latest keyframe) — the local-webcam loop on the examiner grid is fixed.
+> - Route guards (`src/routes/Guards.jsx`), server-authoritative timer, answer autosave + local cache, reload-safe exam resume, evidence review modal with mandatory justification, audit report, real reports/settings/question bank.
+> - Run: `cd Frontend && npm install && npm run dev` (Vite proxies `/api` and `/ws` to the backend on :8000).
+
 ---
 
 ## Table of Contents

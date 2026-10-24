@@ -1,8 +1,8 @@
 # IntelliProctor — Master Architecture & Technical Reference Manual
 
 > **System Designation**: IntelliProctor (AI-Assisted Online Examination & Proctoring Platform)  
-> **Repository Root**: `C:\Users\tanis\IntelliProctor`  
-> **Status**: Core Computer-Vision Pipeline Verified; React Frontend Prototype Operational; Backend API & Streaming Integration Planned  
+> **Repository**: `github.com/Advait546/IntelliProctor` (branch `Antigravity`)  
+> **Status (Oct 2026)**: Full stack operational — FastAPI backend (`backend/`) with authoritative scoring ledger, CV inference worker (`proctoring-service/`), and the React frontend (`Frontend/`) wired end-to-end. See **Section 0** to run it.  
 > **Current Active CV Phase**: `phase0` (Optimized Pretrained YOLO11m Baseline + MediaPipe Face Mesh + Temporal Filter)  
 > **Document Role**: Authoritative Master Architecture Specification & Long-Term Reference for Future Agents & Engineers  
 
@@ -10,6 +10,7 @@
 
 ## Table of Contents
 
+0. [Quick Start — Running the Full Stack](#0-quick-start--running-the-full-stack)
 1. [Executive Overview & Core System Philosophy](#1-executive-overview--core-system-philosophy)
 2. [Current Implementation vs. Planned Architecture Matrix](#2-current-implementation-vs-planned-architecture-matrix)
 3. [Repository Directory & Component Reference](#3-repository-directory--component-reference)
@@ -91,6 +92,54 @@
 
 ---
 
+## 0. Quick Start — Running the Full Stack
+
+IntelliProctor runs as **three processes**. Open three terminals in VS Code (`Terminal → New Terminal`, then the split button) from the repository root.
+
+| # | Service | Folder | Port | What it does |
+|---|---|---|---|---|
+| 1 | **Backend API** (FastAPI) | `backend/` | 8000 | Auth, exams, passkeys, answers, event ingestion, **authoritative suspicion scoring**, evidence, reports, WebSockets |
+| 2 | **CV inference worker** (FastAPI + MediaPipe + YOLO11m) | `proctoring-service/` | 8001 | Turns webcam keyframes into episode events (never scores) |
+| 3 | **Frontend** (React 19 + Vite) | `Frontend/` | 5173 | Examiner portal + candidate exam portal (proxies `/api` and `/ws` to :8000) |
+
+**Terminal 1 — backend** (PowerShell, Python 3.11/3.12):
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn src.main:app --port 8000 --reload
+```
+**Terminal 2 — CV worker** (first run downloads nothing; weights are in `models/pretrained/yolo11m.pt` via Git LFS):
+```powershell
+cd proctoring-service
+python -m venv venv            # skip if venv already exists
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+uvicorn app.main:app --port 8001
+```
+**Terminal 3 — frontend**:
+```powershell
+cd Frontend
+npm install
+npm run dev
+```
+Open **http://localhost:5173**. On first start the backend creates its database, applies migrations, and seeds a demo:
+
+| Role | Login | Password |
+|---|---|---|
+| Examiner | `dr.sharma@university.edu` | `password123` |
+| Candidate | PRN `2026-CS-042` (Aarav Sharma) | `student123` |
+| Demo exam code | `AI2026CS01` | (open for 30 days) |
+
+New candidates register automatically the first time they sign in with a new PRN. Create more examiners with `python -m src.seed create-examiner "Name" email "password"` (inside `backend/`).
+
+**Storage defaults (zero setup):** SQLite + local private evidence folder in `%LOCALAPPDATA%\IntelliProctor` (outside OneDrive). For the full target stack set `DATABASE_URL` (PostgreSQL 16 / Supabase), `REDIS_URL` and `S3_*` in `backend/.env` — or run `docker compose up -d` for Postgres + Redis + MinIO (see `docker-compose.yml`). Full backend guide: [`backend/README.md`](backend/README.md).
+
+**Tests:** `cd backend; pytest -q` (42 tests incl. the 18 acceptance scenarios of `BACKEND_ARCHITECTURE.md` §21) and `cd proctoring-service; pytest -q` (episode state machines).
+
+---
+
 ## 1. Executive Overview & Core System Philosophy
 
 **IntelliProctor** is a distributed, AI-assisted examination administration and integrity verification platform. It unites an interactive examination portal with an asynchronous, multi-modal computer-vision proctoring engine.
@@ -169,15 +218,19 @@ To prevent assumptions during future development, the table below documents the 
 | **Cross-Benchmark Evaluation** | Benchmarks across Phase 0, Phase 1, and held-out test sets | **Current** | [`tools/evaluate_cross_benchmark.py`](file:///c:/Users/tanis/IntelliProctor/tools/evaluate_cross_benchmark.py) |
 | **Frontend UI (React 19 + Vite)**| Complete, responsive Tailwind v4 portal (Examiner & Student) | **Current** | [`Frontend/src/routes/AppRoutes.jsx`](file:///c:/Users/tanis/IntelliProctor/Frontend/src/routes/AppRoutes.jsx) |
 | **Client-Side Camera Preview** | HTML5 `getUserMedia` integration with Canvas bounding overlays | **Current** | [`Frontend/src/components/exam/CameraWidget.jsx`](file:///c:/Users/tanis/IntelliProctor/Frontend/src/components/exam/CameraWidget.jsx) |
-| **Frontend Mock Data & State** | In-memory exam drafts, mock live examinees, mock analytics | **Current** | [`Frontend/src/constants/mockData.js`](file:///c:/Users/tanis/IntelliProctor/Frontend/src/constants/mockData.js) |
-| **Frontend Proctoring Simulator** | Periodic mock anomaly injection hook (`useProctoringSim.js`) | **Current** | [`Frontend/src/hooks/useProctoringSim.js`](file:///c:/Users/tanis/IntelliProctor/Frontend/src/hooks/useProctoringSim.js) |
-| **Backend REST Server** | HTTP API client configured with Axios; endpoints fallback to mock | **Planned / Unimplemented**| [`Frontend/src/api/client.js`](file:///c:/Users/tanis/IntelliProctor/Frontend/src/api/client.js) |
-| **Database Persistence Layer** | Client-side `localStorage` used for mock JWT sessions | **Planned / Unimplemented**| [`Frontend/src/contexts/AuthContext.jsx`](file:///c:/Users/tanis/IntelliProctor/Frontend/src/contexts/AuthContext.jsx) |
-| **CV-to-Frontend Telemetry Bridge**| No network socket or IPC bridge exists between Python CV and React | **Planned / Unimplemented**| Needs WebSocket/WebRTC implementation |
-| **Remote Examiner Video Stream** | Examiner grid displays mock student cards and local webcam | **Planned / Unimplemented**| Needs WebRTC SFU / Media server |
-| **Evidence Snapshot Upload** | Python CV renders overlays with OpenCV; does not upload to disk/S3 | **Planned / Unimplemented**| Needs Keyframe snapshot persister |
-| **Automated Face Verification** | Compares against no database embeddings; mesh verifies geometry only | **Planned / Unimplemented**| Not implemented in codebase |
-| **Examiner Flag Dismissal Audit** | UI supports manual flagging (`flagStudent`); audit dismissal planned | **Partially Implemented** | [`Frontend/src/pages/admin/StudentDetailPage.jsx`](file:///c:/Users/tanis/IntelliProctor/Frontend/src/pages/admin/StudentDetailPage.jsx) |
+| **Frontend Data Layer** | All pages read/write the FastAPI backend; mock data and silent mock fallbacks removed | **Current** | [`Frontend/src/api/`](Frontend/src/api/client.js) |
+| **Client-Side Score Simulator** | `useProctoringSim.js` removed — the frontend never computes scores | **Removed** | — |
+| **Backend REST Server** | FastAPI (`/api/v1`), RBAC, error envelope, rate limiting | **Current** | [`backend/src/main.py`](backend/src/main.py) |
+| **Database Persistence Layer** | SQLAlchemy 2.0 async + Alembic; PostgreSQL 16 or SQLite; 9 spec tables + 3 extensions | **Current** | [`backend/src/models.py`](backend/src/models.py) |
+| **Suspicion Scoring Engine** | +10 / 3 head turns, +50 book, +100 phone, ceiling 1000, suspicious at 100, append-only ledger | **Current** | [`backend/src/services/scoring.py`](backend/src/services/scoring.py) |
+| **CV-to-Backend Telemetry Bridge**| Browser keyframes -> backend -> `proctoring-service` -> episode events -> idempotent ingestion | **Current** | [`backend/src/api/proctor.py`](backend/src/api/proctor.py) |
+| **Episode Layer (CV)** | Object episodes (3-on/4-off + 5 s guard), head-turn FSM (1 s dwell, 2 s cooldown), absence (10 s), multi-face | **Current** | [`proctoring-service/app/episodes.py`](proctoring-service/app/episodes.py) |
+| **Browser Tab Monitoring** | `useTabVisibility` -> `TAB_BLUR`/`TAB_FOCUS`, server-measured duration, 0 points | **Current** | [`Frontend/src/hooks/useTabVisibility.js`](Frontend/src/hooks/useTabVisibility.js) |
+| **Remote Examiner Video** | Examiner grid shows the candidate's latest uploaded keyframe (~1 fps, no local-webcam loop). Full WebRTC not implemented | **Partially Implemented** | [`Frontend/src/components/monitoring/RemoteCameraFeed.jsx`](Frontend/src/components/monitoring/RemoteCameraFeed.jsx) |
+| **Evidence Snapshot Upload** | Annotated JPEG per object episode; S3/MinIO or private local store; 15-min signed URLs | **Current** | [`backend/src/services/storage.py`](backend/src/services/storage.py) |
+| **Live WebSocket Feeds** | `/ws/v1/proctor/live[/{examId}]`, `/ws/v1/candidate/session/{id}`; Redis pub/sub optional | **Current** | [`backend/src/api/ws.py`](backend/src/api/ws.py) |
+| **Automated Face Verification** | Reference photo captured & stored; no embedding comparison | **Planned / Unimplemented**| [`backend/src/api/misc.py`](backend/src/api/misc.py) |
+| **Examiner Review & Dismissal** | Dismiss / confirm with mandatory justification; events, evidence and ledger preserved | **Current** | [`Frontend/src/components/monitoring/EventReviewModal.jsx`](Frontend/src/components/monitoring/EventReviewModal.jsx) |
 | **Practice / Diagnostic Test** | Examinee enters exam code; dedicated open practice mode planned | **Partially Implemented** | [`Frontend/src/pages/student/GiveTestCodePage.jsx`](file:///c:/Users/tanis/IntelliProctor/Frontend/src/pages/student/GiveTestCodePage.jsx) |
 
 ---
@@ -249,6 +302,18 @@ IntelliProctor/
 │   │   └── main.jsx                           # React DOM entry point
 │   ├── package.json                           # Dependencies (React 19, Tailwind v4, Recharts, Lucide)
 │   └── vite.config.js                         # Vite build configuration with Tailwind plugin
+├── backend/                                   # FastAPI central backend (source of truth)
+│   ├── src/main.py                            # App factory, routers, lifespan (migrate, seed, sweeper)
+│   ├── src/models.py                          # SQLAlchemy schema (BACKEND_ARCHITECTURE.md 12.1 + extensions)
+│   ├── src/api/                               # auth, exams, proctor, reports, misc (bank/settings/stats), ws
+│   ├── src/services/                          # scoring, ingest, exams, storage, live_bus, cv_client, views
+│   ├── alembic/                               # Database migrations
+│   └── tests/                                 # 18 acceptance scenarios + API flow tests
+├── proctoring-service/                        # CV inference worker (observations + episodes, never scores)
+│   ├── app/detector.py                        # MediaPipe head pose + decoupled YOLO worker + evidence JPEGs
+│   ├── app/episodes.py                        # Episode state machines (objects, head turns, absence, faces)
+│   └── tests/test_episodes.py
+├── docker-compose.yml                         # Optional PostgreSQL 16 + Redis 7 + MinIO
 ├── models/                                    # Model Registry & Checkpoint Storage
 │   ├── pretrained/
 │   │   └── yolo11m.pt                         # Official Ultralytics YOLO11m weights (40.7 MB)
@@ -780,9 +845,9 @@ Documented in [`Frontend/src/components/exam/CameraWidget.jsx`](file:///c:/Users
 
 ---
 
-## 9. Target Backend & Persistence Architecture
+## 9. Backend & Persistence Architecture
 
-The current repository contains an Axios service layer (`Frontend/src/api/client.js`) designed to interface with a FastAPI backend. Below is the master architecture specification for the target backend and database.
+> **Implemented (Oct 2026)** in [`backend/`](backend/README.md) following [`BACKEND_ARCHITECTURE.md`](BACKEND_ARCHITECTURE.md). The authoritative schema is `backend/src/models.py` / `backend/alembic/`; the live API catalog is in §9.5 below and at `http://localhost:8000/docs`. The entity descriptions in §9.2–9.3 are the original design notes.
 
 ### 9.1 Backend Framework & Gateway Specification
 - **Framework**: Python FastAPI (Asynchronous ASGI)
@@ -949,25 +1014,28 @@ erDiagram
   ```
 - Access control: Buckets are private; frontend clients access images via time-limited **pre-signed URLs** ($15$-minute validity).
 
-### 9.5 API Endpoint Specification & Contracts
+### 9.5 API Endpoint Catalog (implemented)
 
-| Method | Endpoint Route | Access Role | Description |
+| Method | Route (`/api/v1`) | Auth | Purpose |
 | :--- | :--- | :---: | :--- |
-| `POST` | `/api/v1/auth/examiner/login` | Public | Authenticates examiner, returns JWT |
-| `POST` | `/api/v1/auth/candidate/login` | Public | Authenticates student with PRN + PIN |
-| `GET` | `/api/v1/auth/verify-code/{code}` | Public | Validates examination PIN status |
-| `POST` | `/api/v1/candidate/reference-photo` | Candidate | Uploads pre-exam reference photograph |
-| `GET` | `/api/v1/exams` | Examiner | Lists authored examinations |
-| `POST` | `/api/v1/exams` | Examiner | Creates draft examination |
-| `POST` | `/api/v1/exams/{id}/publish` | Examiner | Publishes exam and locks passkey |
-| `GET` | `/api/v1/exams/{id}/questions` | Candidate | Fetches questions (excluding answer keys) |
-| `POST` | `/api/v1/exams/{id}/submit` | Candidate | Submits answer payloads |
-| `GET` | `/api/v1/monitoring/live/{code}` | Examiner | Fetches real-time examinee roster |
-| `GET` | `/api/v1/monitoring/student/{id}` | Examiner | Fetches candidate proctoring telemetry |
-| `POST` | `/api/v1/monitoring/events/{id}/dismiss`| Examiner | Dismisses flagged proctoring tag |
-| `GET` | `/api/v1/reports/{exam_id}` | Examiner | Fetches consolidated reports & CSV export |
-| `WS` | `/ws/v1/proctoring/{session_id}` | Candidate / AI | Ingests real-time telemetry events |
-| `WS` | `/ws/v1/examiner/{exam_code}` | Examiner | Broadcasts real-time events to monitoring grid |
+| `POST` | `/auth/examiner/login`, `/auth/login`, `/auth/register` | Public | Examiner / generic sign-in & registration (Argon2id, 15-min JWT + rotating HttpOnly refresh cookie) |
+| `POST` | `/auth/candidate/login` | Public | Candidate sign-in by PRN (first sign-in registers) |
+| `POST` | `/auth/refresh`, `/auth/logout`; `GET /auth/me` | Cookie / Bearer | Token rotation with reuse detection |
+| `GET` | `/exams/lookup/{code}` (alias `/auth/verify-code/{code}`) | Public | Exam PIN check (title, window) |
+| `POST` | `/exams/verify-passkey` | Candidate | Validates passkey + window, creates/resumes the attempt, returns the scoped **Exam Session Token** |
+| `GET/POST/PUT/DELETE` | `/exams`, `/exams/{id}`, `/exams/{id}/questions`, `/exams/{id}/publish`, `/exams/{id}/close`, `/exams/{id}/passkey/regenerate`, `/exams/generate` | Examiner | Authoring, publishing, passkeys (Argon2id hash + HMAC lookup, never plaintext) |
+| `GET` | `/exams/{id}/questions` | Session token | Questions without answer keys + saved drafts + server timer |
+| `POST` | `/exams/{id}/draft`, `/exams/{id}/submit` | Session token | Autosave; final submission + grading |
+| `POST` | `/proctor/sessions/{id}/frames` | Session token | Webcam keyframe -> CV worker -> episode events -> ingestion |
+| `POST` | `/proctor/events` | Session token (tab events) / `X-Internal-Token` (CV) | Ingestion contract of BACKEND_ARCHITECTURE.md §6.2 (idempotent) |
+| `GET` | `/proctor/live-candidates`, `/proctor/sessions/{id}`, `.../events`, `.../ledger`, `.../snapshot` | Examiner | Live hall roster, timeline, score ledger, candidate keyframe |
+| `POST` | `/proctor/sessions/{id}/flag`, `/proctor/sessions/{id}/notify` | Examiner | Manual flag (0 pts), message to candidate |
+| `GET` | `/proctor/events/{id}/evidence` | Examiner | 15-minute signed evidence URL |
+| `POST` | `/proctor/events/{id}/dismiss`, `/proctor/events/{id}/confirm` | Examiner | Review with mandatory justification (audit preserved) |
+| `GET` | `/reports`, `/reports/{examId or sessionId}`, `/reports/{id}/download` | Examiner / own candidate | Role-scoped reports, CSV export |
+| `GET/POST/DELETE` | `/question-bank`, `/question-bank/import-csv`; `GET/PUT /settings`; `GET /stats/overview`; `POST /candidates/reference-photo` | Examiner / Candidate | Supporting pages |
+| `WS` | `/ws/v1/proctor/live[/{examId}]?token=` | Examiner | Live score/event feed |
+| `WS` | `/ws/v1/candidate/session/{sessionId}?token=` | Session token | Examiner messages, forced-submit notice (never scores) |
 
 ---
 
@@ -1225,8 +1293,9 @@ python -c "import torch; print('CUDA Available:', torch.cuda.is_available(), '| 
 cd Frontend
 npm install
 npm run dev
-# Vite server will initialize at: http://localhost:5173
+# Vite server will initialize at: http://localhost:5173 (proxying /api and /ws to the backend on :8000)
 ```
+The frontend requires the backend (Section 0); it no longer falls back to mock data.
 
 ### 13.4 Running the Computer-Vision Pipeline
 The proctoring pipeline can be executed across multiple modes and configurations:

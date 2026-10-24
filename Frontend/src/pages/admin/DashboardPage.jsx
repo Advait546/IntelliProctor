@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { PlusCircle, BookOpen, FileText, Eye, Settings, Users, ShieldAlert, Award, Activity } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useExam } from '../../contexts/ExamContext';
 import { QuickActionCard, RecentTestCard } from '../../components/dashboard/QuickActionCard';
 import { StatsCard } from '../../components/dashboard/StatsCard';
+import { reportApi } from '../../api/reportApi';
 
 export const DashboardPage = () => {
   const { user } = useAuth();
-  const { exams } = useExam();
+  const { exams, isLoadingExams, loadError, refreshExams } = useExam();
+  const [stats, setStats] = useState(null);
 
-  const setterName = user?.name || 'Dr. Sharma';
+  useEffect(() => {
+    refreshExams();
+    reportApi.getOverview().then(setStats).catch(() => setStats(null));
+  }, [refreshExams]);
+
+  const setterName = user?.name || 'Examiner';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -88,32 +95,29 @@ export const DashboardPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatsCard
             title="Total Exams"
-            value={exams.length}
-            subtitle="Generated in system"
+            value={stats?.totalExams ?? exams.length}
+            subtitle="Created by you"
             icon={FileText}
             color="indigo"
-            trend="+12%"
           />
           <StatsCard
-            title="Students Registered"
-            value="263"
-            subtitle="Active examinees"
+            title="Candidates"
+            value={stats?.studentsRegistered ?? '—'}
+            subtitle="Distinct examinees with attempts"
             icon={Users}
             color="emerald"
-            trend="+18%"
           />
           <StatsCard
-            title="Average Risk Score"
-            value="14.2%"
-            subtitle="Low AI anomaly rate"
+            title="Avg Suspicion Score"
+            value={stats ? `${stats.averageSuspicionScore}` : '—'}
+            subtitle={stats ? `${stats.suspiciousSessions} suspicious attempt(s) (S >= 100)` : 'Backend scoring engine'}
             icon={ShieldAlert}
             color="amber"
-            trend="-3.5%"
           />
           <StatsCard
-            title="Active Live Exams"
-            value="1"
-            subtitle="In-progress monitoring"
+            title="Live Sessions"
+            value={stats?.activeSessions ?? '—'}
+            subtitle="In-progress right now"
             icon={Activity}
             color="red"
           />
@@ -124,9 +128,15 @@ export const DashboardPage = () => {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Recent Examinations</h2>
-          <span className="text-xs font-bold text-indigo-600">{exams.length} Active & Scheduled</span>
+          <span className="text-xs font-bold text-indigo-600">{exams.filter((e) => e.status === 'Active' || e.status === 'Scheduled').length} Active & Scheduled</span>
         </div>
 
+        {loadError && <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">{loadError}</div>}
+        {!isLoadingExams && !loadError && exams.length === 0 && (
+          <div className="p-6 rounded-2xl bg-white border border-dashed border-slate-300 text-sm text-slate-500 text-center">
+            No exams yet. Use <strong>Create Test</strong> to build and publish your first proctored exam.
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {exams.map((exam) => (
             <RecentTestCard key={exam.id} exam={exam} />

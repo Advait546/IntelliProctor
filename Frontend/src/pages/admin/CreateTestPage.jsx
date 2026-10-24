@@ -76,7 +76,7 @@ export const CreateTestPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1">Duration (Minutes)</label>
                 <div className="relative">
@@ -109,13 +109,25 @@ export const CreateTestPage = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Schedule Time</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Start Time (empty = open on publish)</label>
                 <input
-                  type="text"
+                  type="time"
                   name="scheduledTime"
                   value={formData.scheduledTime}
                   onChange={handleChange}
-                  placeholder="10:00 AM"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-none text-sm font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Exam Window (hours open)</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={720}
+                  name="availabilityHours"
+                  value={formData.availabilityHours ?? 24}
+                  onChange={handleChange}
                   className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-none text-sm font-medium"
                 />
               </div>

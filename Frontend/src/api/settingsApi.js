@@ -1,18 +1,6 @@
 import { apiClient } from './client';
 
 export const settingsApi = {
-  getSettings: async () => {
-    try {
-      return await apiClient.get('/settings');
-    } catch {
-      return null;
-    }
-  },
-  updateSettings: async (settings) => {
-    try {
-      return await apiClient.put('/settings', settings);
-    } catch {
-      return { success: true, updated: true };
-    }
-  }
+  getSettings: () => apiClient.get('/settings', { authRole: 'examiner' }),
+  updateSettings: (settings) => apiClient.put('/settings', settings, { authRole: 'examiner' }),
 };

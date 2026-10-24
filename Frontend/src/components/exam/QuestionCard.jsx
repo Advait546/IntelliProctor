@@ -11,22 +11,37 @@ export const QuestionCard = ({
   if (!question) return null;
 
   const renderOptions = () => {
-    if (question.type === 'MCQ') {
-      const options = [
-        { key: 'A', text: question.optionA },
-        { key: 'B', text: question.optionB },
-        { key: 'C', text: question.optionC },
-        { key: 'D', text: question.optionD },
-      ].filter((opt) => opt.text && opt.text.trim() !== '');
+    if (question.type === 'MCQ' || question.type === 'MSQ') {
+      // Server-provided options may be shuffled per candidate: the displayed
+      // letter is positional, the submitted value is the option's real key.
+      const options = (
+        question.options?.length
+          ? question.options.map((o, i) => ({ key: o.key, label: 'ABCDEFGH'[i], text: o.text }))
+          : [
+              { key: 'A', text: question.optionA },
+              { key: 'B', text: question.optionB },
+              { key: 'C', text: question.optionC },
+              { key: 'D', text: question.optionD },
+            ].map((o) => ({ ...o, label: o.key }))
+      ).filter((opt) => opt.text && String(opt.text).trim() !== '');
+      const multi = question.type === 'MSQ';
+      const selectedSet = new Set(Array.isArray(selectedAnswer) ? selectedAnswer : selectedAnswer ? [selectedAnswer] : []);
+      const choose = (key) => {
+        if (!multi) return onSelectAnswer(key);
+        const next = new Set(selectedSet);
+        if (next.has(key)) next.delete(key);
+        else next.add(key);
+        onSelectAnswer([...next].sort());
+      };
 
       return (
         <div className="space-y-3 mt-6">
           {options.map((opt) => {
-            const isSelected = selectedAnswer === opt.key;
+            const isSelected = selectedSet.has(opt.key);
             return (
               <button
                 key={opt.key}
-                onClick={() => onSelectAnswer(opt.key)}
+                onClick={() => choose(opt.key)}
                 className={`w-full text-left p-4 rounded-xl border transition-all flex items-start gap-4 ${
                   isSelected
                     ? 'bg-indigo-50/90 border-indigo-500 text-indigo-950 shadow-sm ring-1 ring-indigo-500'
@@ -38,7 +53,7 @@ export const QuestionCard = ({
                     isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
                   }`}
                 >
-                  {opt.key}
+                  {opt.label}
                 </div>
                 <div className="text-sm font-medium pt-1 flex-1 leading-relaxed">{opt.text}</div>
                 {isSelected && <CheckCircle2 className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />}

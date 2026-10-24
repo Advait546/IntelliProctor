@@ -5,6 +5,7 @@ import { ExamProvider } from './contexts/ExamContext';
 import { ProctoringProvider } from './contexts/ProctoringContext';
 import { Navbar } from './components/common/Navbar';
 import { AppRoutes } from './routes/AppRoutes';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 const AppContent = () => {
   const location = useLocation();
@@ -15,7 +16,9 @@ const AppContent = () => {
     <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
       {showNavbar && <Navbar />}
       <main className="flex-1">
-        <AppRoutes />
+        <ErrorBoundary key={location.pathname}>
+          <AppRoutes />
+        </ErrorBoundary>
       </main>
     </div>
   );

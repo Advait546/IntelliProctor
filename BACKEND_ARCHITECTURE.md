@@ -5,7 +5,7 @@
 > **System Architecture Reference**: Root [`README.md`](file:///c:/Users/tanis/IntelliProctor/README.md)  
 > **Frontend Companion Specifications**: [`FRONTEND_ARCHITECTURE.md`](file:///c:/Users/tanis/IntelliProctor/FRONTEND_ARCHITECTURE.md) & [`FRONTEND_CURRENT_STATE.md`](file:///c:/Users/tanis/IntelliProctor/FRONTEND_CURRENT_STATE.md)  
 > **Audit Companion**: [`BACKEND_CURRENT_STATE.md`](file:///c:/Users/tanis/IntelliProctor/BACKEND_CURRENT_STATE.md)  
-> **Status**: **AUTHORITATIVE TARGET SPECIFICATION** (Defines target architecture, service contracts, data models, and scoring policies for future backend implementation).
+> **Status**: **AUTHORITATIVE TARGET SPECIFICATION — IMPLEMENTED** in [`backend/`](backend/README.md) (Oct 2026). Verified status per section: [`BACKEND_CURRENT_STATE.md`](BACKEND_CURRENT_STATE.md).
 
 ---
 
@@ -100,7 +100,7 @@ The backend serves as the centralized, authoritative engine connecting the user 
 This document establishes the official architectural boundaries, API contracts, database schemas, scoring formulas, and security protocols. All future backend development, API refactoring, model integration, and testing must strictly follow this specification in coordination with the root [`README.md`](file:///c:/Users/tanis/IntelliProctor/README.md) and [`FRONTEND_ARCHITECTURE.md`](file:///c:/Users/tanis/IntelliProctor/FRONTEND_ARCHITECTURE.md).
 
 > [!IMPORTANT]
-> **Specification vs. Implementation**: This document describes the **target architecture**. As detailed in [`BACKEND_CURRENT_STATE.md`](file:///c:/Users/tanis/IntelliProctor/BACKEND_CURRENT_STATE.md), the repository currently lacks an active backend application server, database tables, and network endpoints. Components labeled as **Planned** or **Proposed** define mandatory contracts for future implementation.
+> **Specification vs. Implementation**: This document describes the target architecture. It has been implemented in `backend/` (FastAPI) and `proctoring-service/` (CV worker); see [`BACKEND_CURRENT_STATE.md`](BACKEND_CURRENT_STATE.md) for the verified, section-by-section status and the few documented deviations (SQLite default, optional Redis/S3, keyframe video instead of WebRTC).
 
 ---
 
@@ -797,25 +797,27 @@ The backend enforces clean decoupling between HTTP controllers, domain business 
 
 | Endpoint & Method | Purpose | Invoking Client | Authorization Required | Target Status |
 |---|---|---|---|---|
-| `POST /auth/register` | User account registration | RegisterPage | Public | **Proposed** |
-| `POST /auth/login` | Login and JWT token issuance | LoginPage | Public | **Proposed** |
-| `POST /auth/refresh` | Refresh expired access token | Axios Client | Refresh Cookie | **Proposed** |
-| `POST /auth/logout` | Revoke session & clear cookie | Navbar | Authenticated | **Proposed** |
-| `GET /exams` | List available exams | Dashboards | Authenticated | **Proposed** |
-| `POST /exams` | Create custom exam | CustomTestPage | `setter` | **Proposed** |
-| `POST /exams/generate` | AI-assisted test generation | GenerateTestPage | `setter` | **Proposed** |
-| `POST /exams/verify-passkey` | Validate passkey & admit candidate | PasskeyEntryPage | `student` | **Proposed** |
-| `GET /exams/:id/questions` | Retrieve exam question set | ExamTakingPage | `student` (Scoped) | **Proposed** |
-| `POST /exams/:id/draft` | Save single answer draft | ExamTakingPage | `student` (Scoped) | **Proposed** |
-| `POST /exams/:id/submit` | Final exam submission | ExamTakingPage | `student` (Scoped) | **Proposed** |
-| `POST /proctor/events` | Telemetry event ingestion | CV / Browser | Authenticated | **Proposed** |
-| `GET /proctor/live-candidates` | Active candidate status list | LiveMonitoringPage | `setter` | **Proposed** |
-| `GET /proctor/events/:id/evidence` | Fetch pre-signed screenshot URL | ReportDetailsPage | `setter` | **Proposed** |
-| `POST /proctor/events/:id/dismiss` | Dismiss event as false positive | LiveMonitoringPage | `setter` | **Proposed** |
-| `GET /reports/:id` | Fetch post-exam report | Report Pages | Role-Scoped | **Proposed** |
+| `POST /auth/register` | User account registration | RegisterPage | Public | **Implemented** |
+| `POST /auth/login` | Login and JWT token issuance | LoginPage | Public | **Implemented** |
+| `POST /auth/refresh` | Refresh expired access token | Axios Client | Refresh Cookie | **Implemented** |
+| `POST /auth/logout` | Revoke session & clear cookie | Navbar | Authenticated | **Implemented** |
+| `GET /exams` | List available exams | Dashboards | Authenticated | **Implemented** |
+| `POST /exams` | Create custom exam | CustomTestPage | `setter` | **Implemented** |
+| `POST /exams/generate` | Question-bank-driven test generation (no external LLM) | QuestionBankPage | `setter` | **Implemented** |
+| `POST /exams/verify-passkey` | Validate passkey & admit candidate | PasskeyEntryPage | `student` | **Implemented** |
+| `GET /exams/:id/questions` | Retrieve exam question set | ExamTakingPage | `student` (Scoped) | **Implemented** |
+| `POST /exams/:id/draft` | Save single answer draft | ExamTakingPage | `student` (Scoped) | **Implemented** |
+| `POST /exams/:id/submit` | Final exam submission | ExamTakingPage | `student` (Scoped) | **Implemented** |
+| `POST /proctor/events` | Telemetry event ingestion | CV / Browser | Authenticated | **Implemented** |
+| `GET /proctor/live-candidates` | Active candidate status list | LiveMonitoringPage | `setter` | **Implemented** |
+| `GET /proctor/events/:id/evidence` | Fetch pre-signed screenshot URL | ReportDetailsPage | `setter` | **Implemented** |
+| `POST /proctor/events/:id/dismiss` | Dismiss event as false positive | LiveMonitoringPage | `setter` | **Implemented** |
+| `GET /reports/:id` | Fetch post-exam report | Report Pages | Role-Scoped | **Implemented** |
+
+> **As implemented**, the catalog above is extended with: `POST /auth/examiner/login`, `POST /auth/candidate/login`, `GET /auth/me`, `GET /exams/lookup/{code}`, examiner exam management (`GET/PUT/DELETE /exams/{id}`, `/publish`, `/close`, `/passkey/regenerate`), `POST /proctor/sessions/{id}/frames` (webcam keyframes -> CV worker), `GET /proctor/sessions/{id}[/events|/ledger|/snapshot]`, `POST /proctor/sessions/{id}/flag|notify`, `POST /proctor/events/{id}/confirm`, `GET /reports`, `GET /reports/{id}/download`, `/question-bank`, `/settings`, `/stats/overview`, `POST /candidates/reference-photo`. Full list: `backend/README.md` and `http://localhost:8000/docs`.
 
 ### 13.3 WebSocket Protocols (`/ws/v1`)
-- **Examiner Hall Channel (`/ws/v1/proctor/live/:examId`)**: High-throughput telemetry feed delivering candidate status changes, score updates, and newly flagged anomaly alerts to examiners in JSON frames.
+- **Examiner Hall Channel (`/ws/v1/proctor/live/:examId`, or `/ws/v1/proctor/live` for all of the examiner's exams; JWT passed as `?token=`)**: High-throughput telemetry feed delivering candidate status changes, score updates, and newly flagged anomaly alerts to examiners in JSON frames.
 - **Candidate Notification Channel (`/ws/v1/candidate/session/:sessionId`)**: Low-frequency channel delivering administrative notifications or time warnings to examinees.
 
 ---

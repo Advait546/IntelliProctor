@@ -59,22 +59,23 @@ export const RecentTestCard = ({ exam, onPublish, onViewLive }) => {
 
       <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
         <div className="flex items-center gap-3 text-slate-600 font-medium">
-          <span>👥 {exam.registeredStudents} Registered</span>
+          <span>👥 {exam.registeredStudents} Attempts</span>
+          {exam.activeStudents > 0 && <span className="text-emerald-700 font-bold">● {exam.activeStudents} live</span>}
           {exam.avgScore > 0 && <span>📊 Avg: {exam.avgScore}%</span>}
         </div>
         {exam.status === 'Active' ? (
           <Link
-            to="/admin/live-monitoring"
+            to={`/admin/live-monitoring?exam=${exam.id}`}
             className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-colors"
           >
             Monitor Live
           </Link>
         ) : (
           <Link
-            to="/admin/publish-test"
+            to="/admin/reports"
             className="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs border border-indigo-200 transition-colors"
           >
-            View Code
+            View Report
           </Link>
         )}
       </div>

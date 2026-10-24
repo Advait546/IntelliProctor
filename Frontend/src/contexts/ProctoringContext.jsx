@@ -1,64 +1,68 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { MOCK_STUDENTS_LIVE } from '../constants/mockData';
+import React, { createContext, useContext, useState, useCallback, useRef } from 'react';
 
 const ProctoringContext = createContext();
 
+// Candidate-side live proctoring state. This holds only what the CV worker
+// OBSERVED in the latest frame (face visible, facing the screen, ...). There is
+// no score here on purpose: suspicion scores are computed exclusively by the
+// backend and are never shown to examinees during the exam (section 14.2).
+const INITIAL_AI_STATE = {
+  faceVisible: true,
+  faceCount: null,
+  phoneDetected: false,
+  bookDetected: false,
+  multiplePersons: false,
+  lookingAway: false,
+  gazeDirection: 'Center',
+  headPose: { pitch: 0, yaw: 0, roll: 0 },
+};
+
 export const ProctoringProvider = ({ children }) => {
-  const [students, setStudents] = useState(MOCK_STUDENTS_LIVE);
+  const [liveStudentAI, setLiveStudentAI] = useState(INITIAL_AI_STATE);
+  // 'connecting' | 'online' | 'offline' (CV worker unreachable) | 'camera-blocked'
+  const [proctorStatus, setProctorStatus] = useState('connecting');
   const [activeNotifications, setActiveNotifications] = useState([]);
-  
-  // Real-time student AI state during exam
-  const [liveStudentAI, setLiveStudentAI] = useState({
-    faceVisible: true,
-    phoneDetected: false,
-    bookDetected: false,
-    multiplePersons: false,
-    gazeDirection: "Center", // Center | Left | Right | Down | Away
-    headPose: { pitch: 0, yaw: 0, roll: 0 },
-    riskScore: 8,
-    warningCount: 0,
-    status: "Safe" // Safe | Warning | Critical
-  });
+  const lastToast = useRef({});
 
-  // Trigger floating non-intrusive warning notification
-  const triggerNotification = (type, message) => {
-    const newId = `notif-${Date.now()}`;
-    const newNotif = { id: newId, type, message, time: new Date().toLocaleTimeString() };
-    
-    setActiveNotifications((prev) => [newNotif, ...prev]);
+  const triggerNotification = useCallback((type, message, { dedupeMs = 8000 } = {}) => {
+    const now = Date.now();
+    if (lastToast.current[message] && now - lastToast.current[message] < dedupeMs) return;
+    lastToast.current[message] = now;
+    const id = `notif-${now}-${Math.random().toString(36).slice(2, 6)}`;
+    setActiveNotifications((prev) => [{ id, type, message, time: new Date().toLocaleTimeString() }, ...prev].slice(0, 4));
+    setTimeout(() => setActiveNotifications((prev) => prev.filter((n) => n.id !== id)), 4500);
+  }, []);
 
-    // Auto dismiss after 4 seconds
-    setTimeout(() => {
-      setActiveNotifications((prev) => prev.filter((n) => n.id !== newId));
-    }, 4000);
-  };
+  // Called by CameraWidget with the backend's /frames response.
+  const applyObservation = useCallback((obs) => {
+    if (!obs) return;
+    setLiveStudentAI({
+      faceVisible: obs.faceVisible,
+      faceCount: obs.faceCount,
+      phoneDetected: obs.phoneInView,
+      bookDetected: obs.bookInView,
+      multiplePersons: obs.multipleFaces,
+      lookingAway: obs.lookingAway,
+      gazeDirection: obs.gazeDirection || 'Center',
+      headPose: obs.headPose || { pitch: 0, yaw: 0, roll: 0 },
+    });
+  }, []);
 
-  // Flag student manually in monitoring
-  const flagStudent = (studentId, reason = "Manual Proctor Flag") => {
-    setStudents((prev) =>
-      prev.map((std) =>
-        std.id === studentId
-          ? { ...std, status: "Critical", riskScore: Math.min(100, std.riskScore + 30), lastIncident: reason }
-          : std
-      )
-    );
-  };
-
-  const getStudentById = (id) => {
-    return students.find((s) => s.id === id) || students[0];
-  };
+  const resetProctoring = useCallback(() => {
+    setLiveStudentAI(INITIAL_AI_STATE);
+    setProctorStatus('connecting');
+  }, []);
 
   return (
     <ProctoringContext.Provider
       value={{
-        students,
-        setStudents,
         liveStudentAI,
-        setLiveStudentAI,
+        applyObservation,
+        proctorStatus,
+        setProctorStatus,
         activeNotifications,
         triggerNotification,
-        flagStudent,
-        getStudentById,
+        resetProctoring,
       }}
     >
       {children}

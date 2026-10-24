@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { ShieldCheck, Mail, Lock, ArrowRight, Check } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { errorMessage } from '../../api/client';
 
 export const AdminLoginPage = () => {
   const [email, setEmail] = useState('dr.sharma@university.edu');
@@ -12,6 +13,7 @@ export const AdminLoginPage = () => {
 
   const { loginSetter } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,9 +24,9 @@ export const AdminLoginPage = () => {
     setLoading(true);
     try {
       await loginSetter(email, password);
-      navigate('/admin/dashboard');
-    } catch {
-      setError('Failed to authenticate');
+      navigate(location.state?.from?.pathname || '/admin/dashboard', { replace: true });
+    } catch (err) {
+      setError(errorMessage(err, 'Failed to authenticate'));
     } finally {
       setLoading(false);
     }
@@ -90,9 +92,9 @@ export const AdminLoginPage = () => {
               />
               Remember Me
             </label>
-            <a href="#forgot" onClick={(e) => { e.preventDefault(); alert("Password reset instructions sent to email."); }} className="font-semibold text-indigo-600 hover:text-indigo-700">
-              Forgot Password?
-            </a>
+            <span className="font-medium text-slate-400" title="Ask your IntelliProctor administrator to reset it">
+              Forgot password? Contact your admin
+            </span>
           </div>
 
           <button
@@ -106,10 +108,8 @@ export const AdminLoginPage = () => {
         </form>
 
         <div className="mt-6 pt-6 border-t border-slate-100 text-center text-xs text-slate-500 font-medium">
-          Don't have an exam setter account?{' '}
-          <a href="#create" onClick={(e) => { e.preventDefault(); alert("Setter Registration demo active."); }} className="font-bold text-indigo-600 hover:underline">
-            Create Account
-          </a>
+          Examiner accounts are created by an administrator
+          <code className="block mt-1 text-[10px] text-slate-400">python -m src.seed create-examiner "Name" email "password"</code>
         </div>
       </div>
     </div>

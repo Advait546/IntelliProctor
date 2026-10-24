@@ -1,11 +1,15 @@
+# IntelliProctor CV inference worker (Python 3.11 / 3.12)
 fastapi>=0.110
 uvicorn[standard]>=0.29
 pydantic>=2.6
+python-dotenv>=1.0
 opencv-python-headless>=4.9
 numpy>=1.26,<2.0
-# Pinned below 1.0: mediapipe 1.0 removed the legacy `mp.solutions.face_mesh`
-# API that detector.py (and the ML team's own video_input_analysis.py) is
-# written against, in favor of a newer Tasks-based API. Bumping this past 1.0
-# requires rewriting calculate_head_pose()/ProctorDetector to the new API.
-mediapipe>=0.10.9,<1.0
+# Pinned below 1.0 AND to a release that still ships the legacy
+# `mp.solutions.face_mesh` API that detector.py and video_input_analysis.py use.
+mediapipe>=0.10.9,<0.10.30
 ultralytics>=8.2
+# torch / torchvision are pulled in by ultralytics. For an NVIDIA GPU install the
+# CUDA build first, e.g.:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+pytest>=8.0

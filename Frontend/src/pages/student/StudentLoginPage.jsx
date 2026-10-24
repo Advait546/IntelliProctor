@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { User, Lock, ArrowRight, ShieldCheck, Hash } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { errorMessage } from '../../api/client';
 
 export const StudentLoginPage = () => {
   const [searchParams] = useSearchParams();
@@ -11,6 +12,7 @@ export const StudentLoginPage = () => {
   const [name, setName] = useState('Aarav Sharma');
   const [password, setPassword] = useState('student123');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const { loginStudent } = useAuth();
   const navigate = useNavigate();
@@ -18,11 +20,12 @@ export const StudentLoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     try {
-      await loginStudent(rollNumber, name, examCode);
+      await loginStudent({ rollNumber: rollNumber.trim(), name: name.trim(), password, examCode });
       navigate(`/student/waiting-room?code=${examCode}`);
-    } catch {
-      alert("Student Login Error");
+    } catch (err) {
+      setError(errorMessage(err, 'Sign-in failed'));
     } finally {
       setLoading(false);
     }
@@ -40,6 +43,10 @@ export const StudentLoginPage = () => {
           <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mt-2">Candidate Login</h2>
           <p className="text-xs text-slate-500 font-medium">Verify credentials to enter waiting room</p>
         </div>
+
+        {error && (
+          <div className="p-3 rounded-xl bg-red-50 text-red-700 text-xs font-semibold border border-red-200">{error}</div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -98,7 +105,7 @@ export const StudentLoginPage = () => {
         </form>
 
         <p className="text-[11px] text-slate-400 text-center">
-          Backend server will verify candidate credentials upon FastAPI connection.
+          First time with this PRN? Signing in creates your candidate account with this password.
         </p>
 
       </div>

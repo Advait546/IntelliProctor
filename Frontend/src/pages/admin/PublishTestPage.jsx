@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Share2, Copy, Check, QrCode, Rocket, Save, ShieldCheck, Clock, HelpCircle, ArrowLeft } from 'lucide-react';
+import { Share2, Copy, Check, Rocket, Save, ArrowLeft, Eye, PlusCircle, KeyRound } from 'lucide-react';
 import { useExam } from '../../contexts/ExamContext';
+import { errorMessage } from '../../api/client';
 
 export const PublishTestPage = () => {
-  const { currentDraft, generateExamCode, publishCurrentExam } = useExam();
+  const { currentDraft, generateExamCode, publishCurrentExam, saveDraftToServer, resetDraft } = useExam();
   const navigate = useNavigate();
 
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [isPublished, setIsPublished] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const [publishedExam, setPublishedExam] = useState(null);
 
-  const examCode = currentDraft.code || 'AI2026CS01';
+  const examCode = currentDraft.code || 'AUTO';
   const shareUrl = `${window.location.origin}/student/join?code=${examCode}`;
 
   const handleCopyCode = () => {
@@ -26,9 +30,31 @@ export const PublishTestPage = () => {
     setTimeout(() => setCopiedLink(false), 2500);
   };
 
-  const handlePublish = () => {
-    publishCurrentExam();
-    setIsPublished(true);
+  const handlePublish = async () => {
+    setBusy(true);
+    setError('');
+    try {
+      const res = await publishCurrentExam();
+      setPublishedExam(res.exam);
+      setIsPublished(true);
+    } catch (err) {
+      setError(errorMessage(err, 'Publishing failed'));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleSaveDraft = async () => {
+    setBusy(true);
+    setError('');
+    try {
+      await saveDraftToServer();
+      navigate('/admin/dashboard');
+    } catch (err) {
+      setError(errorMessage(err, 'Saving failed'));
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -59,6 +85,7 @@ export const PublishTestPage = () => {
 
           <button
             onClick={() => generateExamCode()}
+            disabled={isPublished}
             className="px-3.5 py-2 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 text-xs font-bold border border-indigo-200 transition-colors"
           >
             Regenerate Code
@@ -115,39 +142,58 @@ export const PublishTestPage = () => {
                 <div><span className="text-slate-500">Subject:</span> <strong>{currentDraft.subject}</strong></div>
                 <div><span className="text-slate-500">Duration:</span> <strong>{currentDraft.duration} mins</strong></div>
                 <div><span className="text-slate-500">Questions:</span> <strong>{currentDraft.questions.length} Total</strong></div>
-                <div><span className="text-slate-500">AI Proctoring:</span> <strong className="text-emerald-600">Enabled</strong></div>
-                <div><span className="text-slate-500">Browser Lock:</span> <strong className="text-emerald-600">Active</strong></div>
+                <div><span className="text-slate-500">AI Proctoring:</span> <strong className={currentDraft.aiMonitoring ? 'text-emerald-600' : 'text-slate-500'}>{currentDraft.aiMonitoring ? 'Enabled' : 'Off'}</strong></div>
+                <div><span className="text-slate-500">Tab Monitoring:</span> <strong className="text-emerald-600">Always on (0 pts)</strong></div>
+                <div><span className="text-slate-500">Window:</span> <strong>{currentDraft.availabilityHours || 24} h</strong></div>
+                <div><span className="text-slate-500">Negative marking:</span> <strong>{Number(currentDraft.negativeMarking) || 0}</strong></div>
               </div>
             </div>
           </div>
 
-          {/* QR Code Placeholder Component */}
-          <div className="p-6 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col items-center justify-center text-center">
-            <div className="w-32 h-32 rounded-xl bg-white p-3 border border-slate-300 shadow-sm flex items-center justify-center">
-              {/* Simulated SVG QR Code */}
-              <div className="w-full h-full bg-slate-900 p-2 grid grid-cols-5 gap-1 rounded-lg">
-                {Array.from({ length: 25 }).map((_, i) => (
-                  <div key={i} className={`rounded-xs ${i % 2 === 0 || i % 3 === 0 ? 'bg-white' : 'bg-slate-900'}`}></div>
-                ))}
-              </div>
-            </div>
-            <span className="mt-3 text-[11px] font-bold text-slate-600">Scan QR Code to Join</span>
+          <div className="p-6 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col items-center justify-center text-center gap-2">
+            <KeyRound className="w-10 h-10 text-indigo-600" />
+            <span className="text-[11px] font-bold text-slate-600">
+              {isPublished ? 'Share the code or link with candidates. The code is stored hashed on the server.' : 'Leave the code as AUTO for a server-generated code, or use Regenerate.'}
+            </span>
           </div>
         </div>
 
+        {error && <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm font-semibold">{error}</div>}
+
         {/* Bottom CTA Action Buttons */}
         <div className="pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
-          <button
-            onClick={() => { alert("Draft Saved Successfully!"); navigate('/admin/dashboard'); }}
-            className="px-6 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-2"
-          >
-            <Save className="w-4 h-4" />
-            <span>Save Draft</span>
-          </button>
+          {isPublished ? (
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => navigate(`/admin/live-monitoring?exam=${publishedExam?.id || ''}`)}
+                className="px-5 py-3.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-200 flex items-center gap-2"
+              >
+                <Eye className="w-4 h-4" /> Monitor Live
+              </button>
+              <button
+                onClick={() => {
+                  resetDraft();
+                  navigate('/admin/create-test');
+                }}
+                className="px-5 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-2"
+              >
+                <PlusCircle className="w-4 h-4" /> Create Another Exam
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleSaveDraft}
+              disabled={busy}
+              className="px-6 py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors flex items-center gap-2"
+            >
+              <Save className="w-4 h-4" />
+              <span>Save as Draft (unpublished)</span>
+            </button>
+          )}
 
           <button
             onClick={handlePublish}
-            disabled={isPublished}
+            disabled={isPublished || busy}
             className={`px-8 py-4 rounded-2xl font-extrabold text-sm shadow-xl transition-all flex items-center gap-2 ${
               isPublished
                 ? 'bg-emerald-600 text-white cursor-default'
@@ -155,7 +201,7 @@ export const PublishTestPage = () => {
             }`}
           >
             <Rocket className="w-4 h-4" />
-            <span>{isPublished ? 'Examination Published & Live!' : 'Publish Examination Now'}</span>
+            <span>{isPublished ? 'Examination Published & Live!' : busy ? 'Publishing...' : 'Publish Examination Now'}</span>
           </button>
         </div>
 

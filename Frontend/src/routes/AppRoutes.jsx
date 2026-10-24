@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { RequireExaminerAuth, RequireCandidate, RequireCandidateSession } from './Guards';
 
-// Pages
 import { LandingPage } from '../pages/LandingPage';
 import { AdminLoginPage } from '../pages/admin/AdminLoginPage';
 import { DashboardPage } from '../pages/admin/DashboardPage';
@@ -23,35 +23,41 @@ import { ExamScreenPage } from '../pages/student/ExamScreenPage';
 import { SubmissionPage } from '../pages/student/SubmissionPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 
-export const AppRoutes = () => {
-  return (
-    <Routes>
-      {/* Primary Landing Page */}
-      <Route path="/" element={<LandingPage />} />
+const examiner = (el) => <RequireExaminerAuth>{el}</RequireExaminerAuth>;
+const candidate = (el) => <RequireCandidate>{el}</RequireCandidate>;
 
-      {/* Flow 1: Exam Setter / Admin Routes */}
-      <Route path="/admin/login" element={<AdminLoginPage />} />
-      <Route path="/admin/dashboard" element={<DashboardPage />} />
-      <Route path="/admin/create-test" element={<CreateTestPage />} />
-      <Route path="/admin/question-creation" element={<QuestionCreationPage />} />
-      <Route path="/admin/question-bank" element={<QuestionBankPage />} />
-      <Route path="/admin/publish-test" element={<PublishTestPage />} />
-      <Route path="/admin/reports" element={<ReportsPage />} />
-      <Route path="/admin/live-monitoring" element={<LiveMonitoringPage />} />
-      <Route path="/admin/student-detail/:studentId" element={<StudentDetailPage />} />
-      <Route path="/admin/settings" element={<SettingsPage />} />
+export const AppRoutes = () => (
+  <Routes>
+    <Route path="/" element={<LandingPage />} />
 
-      {/* Flow 2: Student Examination Routes */}
-      <Route path="/student/join" element={<GiveTestCodePage />} />
-      <Route path="/student/login" element={<StudentLoginPage />} />
-      <Route path="/student/waiting-room" element={<WaitingRoomPage />} />
-      <Route path="/student/instructions" element={<InstructionsPage />} />
-      <Route path="/student/system-check" element={<SystemCheckPage />} />
-      <Route path="/student/exam" element={<ExamScreenPage />} />
-      <Route path="/student/submission" element={<SubmissionPage />} />
+    {/* Examiner portal */}
+    <Route path="/admin/login" element={<AdminLoginPage />} />
+    <Route path="/admin/dashboard" element={examiner(<DashboardPage />)} />
+    <Route path="/admin/create-test" element={examiner(<CreateTestPage />)} />
+    <Route path="/admin/question-creation" element={examiner(<QuestionCreationPage />)} />
+    <Route path="/admin/question-bank" element={examiner(<QuestionBankPage />)} />
+    <Route path="/admin/publish-test" element={examiner(<PublishTestPage />)} />
+    <Route path="/admin/reports" element={examiner(<ReportsPage />)} />
+    <Route path="/admin/live-monitoring" element={examiner(<LiveMonitoringPage />)} />
+    <Route path="/admin/student-detail/:studentId" element={examiner(<StudentDetailPage />)} />
+    <Route path="/admin/settings" element={examiner(<SettingsPage />)} />
 
-      {/* 404 Fallback */}
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  );
-};
+    {/* Examinee portal */}
+    <Route path="/student/join" element={<GiveTestCodePage />} />
+    <Route path="/student/login" element={<StudentLoginPage />} />
+    <Route path="/student/waiting-room" element={candidate(<WaitingRoomPage />)} />
+    <Route path="/student/instructions" element={candidate(<InstructionsPage />)} />
+    <Route path="/student/system-check" element={candidate(<SystemCheckPage />)} />
+    <Route
+      path="/student/exam"
+      element={
+        <RequireCandidateSession>
+          <ExamScreenPage />
+        </RequireCandidateSession>
+      }
+    />
+    <Route path="/student/submission" element={<SubmissionPage />} />
+
+    <Route path="*" element={<NotFoundPage />} />
+  </Routes>
+);

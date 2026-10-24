@@ -113,3 +113,15 @@ $RECYCLE.BIN/
 # Large model checkpoints (*.pt) are tracked via Git LFS in .gitattributes:
 #   *.pt filter=lfs diff=lfs merge=lfs -text
 # Note: Root temporary weights are ignored above to prevent accidental bloat.
+# ------------------------------------------------------------------------------
+# Backend (FastAPI) & CV worker runtime data
+# ------------------------------------------------------------------------------
+backend/.venv/
+backend/data/
+backend/storage/
+backend/*.db
+backend/*.db-*
+backend/.secret_key
+backend/.env
+proctoring-service/.env
+proctoring-service/venv/

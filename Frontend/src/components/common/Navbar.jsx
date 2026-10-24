@@ -8,13 +8,14 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   const handleLogout = () => {
-    if (user) logoutSetter();
-    if (studentSession) logoutStudent();
+    if (isAdminRoute && user) logoutSetter();
+    else if (studentSession) logoutStudent();
+    else if (user) logoutSetter();
     navigate('/');
   };
-
-  const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-slate-200/80 shadow-xs">
@@ -100,11 +101,16 @@ export const Navbar = () => {
 
         {/* User Right Session */}
         <div className="flex items-center gap-3">
-          {user ? (
+          {user && (isAdminRoute || !studentSession) ? (
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200">
                 <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">
-                  DS
+                  {(user.name || '?')
+                    .split(/\s+/)
+                    .filter((w) => /^[A-Za-z]/.test(w))
+                    .slice(-2)
+                    .map((w) => w[0].toUpperCase())
+                    .join('')}
                 </div>
                 <div className="text-left hidden sm:block">
                   <div className="text-xs font-bold text-slate-800">{user.name}</div>
