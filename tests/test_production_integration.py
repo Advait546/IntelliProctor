@@ -141,3 +141,38 @@ def test_detector_evaluator_alignment():
         assert "book_notebook" in eval_p2.target_classes
         res_p2 = eval_p2.evaluate_frame(frame, category="phone")
         assert "status" in res_p2
+
+
+def test_device_resolution_and_switching():
+    """Verify resolve_device, set_active_device, and device fallback behavior."""
+    import torch
+    # Explicit CPU
+    assert via.resolve_device("cpu") == "cpu"
+
+    # Explicit CUDA/GPU
+    if torch.cuda.is_available():
+        assert via.resolve_device("cuda") == 0
+        assert via.resolve_device(0) == 0
+        assert "GPU" in via.get_device_description(0)
+    else:
+        assert via.resolve_device("cuda") == "cpu"
+
+    # Test dynamic switching
+    via.set_active_device("cpu")
+    assert via.ACTIVE_DEVICE == "cpu"
+    assert via.DEVICE_DESC == "CPU"
+
+    # Restore auto-detected device
+    via.set_active_device(None)
+
+
+def test_process_single_frame_with_fps_overlay():
+    """Verify that process_single_frame successfully renders with FPS and active device."""
+    frame = np.full((720, 1280, 3), 40, dtype=np.uint8)
+    annotated, alerts, counts, face_cnt, no_face = via.process_single_frame(
+        frame, now=1000.0, fps=28.5
+    )
+    assert annotated.shape == (720, 1280, 3)
+    assert isinstance(alerts, list)
+    assert isinstance(counts, dict)
+

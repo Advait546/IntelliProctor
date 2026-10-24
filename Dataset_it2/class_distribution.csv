@@ -1,0 +1,5 @@
+split,total_images,phone_images,book_images,negative_images,phone_boxes,book_boxes
+train,249,53,72,124,53,72
+val,53,18,21,14,21,21
+test,75,43,18,14,43,22
+total,377,114,111,152,117,115

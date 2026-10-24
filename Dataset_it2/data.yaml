@@ -1,0 +1,11 @@
+# IntelliProctor Consolidated Dataset Configuration
+# Generated on: 2026-10-05
+
+path: Dataset_it2
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: phone
+  1: book_notebook

@@ -1,0 +1,28 @@
+================================================================================
+INTELLIPROCTOR DATA LEAKAGE & INTEGRITY REPORT (UPDATED)
+================================================================================
+Date: 2026-10-17
+Grand Dataset Output: C:\Users\tanis\data\grand_dataset
+
+1. NEW DATASET (PHONE_P1) LEAKAGE & DEDUPLICATION AUDIT
+--------------------------------------------------------------------------------
+- Filename Collisions: 0 collisions with existing dataset.
+- Exact Cryptographic Hashes (SHA-256): 0 matches against existing dataset or
+  the held-out test set (tests/test_data).
+- Held-Out Test Set Overlap: 0 perceptual or near-duplicate matches with
+  tests/test_data.
+- Internal Near-Duplicates:
+  * Exactly 1 near-duplicate pair was identified within phone_p1:
+    phone_p1_portrait-far-bottom_edge-partial_hand-backlit-cluttered_desk_023.jpg
+    phone_p1_upside_down-mid-right_edge-partial_hand-backlit-cluttered_desk_022.jpg
+  * Both frames are strictly assigned to 'train', ensuring 0 cross-split leakage.
+- Stratified 80/10/10 Allocation:
+  * Train: 32 images
+  * Val: 4 images (1 landscape, 1 portrait, 1 rotated_45, 1 upside_down)
+  * Test: 4 images (1 landscape, 1 portrait, 1 rotated_45, 1 upside_down)
+
+2. BASELINE HELD-OUT TEST SET ISOLATION
+--------------------------------------------------------------------------------
+- group_phone_numbered (39 images, containing 7 held-out test frames) remains
+  assigned EXCLUSIVELY to 'test'. Zero frames appear in 'train' or 'val'.
+- Zero continuous session crossing across splits.
