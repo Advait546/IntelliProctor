@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShieldCheck, LogOut, User, LayoutDashboard, Eye, FileText, Settings, PlusCircle } from 'lucide-react';
+import { ShieldCheck, LogOut, User, LayoutDashboard, Eye, FileText, Settings, PlusCircle, BookOpen } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 export const Navbar = () => {

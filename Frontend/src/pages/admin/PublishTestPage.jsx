@@ -15,7 +15,7 @@ export const PublishTestPage = () => {
   const [error, setError] = useState('');
   const [publishedExam, setPublishedExam] = useState(null);
 
-  const examCode = currentDraft.code || 'AUTO';
+  const examCode = publishedExam?.code || currentDraft.code || 'AUTO';
   const shareUrl = `${window.location.origin}/student/join?code=${examCode}`;
 
   const handleCopyCode = () => {
